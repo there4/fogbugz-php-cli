@@ -1,0 +1,15 @@
+  
+You need to create a config file in your home dir
+with credentials for your FogBugz account:
+
+~/.fogbugz/config.php
+
+<?php
+
+$config = array(
+    'user' => 'your.email@example.com',
+    'pass' => '******
+);
+
+?>
+
