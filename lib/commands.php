@@ -27,7 +27,10 @@ class Commands {
       'current'  => 'showCurrent',
       '-help'    => 'showHelp',
       'help'     => 'showHelp',
-      'recent'   => 'showRecent'
+      'recent'   => 'showRecent',
+      'filters'  => 'listFilters',
+      'setfilter'=> 'setFilter',
+      'cases'    => 'curFilterCases'
     );
   
     $this->version_info = realpath(__DIR__ . '/../help/version.txt');
@@ -326,8 +329,11 @@ class Commands {
    * recent                        :: Get the five most recent cases you've worked on
    * current                       :: Get the number for your current case
    * view (#case#)                 :: Get info about the current or a particular case
+   * cases                         :: Get a list of cases in your current active filter
+   * filters                       :: Get a list of available filters
    *
    *Editing:
+   * setfilter (#filter#)          :: Set the current active filter
    * estimate (#case#) (#hours#)   :: Set the estimate for a case
    * note (#case#) ("note string") :: Set a note for a particular case
    * start (#case#)                :: Start working on a case
@@ -390,8 +396,55 @@ class Commands {
     }
     return array($case, $title);
   }
+
+  private function listFilters() {
+	  // fetch the list of filters available on fogbugz
+	  $xml = $this->fogbugz->listFilters();
+
+	  print "Fogbugz filter list for current user:\n";
+	  foreach ($xml->filters->children() as $filter) {
+	    printf(
+	        "[%s] \t [%s] \t %s\n",
+	        $filter['sFilter'],
+	        $filter['type'],
+	        (string) $filter
+	    );
+	  }
+  }
+
+  private function setFilter($filter) {
+    if (null == $filter) {
+      $filter = IO::getOrQuit("Enter a filter number:", "string");
+    }    
+    
+    $this->fogbugz->setCurrentFilter(array('sFilter' => $filter));
+
+    printf(
+        "Set the current active filter to: %s\n",
+        $filter
+    );
+  }
+
+  private function curFilterCases() {
+    $xml = $this->fogbugz->search(array(
+        //'q' => '',
+        cols => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
+    ));
+    print "[#] \t [status] \t [est] \t Assigned to - Case title\n";
+    print "---------------------------------------------------------\n";
+    foreach ($xml->cases->case as $case) {
+      printf(
+	        "[%s] \t [%s] \t [%s] \t %s - %s\n",
+	        $case->ixBug,
+	        $case->sStatus,
+	        $case->hrsCurrEst,
+	        $case->sPersonAssignedTo,
+	        $case->sTitle
+	    );
+    }
+    print "---------------------------------------------------------\n";
+  }
   
 }
-
 
 /* End of file working.php */
