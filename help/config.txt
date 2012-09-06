@@ -13,3 +13,12 @@ $config = array(
 
 ?>
 
+---------------
+
+Execute the script with the command: php working.php
+or add an alias to your bashrc
+
+# if Fogbugz php cli exist add an alias
+if [ -d ~/.fogbugz-php-cli ] ; then
+  alias fb="php ~/.fogbugz-php-cli/working.php"
+fi 

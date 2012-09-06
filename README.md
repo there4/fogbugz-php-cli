@@ -11,8 +11,11 @@ account, working on status, read cases, and leave short notes.
      recent                        :: Get the five most recent cases you've worked on
      current                       :: Get the number for your current case
      view (#case#)                 :: Get info about the current or a particular case
+     cases                         :: Get a list of cases in your current active filter
+     filters                       :: Get a list of available filters
     
     Editing:
+     setfilter (#filter#)          :: Set the current active filter
      estimate (#case#) (#hours#)   :: Set the estimate for a case
      note (#case#) ("note string") :: Set a note for a particular case
      start (#case#)                :: Start working on a case
