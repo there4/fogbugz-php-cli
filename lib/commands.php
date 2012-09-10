@@ -431,6 +431,7 @@ class Commands {
    */
   private function setFilter($filter) {
     if (null == $filter) {
+      $this->listFilters();
       $filter = IO::getOrQuit("Enter a filter number:", "string");
     }    
     
