@@ -397,21 +397,37 @@ class Commands {
     return array($case, $title);
   }
 
+  /**
+   * Obtain a list of available filters
+   * 
+   * No parameters accepted
+   * Command: fb filters
+   */
   private function listFilters() {
 	  // fetch the list of filters available on fogbugz
 	  $xml = $this->fogbugz->listFilters();
 
 	  print "Fogbugz filter list for current user:\n";
+	  print "--------------------------------------------------------------\n";
+    print "   ";
+    print str_pad(tcecho("Filter ID",'grey','on_white'), 1, " ", STR_PAD_RIGHT);
+    print str_pad(tcecho("Type",'grey','on_white'), 11, " ", STR_PAD_RIGHT);
+    print tcecho("Name",'grey','on_white')."\n";
+    print "--------------------------------------------------------------\n";
 	  foreach ($xml->filters->children() as $filter) {
-	    printf(
-	        "[%s] \t [%s] \t %s\n",
-	        $filter['sFilter'],
-	        $filter['type'],
-	        (string) $filter
-	    );
+	    print "   ";
+	    print str_pad(tcecho($filter['sFilter'],'white', 'on_cyan', 'bold'), (10-strlen($filter['sFilter'])), " ", STR_PAD_RIGHT);
+	    print str_pad($filter['type'], 15, " ", STR_PAD_RIGHT);
+	    print $filter."\n";
 	  }
   }
 
+  /**
+   * Change the current active filter to <value>
+   * 
+   * Param: Filter ID
+   * Command: fb setfilter <value>
+   */
   private function setFilter($filter) {
     if (null == $filter) {
       $filter = IO::getOrQuit("Enter a filter number:", "string");
@@ -425,24 +441,34 @@ class Commands {
     );
   }
 
+  /**
+   * Show all cases in the current active filter
+   * 
+   * No parameters accepted
+   * Command: fb cases
+   */
   private function curFilterCases() {
     $xml = $this->fogbugz->search(array(
         //'q' => '',
-        cols => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
+        'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
     ));
-    print "[#] \t [status] \t [est] \t Assigned to - Case title\n";
-    print "---------------------------------------------------------\n";
+    print "------------------------------------------------------------------------------------------------------------------\n";
+    print "   ";
+    print str_pad(tcecho("Case ID",'grey','on_white'), 1, " ", STR_PAD_RIGHT);
+    print str_pad(tcecho("Status",'grey','on_white'), 24, " ", STR_PAD_RIGHT);
+    print str_pad(tcecho("Est",'grey','on_white'), 7, " ", STR_PAD_RIGHT);
+    print str_pad(tcecho("Assigned to",'grey','on_white'), 9, " ", STR_PAD_RIGHT);
+    print tcecho("Case Title",'grey','on_white')."\n";
+    print "------------------------------------------------------------------------------------------------------------------\n";
     foreach ($xml->cases->case as $case) {
-      printf(
-	        "[%s] \t [%s] \t [%s] \t %s - %s\n",
-	        $case->ixBug,
-	        $case->sStatus,
-	        $case->hrsCurrEst,
-	        $case->sPersonAssignedTo,
-	        $case->sTitle
-	    );
+      print "   ";
+      print str_pad(tcecho($case->ixBug,'white', 'on_cyan', 'bold'), (8-strlen($case->ixBug)), " ", STR_PAD_RIGHT);
+      print str_pad((strstr($case->sStatus,'Closed'))?tcecho($case->sStatus,"red"):tcecho($case->sStatus,"green"),(30-strlen($case->sStatus)), " ", STR_PAD_RIGHT);
+      print str_pad("[$case->hrsCurrEst]", 10, " ", STR_PAD_RIGHT);
+      print str_pad(tcecho($case->sPersonAssignedTo,'white'), (20-strlen($case->sPersonAssignedTo)), " ", STR_PAD_RIGHT);
+      print $case->sTitle."\n";
     }
-    print "---------------------------------------------------------\n";
+    print "------------------------------------------------------------------------------------------------------------------\n";
   }
   
 }
