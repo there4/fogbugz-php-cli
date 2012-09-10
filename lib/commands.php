@@ -269,6 +269,7 @@ class Commands {
     foreach(get_object_vars($info) as$property => $value) {
       $$property = (string) $value;
     }
+    $host = $this->config['host'];
     include realpath(__DIR__ . "/../help/info.tpl");
     echo "\n";
   }
