@@ -5,6 +5,7 @@
 error_reporting(E_ALL | E_STRICT);
 require __DIR__ . "/lib/fogbugz.php";
 require __DIR__ . "/lib/io.php";
+require __DIR__ . "/lib/termcolor.php";
 require __DIR__ . "/lib/commands.php";
 
 /*******************************************************************************/
@@ -12,7 +13,7 @@ require __DIR__ . "/lib/commands.php";
 
 $config_path = $_SERVER['HOME'] . '/.fogbugz';
 $config_file = $_SERVER['HOME'] . '/.fogbugz/config.php';
-$config_host = 'https://learningstation.fogbugz.com';
+$config_host = 'https://itk.fogbugz.com';
 
 /* Configuration End                                                           */
 /*******************************************************************************/
