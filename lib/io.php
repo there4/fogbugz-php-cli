@@ -26,10 +26,10 @@ class IO {
     $line = fgets($GLOBALS['StdinPointer'], $length);
     return trim($line);
   }
-  
+
   /**
    * getOrQuit function
-   * 
+   *
    * @param string $prompt
    * @param string $type [number|string]
    *
@@ -37,9 +37,9 @@ class IO {
    */
   public static function getOrQuit($prompt = "", $type = "string") {
     $value = null;
-    
+
     echo $prompt, " (q to quit) ";
-    
+
     while($value == null) {
       $value = IO::read();
       if ($value == 'q') {
@@ -56,6 +56,39 @@ class IO {
     }
     return $value;
   }
+
+  /**
+   * confirmOrGet function
+   *
+   * @param string $prompt
+   * @param string $type [number|string]
+   *
+   * @return mixed value of prompt
+   */
+  public static function confirmOrGet($prompt = "", $confirm = "", $type = "string") {
+    $value = null;
+
+    if ($confirm == "") {
+      return self::getOrQuit($prompt, $type);
+    }
+
+    echo $prompt, " (", $confirm, ")" ," (Y, N, q to quit) ";
+
+    while($value == null) {
+      $value = IO::read();
+      if ($value == 'q') {
+        exit(0);
+      }
+      elseif (strtolower($value) == 'y') {
+        return $confirm;
+      }
+      else {
+        return self::getOrQuit("  New value:", $type);
+      }
+    }
+    return $value;
+  }
+
 }
 
 /* End of file io.php */

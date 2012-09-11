@@ -7,6 +7,7 @@ require __DIR__ . "/lib/fogbugz.php";
 require __DIR__ . "/lib/io.php";
 require __DIR__ . "/lib/termcolor.php";
 require __DIR__ . "/lib/commands.php";
+require __DIR__ . "/lib/getConfig.php";
 
 /*******************************************************************************/
 /* Configuration Begin                                                         */
@@ -24,48 +25,18 @@ if (is_readable($config_file)) {
 }
 else {
   echo "You don't seem to have a config file.\n";
-
-  if (!file_exists($config_path)) {
-    echo "  * Making directory: ";
-    if (!mkdir($config_path, 0700)) {
-      echo "failed.\n";
-      echo file_get_contents(__DIR__ . '/help/config.txt');
-      exit(1);
-    }
-    echo $config_path, "\n";
-  }
-
-  echo "  * Making config file: ";
-  if (!@touch($config_file)) {
-    echo "failed.\n";
-    echo file_get_contents(__DIR__ . '/help/config.txt');
-    exit(1);
-  }
-  echo $config_file, "\n";
-
-  $config['user'] = IO::getOrQuit("  * Your kiln email address:");
-  $config['pass'] = IO::getOrQuit("  * Your kiln password:");
-  $config['host'] = IO::getOrQuit("  * The url of fogbugz (including https://):");
-
-  $file = "<?php
-\$config = array(
-    'user' => '".$config['user']."',
-    'pass' => '".$config['pass']."',
-    'host' => '".$config['host']."'
-);
-/* end of file config.php */
-";
-
-  if (!@file_put_contents($config_file, $file)) {
-    echo "  * Failed to save config.\n";
-    echo file_get_contents(__DIR__ . '/help/config.txt');
-    exit(1);
-  }
-  echo "  * Config saved\n";
+  $config = initConfig($config_path);
 }
 
+// If the file is bad, bail
 if (empty($config)) {
   exit("Invalid config file format\n");
+}
+
+// We made some changes to the format. If we need more data, let's prompt again
+// and give it some defaults
+if (empty($config['host'])) {
+  $config = updateConfig($config_file, $config);
 }
 
 $runner = new Commands($config['user'], $config['pass'], $config['host'], $config_path);
