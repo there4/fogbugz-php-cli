@@ -20,3 +20,9 @@ account, working on status, read cases, and leave short notes.
      note (#case#) ("note string") :: Set a note for a particular case
      start (#case#)                :: Start working on a case
      stop                          :: Stop all work
+     
+## Setup
+
+I use this with a bash alias:
+
+    alias fb='php ~/Projects/fogbugz-php-cli/working.php'
