@@ -3,8 +3,8 @@
 print "Fogbugz filter list for current user:\n";
 print str_repeat("—", 80) . "\n";
 print tcecho(
-    " Filter   Type      Name                                                        "
-    ,'grey',
+    " Filter   Type      Name                                                        ",
+    'grey',
     'on_white'
 ) ."\n";
 print str_repeat("—", 80) . "\n";

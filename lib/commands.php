@@ -441,23 +441,8 @@ class Commands {
         //'q' => '',
         'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
     ));
-    print "------------------------------------------------------------------------------------------------------------------\n";
-    print "   ";
-    print str_pad(tcecho("Case ID",'grey','on_white'), 1, " ", STR_PAD_RIGHT);
-    print str_pad(tcecho("Status",'grey','on_white'), 24, " ", STR_PAD_RIGHT);
-    print str_pad(tcecho("Est",'grey','on_white'), 7, " ", STR_PAD_RIGHT);
-    print str_pad(tcecho("Assigned to",'grey','on_white'), 9, " ", STR_PAD_RIGHT);
-    print tcecho("Case Title",'grey','on_white')."\n";
-    print "------------------------------------------------------------------------------------------------------------------\n";
-    foreach ($xml->cases->case as $case) {
-      print "   ";
-      print str_pad(tcecho($case->ixBug,'white', 'on_cyan', 'bold'), (8-strlen($case->ixBug)), " ", STR_PAD_RIGHT);
-      print str_pad((strstr($case->sStatus,'Closed'))?tcecho($case->sStatus,"red"):tcecho($case->sStatus,"green"),(30-strlen($case->sStatus)), " ", STR_PAD_RIGHT);
-      print str_pad("[$case->hrsCurrEst]", 10, " ", STR_PAD_RIGHT);
-      print str_pad(tcecho($case->sPersonAssignedTo,'white'), (20-strlen($case->sPersonAssignedTo)), " ", STR_PAD_RIGHT);
-      print $case->sTitle."\n";
-    }
-    print "------------------------------------------------------------------------------------------------------------------\n";
+
+    include realpath(__DIR__ . "/../templates/caseList.php");
   }
   
 }
