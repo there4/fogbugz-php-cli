@@ -270,7 +270,7 @@ class Commands {
       $$property = (string) $value;
     }
     $host = $this->config['host'];
-    include realpath(__DIR__ . "/../help/info.tpl");
+    include realpath(__DIR__ . "/../templates/info.php");
     echo "\n";
   }
   
@@ -405,22 +405,9 @@ class Commands {
    * Command: fb filters
    */
   private function listFilters() {
-	  // fetch the list of filters available on fogbugz
-	  $xml = $this->fogbugz->listFilters();
-
-	  print "Fogbugz filter list for current user:\n";
-	  print "--------------------------------------------------------------\n";
-    print "   ";
-    print str_pad(tcecho("Filter ID",'grey','on_white'), 1, " ", STR_PAD_RIGHT);
-    print str_pad(tcecho("Type",'grey','on_white'), 11, " ", STR_PAD_RIGHT);
-    print tcecho("Name",'grey','on_white')."\n";
-    print "--------------------------------------------------------------\n";
-	  foreach ($xml->filters->children() as $filter) {
-	    print "   ";
-	    print str_pad(tcecho($filter['sFilter'],'white', 'on_cyan', 'bold'), (10-strlen($filter['sFilter'])), " ", STR_PAD_RIGHT);
-	    print str_pad($filter['type'], 15, " ", STR_PAD_RIGHT);
-	    print $filter."\n";
-	  }
+    // fetch the list of filters available on fogbugz
+    $xml = $this->fogbugz->listFilters();
+    include realpath(__DIR__ . "/../templates/listFilters.php");
   }
 
   /**
