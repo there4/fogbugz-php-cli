@@ -6,9 +6,12 @@ FogBugz case view template
 */
 ?>
 
-================================================================================
-<?php echo str_pad("[$ixBug] " . substr($sTitle, 0, 60), 80, " ", STR_PAD_BOTH), "\n"; ?>
-================================================================================
+————————————————————————————————————————————————————————————————————————————————
+<?php
+$title = str_pad("[$ixBug] " . substr($sTitle, 0, 60), 80, " ", STR_PAD_BOTH);
+echo tcecho($title, "grey", "on_white", "bold"), "\n";
+?>
+————————————————————————————————————————————————————————————————————————————————
 <?php echo str_pad("$sPriority priority " . strtolower($sCategory) . " in " . $sFixFor, 80, " ", STR_PAD_BOTH), "\n"; ?>
 
 <?php echo str_pad("Status   : " . $sStatus, 40, " ", STR_PAD_RIGHT); ?>
