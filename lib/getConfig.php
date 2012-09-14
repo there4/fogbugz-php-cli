@@ -6,7 +6,7 @@ function initConfig($config_path) {
     echo "  * Making directory: ";
     if (!mkdir($config_path, 0700)) {
       echo "failed.\n";
-      echo file_get_contents(__DIR__ . '/help/config.txt');
+      echo file_get_contents(__DIR__ . '/../help/config.txt');
       exit(1);
     }
     echo $config_path, "\n";
@@ -15,7 +15,7 @@ function initConfig($config_path) {
   echo "  * Making config file: ";
   if (!@touch($config_file)) {
     echo "failed.\n";
-    echo file_get_contents(__DIR__ . '/help/config.txt');
+    echo file_get_contents(__DIR__ . '/../help/config.txt');
     exit(1);
   }
   echo $config_file, "\n";
@@ -56,7 +56,7 @@ function writeConfig($config_file, $config) {
 
   if (!@file_put_contents($config_file, $file)) {
     echo "  * Failed to save config.\n";
-    echo file_get_contents(__DIR__ . '/help/config.txt');
+    echo file_get_contents(__DIR__ . '/../help/config.txt');
     exit(1);
   }
   echo "  * Config saved\n";

@@ -30,7 +30,8 @@ class Commands {
       'recent'   => 'showRecent',
       'filters'  => 'listFilters',
       'setfilter'=> 'setFilter',
-      'cases'    => 'curFilterCases'
+      'cases'    => 'curFilterCases',
+      'search'   => 'keywordSearch'
     );
   
     $this->version_info = realpath(__DIR__ . '/../help/version.txt');
@@ -332,6 +333,7 @@ class Commands {
    * view (#case#)                 :: Get info about the current or a particular case
    * cases                         :: Get a list of cases in your current active filter
    * filters                       :: Get a list of available filters
+   * search (keyword)              :: Get a list of cases matching keyword
    *
    *Editing:
    * setfilter (#filter#)          :: Set the current active filter
@@ -439,6 +441,24 @@ class Commands {
   private function curFilterCases() {
     $xml = $this->fogbugz->search(array(
         //'q' => '',
+        'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
+    ));
+
+    include realpath(__DIR__ . "/../templates/caseList.php");
+  }
+  
+  /**
+   * Show all cases matching keyword search
+   * 
+   * Param (string): Keyword
+   * Command: fb search "<value>"
+   */
+  private function keywordSearch($keyword) {
+    if (null == $keyword) {
+      $keyword = IO::getOrQuit("Enter a sarch string:", "string");
+    }
+    $xml = $this->fogbugz->search(array(
+        'q' => $keyword,
         'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
     ));
 
