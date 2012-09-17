@@ -22,6 +22,7 @@ class Commands {
       'start'    => 'startWork',
       'stop'     => 'stopWork',
       'note'     => 'leaveNote',
+      'resolve'  => 'resolveCase',
       'view'     => 'showInfo',
       'estimate' => 'setEstimate',
       'current'  => 'showCurrent',
@@ -200,7 +201,69 @@ class Commands {
       exit(1);
     }
   }
-  
+
+  /**
+   * Resolve a case. If you do not specify a case, your
+   * currently active case will be used. If you do not have an
+   * active case, then you will be prompted for one.
+   */
+  public function resolveCase($case) {
+    // fb note "string message" and so we swap case and note
+    if (!is_numeric($case)) {
+      $note = $case;
+      list($case, $title) = $this->getCurrent();
+      if (empty($case)) {
+        $case = IO::getOrQuit("Enter a case number:", "number");
+      }
+    }
+
+    $category = $this->fogbugz->search(array(
+      'q'    => (int) $case,
+      'cols' => 'ixCategory'
+    ));
+    $category = $category->cases->case->ixCategory;
+    $statuses = $this->fogbugz->listStatuses(array(
+      'fResolved'    => 1,
+      'ixCategory'   => (int) $category
+    ));
+    foreach ($statuses->statuses->status as $status) {
+      echo '[' . $status->ixStatus . '] ' . $status->sStatus . "\n";
+    }
+
+    $status = "";
+    while (!is_numeric($status)) {
+      $status = IO::getOrQuit('Enter the status from the list above:', "integer");
+    }
+
+    $assignedto = IO::getOrQuit("Who should the case be assigned to:", "string");
+
+    echo 'Please supply a note (optional): ';
+    $note = IO::read();
+
+    $request = array(
+      'ixStatus' => $status,
+      'ixBug' => $case,
+      'sPersonAssignedTo' => $assignedto
+    );
+
+    if (!empty($note)) {
+      $request['sEvent'] = $note;
+    }
+
+    try {
+      $this->fogbugz->resolve($request);
+      printf(
+        "Resolved case %s\n",
+        $case
+      );
+    }
+    catch (Exception $e) {
+      printf("%s\n", $e->getMessage());
+      exit(1);
+    }
+
+  }
+
   /**
    * Set the estimate for a given case.
    * Both case and estimate are optional
@@ -339,6 +402,7 @@ class Commands {
    * setfilter (#filter#)          :: Set the current active filter
    * estimate (#case#) (#hours#)   :: Set the estimate for a case
    * note (#case#) ("note string") :: Set a note for a particular case
+   * resolve (#case#)              :: Resolve a particular case
    * start (#case#)                :: Start working on a case
    * stop                          :: Stop all work
    */
