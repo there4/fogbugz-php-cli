@@ -1,0 +1,21 @@
+{
+    "name": "there4/fogbugz-cli",
+    "description": "FogBugz Command Line Client",
+    "keywords": ["fogbugz"],
+    "homepage": "http://there4.github.com/fogbugz-php-cli/",
+    "minimum-stability": "beta",
+    "authors": [
+        {
+            "name": "Craig Davis",
+            "email": "craig@there4development.com"
+        }
+    ],
+    "require": {
+        "there4/fogbugz-api": "dev-master",
+        "silex/silex": "dev-master",
+        "symfony/console": "dev-master",
+        "symfony/config": "dev-master",
+        "symfony/dependency-injection": "dev-master",
+        "symfony/yaml": "dev-master"
+    }
+}

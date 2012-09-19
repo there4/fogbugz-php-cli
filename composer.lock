@@ -1,0 +1,104 @@
+{
+    "hash": "2b4e3a9a476bfbe892704a2d26ccac48",
+    "packages": [
+        {
+            "package": "pimple/pimple",
+            "version": "1.0.0"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "alias-pretty-version": "1.0.x-dev",
+            "alias-version": "1.0.9999999.9999999-dev"
+        },
+        {
+            "package": "silex/silex",
+            "version": "dev-master",
+            "source-reference": "78efb9a6bef34e4547e937066707ee338f516698",
+            "commit-date": "1348027658"
+        },
+        {
+            "package": "symfony/config",
+            "version": "dev-master",
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/config",
+            "version": "dev-master",
+            "source-reference": "98939ab266bf2fcb360c3ed0b2defd5636023632",
+            "commit-date": "1347756600"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/console",
+            "version": "dev-master",
+            "source-reference": "04d252e5288ec178ddbbe16e4629a678338caaa4",
+            "commit-date": "1347989383"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "dev-master",
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "dev-master",
+            "source-reference": "8894a17b9d199ef2962d82f74d51f8e20a145e4c",
+            "commit-date": "1347989125"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "v2.1.1"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "v2.1.1"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "v2.1.1"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "v2.1.1"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "alias-pretty-version": "2.2.x-dev",
+            "alias-version": "2.2.9999999.9999999-dev"
+        },
+        {
+            "package": "symfony/yaml",
+            "version": "dev-master",
+            "source-reference": "f1f0e0fea2bc568492ba1e25c2f88888d38459ca",
+            "commit-date": "1347987929"
+        },
+        {
+            "package": "there4/fogbugz-api",
+            "version": "dev-master",
+            "source-reference": "5045a0fe1e1a3d8f5d29e745852f14e0a9f5d807",
+            "commit-date": "1348073031"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "beta",
+    "stability-flags": {
+        "there4/fogbugz-api": 20,
+        "silex/silex": 20,
+        "symfony/console": 20,
+        "symfony/config": 20,
+        "symfony/dependency-injection": 20,
+        "symfony/yaml": 20
+    }
+}

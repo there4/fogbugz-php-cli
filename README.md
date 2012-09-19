@@ -1,6 +1,6 @@
 # FogBugz Command Line Client
 
-A simple command line application that can be used to manage your FogBugz
+A simple command line client application that can be used to manage your FogBugz
 account, working on status, read cases, and leave short notes.
 
 ## Help
