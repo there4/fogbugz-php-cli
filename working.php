@@ -1,48 +1,49 @@
+#!/usr/bin/env php
 <?php
-/*
 
-*/
-error_reporting(E_ALL | E_STRICT);
-require __DIR__ . "/lib/fogbugz.php";
-require __DIR__ . "/lib/io.php";
-require __DIR__ . "/lib/termcolor.php";
-require __DIR__ . "/lib/commands.php";
-require __DIR__ . "/lib/getConfig.php";
+// https://github.com/symfony/Console/blob/master/Helper/DialogHelper.php
 
-/*******************************************************************************/
-/* Configuration Begin                                                         */
-
-$config_path = $_SERVER['HOME'] . '/.fogbugz';
-$config_file = $_SERVER['HOME'] . '/.fogbugz/config.php';
-
-/* Configuration End                                                           */
-/*******************************************************************************/
-
-$config = array();
-
-if (is_readable($config_file)) {
-  require_once $config_file;
-}
-else {
-  echo "You don't seem to have a config file.\n";
-  $config = initConfig($config_path);
+// If the dependencies aren't installed, we have to bail
+// and offer some help.
+if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
+  exit("\nPlease run `composer install` to install dependencies.\n\n");
 }
 
-// If the file is bad, bail
-if (empty($config)) {
-  exit("Invalid config file format\n");
+// Bootstrap our Silex application with the Composer autoloader
+$app = require __DIR__ . '/vendor/autoload.php';
+
+// Setup the namespace for our own namespace
+$app->add('FogBugz', __DIR__ . '/src');
+
+// Include the namespaces of the components we plan to use
+use Symfony\Component\Console\Application;
+use Symfony\Component\Yaml\Yaml;
+use FogBugz\Command;
+
+// Add the composer information for use in version info and such.
+$project = json_decode(file_get_contents(__DIR__ . '/composer.json'));
+
+// Instantiate our Console application, reporting info from the composer
+// package information in composer.json. We decorate the `$console` with
+// some vars so that we can access them via the $this->getApplication()
+$console = new Application($project->description, $project->version);
+
+// Fetch the composer info into a local var, used for debugging
+$console->project = $project;
+
+// Load our application config information
+$console->config = Yaml::parse(__DIR__ . '/.config.yml');
+
+// Register our database connection info
+$console->silex = new Silex\Application();
+
+foreach (glob(__DIR__ ."/src/FogBugz/Command/*.php") as $filename) {
+  $classname = "Fogbugz\Command\\" . basename($filename, ".php");
+  require $filename;
+  $console->add(new $classname);
 }
 
-// We made some changes to the format. If we need more data, let's prompt again
-// and give it some defaults
-if (empty($config['host'])) {
-  $config = updateConfig($config_file, $config);
-}
+// Execute the console app.
+$console->run();
 
-$runner = new Commands($config['user'], $config['pass'], $config['host'], $config_path);
-$runner->config = $config;
-$runner->dispatch($_SERVER['argv']);
-
-exit(0);
-
-/* End of file working.php */
+/* End of working.php */
