@@ -18,6 +18,7 @@ account, working on status, read cases, and leave short notes.
      setfilter (#filter#)          :: Set the current active filter
      estimate (#case#) (#hours#)   :: Set the estimate for a case
      note (#case#) ("note string") :: Set a note for a particular case
+     resolve (#case#)              :: Resolve a particular case
      start (#case#)                :: Start working on a case
      stop                          :: Stop all work
      
