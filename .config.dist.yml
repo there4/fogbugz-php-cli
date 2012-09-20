@@ -1,2 +1,7 @@
 ConfigDir: ./config
 EnableColor: true
+ConfigDir: ./config
+EnableColor: true
+User:
+Password:
+Host:

@@ -19,6 +19,7 @@ $app->add('FogBugz', __DIR__ . '/src');
 use Symfony\Component\Console\Application;
 use Symfony\Component\Yaml\Yaml;
 use FogBugz\Command;
+use There4\FogBugz;
 
 // Add the composer information for use in version info and such.
 $project = json_decode(file_get_contents(__DIR__ . '/composer.json'));
@@ -34,8 +35,21 @@ $console->project = $project;
 // Load our application config information
 $console->config = Yaml::parse(__DIR__ . '/.config.yml');
 
-// Register our database connection info
-$console->silex = new Silex\Application();
+// TODO: refactor this to be a pre-filter for the commands that require it.
+// For instance, help or a setup command shouldn't need this!
+$console->fogbugz = new FogBugz\Api(
+    $console->config['User'],
+    $console->config['Password'],
+    $console->config['Host']
+);
+
+try {
+  $console->fogbugz->logon();
+}
+catch(FogBugz\ApiLogonError $e) {
+  echo($e->getMessage() . "\n");
+  exit(1);
+}
 
 foreach (glob(__DIR__ ."/src/FogBugz/Command/*.php") as $filename) {
   $classname = "Fogbugz\Command\\" . basename($filename, ".php");

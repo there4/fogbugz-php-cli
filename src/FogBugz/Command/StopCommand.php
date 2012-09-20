@@ -23,7 +23,6 @@ class StopCommand extends Command
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app = $this->getApplication();
     }
 }
 
