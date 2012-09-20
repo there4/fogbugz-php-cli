@@ -1,3 +1,7 @@
+# EXPERIMENTAL SYMFONY BRANCH
+
+This branch is a complete rewrite of the script using the [Symfony Console][sc].
+
 # FogBugz Command Line Client
 
 A simple command line client application that can be used to manage your FogBugz
@@ -26,3 +30,6 @@ account, working on status, read cases, and leave short notes.
 I use this with a bash alias:
 
     alias fb='php ~/Projects/fogbugz-php-cli/working.php'
+    
+    
+[sc]: http://symfony.com/doc/current/components/console.html
