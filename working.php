@@ -1,13 +1,14 @@
 #!/usr/bin/env php
 <?php
 
-// https://github.com/symfony/Console/blob/master/Helper/DialogHelper.php
-
 // If the dependencies aren't installed, we have to bail
 // and offer some help.
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   exit("\nPlease run `composer install` to install dependencies.\n\n");
 }
+
+// Our entry into the application, this extends the Symfony Console Application
+use FogBugz\Cli;
 
 // Bootstrap our Silex application with the Composer autoloader
 $app = require __DIR__ . '/vendor/autoload.php';
@@ -15,47 +16,8 @@ $app = require __DIR__ . '/vendor/autoload.php';
 // Setup the namespace for our own namespace
 $app->add('FogBugz', __DIR__ . '/src');
 
-// Include the namespaces of the components we plan to use
-use Symfony\Component\Console\Application;
-use Symfony\Component\Yaml\Yaml;
-use FogBugz\Command;
-use There4\FogBugz;
-
-// Add the composer information for use in version info and such.
-$project = json_decode(file_get_contents(__DIR__ . '/composer.json'));
-
-// Instantiate our Console application, reporting info from the composer
-// package information in composer.json. We decorate the `$console` with
-// some vars so that we can access them via the $this->getApplication()
-$console = new Application($project->description, $project->version);
-
-// Fetch the composer info into a local var, used for debugging
-$console->project = $project;
-
-// Load our application config information
-$console->config = Yaml::parse(__DIR__ . '/.config.yml');
-
-// TODO: refactor this to be a pre-filter for the commands that require it.
-// For instance, help or a setup command shouldn't need this!
-$console->fogbugz = new FogBugz\Api(
-    $console->config['User'],
-    $console->config['Password'],
-    $console->config['Host']
-);
-
-try {
-  $console->fogbugz->logon();
-}
-catch(FogBugz\ApiLogonError $e) {
-  echo($e->getMessage() . "\n");
-  exit(1);
-}
-
-foreach (glob(__DIR__ ."/src/FogBugz/Command/*.php") as $filename) {
-  $classname = "Fogbugz\Command\\" . basename($filename, ".php");
-  require $filename;
-  $console->add(new $classname);
-}
+// Instantiate our Console application
+$console = new Cli\Working(__DIR__);
 
 // Execute the console app.
 $console->run();
