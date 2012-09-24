@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class EstimateCommand extends Command
+class EstimateCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class EstimateCommand extends Command
     {
         $this
             ->setName('estimate')
-            ->setDescription('Set a the working estimate for a case');
+            ->setDescription('Set a the working estimate for a case')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

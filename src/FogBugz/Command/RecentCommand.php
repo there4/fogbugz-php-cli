@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class RecentCommand extends Command
+class RecentCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class RecentCommand extends Command
     {
         $this
             ->setName('recent')
-            ->setDescription('Show cases you\ve recently worked on.');
+            ->setDescription('Show cases you\ve recently worked on.')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class StopCommand extends Command
+class StopCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class StopCommand extends Command
     {
         $this
             ->setName('stop')
-            ->setDescription('Stop your current working case.');
+            ->setDescription('Stop your current working case.')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

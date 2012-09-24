@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class NoteCommand extends Command
+class NoteCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class NoteCommand extends Command
     {
         $this
             ->setName('note')
-            ->setDescription('Leave a note on a case');
+            ->setDescription('Leave a note on a case')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

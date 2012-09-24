@@ -7,9 +7,6 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
   exit("\nPlease run `composer install` to install dependencies.\n\n");
 }
 
-// Our entry into the application, this extends the Symfony Console Application
-use FogBugz\Cli;
-
 // Bootstrap our Silex application with the Composer autoloader
 $app = require __DIR__ . '/vendor/autoload.php';
 
@@ -17,7 +14,7 @@ $app = require __DIR__ . '/vendor/autoload.php';
 $app->add('FogBugz', __DIR__ . '/src');
 
 // Instantiate our Console application
-$console = new Cli\Working(__DIR__);
+$console = new FogBugz\Cli\Working(__DIR__);
 
 // Execute the console app.
 $console->run();

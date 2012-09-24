@@ -7,7 +7,6 @@ use There4\FogBugz;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Input\ArgvInput;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Yaml\Yaml;
 
 class Working extends Application
@@ -31,11 +30,11 @@ class Working extends Application
       require $filename;
       $this->add(new $classname);
     }
-    
+
     // TODO: If the config file is empty, run the setup script here:
-    
+
   }
-  
+
   public function run(InputInterface $input = null, OutputInterface $output = null)
   {
     if (null === $input) {
@@ -46,16 +45,15 @@ class Working extends Application
       $output = new ConsoleOutput();
     }
 
-    
-
     // Does the command require authentication?
     $name = $this->getCommandName($input);
-    $command = $this->find($name);
-    if ($command->requireAuth) {
-      $login = $this->find('login');
-      $returnCode = $login->run($input, $output);
+    if (!empty($name) && $command = $this->find($name)) {
+      if ($command->requireAuth) {
+        $login = $this->find('login');
+        $returnCode = $login->run($input, $output);
+      }
     }
-    
+
     return parent::run($input, $output);
   }
 

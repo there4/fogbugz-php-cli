@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LogoffCommand extends Command
+class LogoffCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class LogoffCommand extends Command
     {
         $this
             ->setName('logoff')
-            ->setDescription('End the session with FogBugz');
+            ->setDescription('End the session with FogBugz')
+            ->requireAuth(false);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

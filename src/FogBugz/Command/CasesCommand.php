@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CasesCommand extends Command
+class CasesCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class CasesCommand extends Command
     {
         $this
             ->setName('cases')
-            ->setDescription('Show the cases for the current filter');
+            ->setDescription('Show the cases for the current filter')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

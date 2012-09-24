@@ -1,13 +1,12 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class ResolveCommand extends Command
+class ResolveCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -18,7 +17,8 @@ class ResolveCommand extends Command
     {
         $this
             ->setName('resolve')
-            ->setDescription('Resolve a case');
+            ->setDescription('Resolve a case')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

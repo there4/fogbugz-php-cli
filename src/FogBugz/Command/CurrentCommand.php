@@ -1,14 +1,13 @@
 <?php
 namespace FogBugz\Command;
 
-// http://symfony.com/doc/current/components/console.html
-
+use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class CurrentCommand extends Command
+class CurrentCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -20,7 +19,8 @@ class CurrentCommand extends Command
         $this
             ->setName('current')
             ->setDescription('Display the current working case')
-            ->addArgument('format', InputArgument::OPTIONAL, 'Output format, in sprintf format.');
+            ->addArgument('format', InputArgument::OPTIONAL, 'Output format, in sprintf format.')
+            ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

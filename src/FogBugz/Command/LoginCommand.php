@@ -1,12 +1,14 @@
 <?php
 namespace FogBugz\Command;
 
+use FogBugz\Cli\AuthCommand;
 use There4\FogBugz;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LoginCommand extends Command
+class LoginCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -17,32 +19,55 @@ class LoginCommand extends Command
     {
         $this
             ->setName('login')
-            ->setDescription('Establish a session with FogBugz');
+            ->setDescription('Establish a session with FogBugz')
+            ->requireAuth(false);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
+        $dialog = new DialogHelper();
+      
+        // TODO: check for a token in the token store, if it's there, try to use it.
+        //       if it fails, then login with the code below.
+        //       once we've logged in, set the new token into the token store
+      
+        $output->writeln("\n<comment>Please Login to FogBugz</comment>");
         
-        $output->writeln("<info>Login</info>");
+        $host = $dialog->ask(
+            $output,
+            " * Url: "
+        );
         
-        // TODO: Prompt for username and password, and then login
-        //       store the api token into a dotfile in the config
-        //       file location
+        $user = $dialog->ask(
+            $output,
+            " * Email address: ",
+            getenv("GIT_AUTHOR_EMAIL")
+        );
+        
+        $password = $dialog->ask(
+            $output,
+            " * Password: "
+        );
         
         $this->app->fogbugz = new FogBugz\Api(
-            $this->app->config['User'],
-            $this->app->config['Password'],
-            $this->app->config['Host']
+            $user,
+            $password,
+            $host
         );
         
         try {
             $this->app->fogbugz->logon();
+            $token = $this->app->fogbugz->token;
+            $output->writeln("<info>$token</info>");
         }
         catch(FogBugz\ApiLogonError $e) {
-            echo($e->getMessage() . "\n");
+            $output->writeln("\n<error>" . $e->getMessage() . "</error>\n");
             exit(1);
         }
+
+        // Write the config and the token out to the config file
+
     }
 }
 
