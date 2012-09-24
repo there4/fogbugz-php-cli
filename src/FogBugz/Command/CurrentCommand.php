@@ -3,6 +3,7 @@ namespace FogBugz\Command;
 
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -26,11 +27,11 @@ class CurrentCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        
+
         $format = $input->getArgument('format');
         $case   = null;
         $title  = null;
-        $xml    = $this->app->fogbugz->viewPerson(array('sEmail' => $this->app->config['User']));
+        $xml    = $this->app->fogbugz->viewPerson(array('sEmail' => $this->app->fogbugz->user));
         $bug_id = $xml->people->person->ixBugWorkingOn;
         
         if (!empty($bug_id) && (0 != $bug_id)) {

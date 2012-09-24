@@ -22,44 +22,59 @@ class LoginCommand extends AuthCommand
             ->setDescription('Establish a session with FogBugz')
             ->requireAuth(false);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         $dialog = new DialogHelper();
-      
-        // TODO: check for a token in the token store, if it's there, try to use it.
-        //       if it fails, then login with the code below.
-        //       once we've logged in, set the new token into the token store
-      
+
+        if (file_exists($this->app->tokenPath)) {
+          $tokenInfo = json_decode(file_get_contents($this->app->tokenPath));
+          touch($this->app->tokenPath);
+          $this->app->fogbugz = new FogBugz\Api($tokenInfo->user, '', $tokenInfo->host);
+          $this->app->fogbugz->token = $tokenInfo->token;
+          
+          // TODO: Test this token, and re-prompt if it fails
+          return;
+        }
+
         $output->writeln("\n<comment>Please Login to FogBugz</comment>");
-        
+
         $host = $dialog->ask(
             $output,
-            " * Url: "
+            " * Url: ",
+            "https://"
         );
-        
+
         $user = $dialog->ask(
             $output,
             " * Email address: ",
             getenv("GIT_AUTHOR_EMAIL")
         );
-        
+
         $password = $dialog->ask(
             $output,
             " * Password: "
         );
-        
+
         $this->app->fogbugz = new FogBugz\Api(
             $user,
             $password,
             $host
         );
-        
+
         try {
             $this->app->fogbugz->logon();
-            $token = $this->app->fogbugz->token;
-            $output->writeln("<info>$token</info>");
+            // TODO: convert this to YAML to match the other config
+            $tokenFile = json_encode(array(
+                'user'  => $user,
+                'host'  => $host,
+                'token' => $this->app->fogbugz->token
+            ));
+            file_put_contents(
+                $this->app->tokenPath,
+                $tokenFile
+            );
         }
         catch(FogBugz\ApiLogonError $e) {
             $output->writeln("\n<error>" . $e->getMessage() . "</error>\n");

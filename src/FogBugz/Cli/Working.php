@@ -12,13 +12,23 @@ use Symfony\Component\Yaml\Yaml;
 class Working extends Application
 {
 
+  var $baseDir;
+  var $tokenPath;
+
   public function __construct($baseDir)
   {
+  
+    $this->baseDir = $baseDir;
+    
+    $this->tokenPath = $baseDir . "/token.txt";
 
     // Add the composer information for use in version info and such.
     $this->project = json_decode(file_get_contents($baseDir . '/composer.json'));
 
     // Load our application config information
+    if (!file_exists($baseDir . '/.config.yml')) {
+      copy($baseDir . '/.config.dist.yml', $baseDir . '/.config.yml');
+    }
     $this->config = Yaml::parse($baseDir . '/.config.yml');
 
     // We do this now because we've loaded the project info from the composer file
