@@ -4,6 +4,11 @@
 FogBugz case view template
 
 */
+
+function tcecho($s) {
+  return $s;
+}
+
 ?>
 
 ————————————————————————————————————————————————————————————————————————————————
@@ -27,4 +32,4 @@ Latest summary:
 Last updated:
 <?php echo date("  F j, Y, g:i a", strtotime($dtLastUpdated)), "\n"; ?>
 
-<?php echo str_pad("[$host/default.asp?$ixBug]", 80, " ", STR_PAD_BOTH), "\n"; ?>
+<?php echo str_pad("[" . $host . "default.asp?$ixBug]", 80, " ", STR_PAD_BOTH), "\n"; ?>

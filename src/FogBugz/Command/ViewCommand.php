@@ -33,7 +33,7 @@ class ViewCommand extends AuthCommand
         
         if (null == $case) {
           // TODO: Get with current active case
-          list($case, $title) = $this->getCurrent();
+          //list($case, $title) = $this->getCurrent();
           if ($case == null) {
             $case = $dialog->ask($output, "Enter a case number: ");
           }
@@ -63,7 +63,7 @@ class ViewCommand extends AuthCommand
         foreach(get_object_vars($info) as $property => $value) {
           $$property = (string) $value;
         }
-        $host = $this->config['host'];
+        $host = $this->app->fogbugz->url;
         include realpath($this->app->baseDir . "/templates/info.php");
         echo "\n";
 

@@ -59,8 +59,11 @@ class Working extends Application
     $name = $this->getCommandName($input);
     if (!empty($name) && $command = $this->find($name)) {
       if ($command->requireAuth) {
+        $simple_input = new ArgvInput(array(
+          $_SERVER['argv'][0], $_SERVER['argv'][1]
+        ));
         $login = $this->find('login');
-        $returnCode = $login->run($input, $output);
+        $returnCode = $login->run($simple_input, $output);
       }
     }
 
