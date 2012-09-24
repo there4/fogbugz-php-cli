@@ -24,6 +24,7 @@ class Commands {
       'note'     => 'leaveNote',
       'resolve'  => 'resolveCase',
       'view'     => 'showInfo',
+      'parent'   => 'showParent',
       'estimate' => 'setEstimate',
       'current'  => 'showCurrent',
       '-help'    => 'showHelp',
@@ -295,7 +296,44 @@ class Commands {
         $case, $estimate
     );
   }
-  
+
+  /**
+   * Display a short summary of a case's parent. If you call this without a case number
+   * it will default to your current active case. If you do not have an active
+   * case, this will prompt you for a case.
+   */
+  public function showParent($case = null) {
+    if (null == $case) {
+      list($case, $title) = $this->getCurrent();
+      if ($case == null) {
+        $case = IO::getOrQuit("Enter a case number:", "number");
+      }
+    }
+
+    try {
+      $bug = $this->fogbugz->search(array(
+          'q'    => (int) $case,
+          'cols' => 'ixBug,sTitle,sStatus,sLatestTextSummary,sProject,sArea,'
+                    . 'sPersonAssignedTo,sStatus,sPriority,sCategory,'
+                    . 'dtOpened,dtResolved,dtClosed,dtLastUpdated,'
+                    . 'sFixFor,ixBugParent'
+      ));
+    }
+    catch (Exception $e) {
+      printf("%s\n", $e->getMessage());
+      exit(1);
+    }
+
+    if (0 == $bug->cases['count']) {
+      printf("Unable to retrieve [%d]\n", $case);
+      exit(0);
+    }
+
+    // extract the case to local vars and then pass control to showInfo
+    $info = $bug->cases->case;
+    return ($this->showInfo($info->ixBugParent));
+  }
+
   /**
    * Display a short summary of a case. If you call this without a case number
    * it will default to your current active case. If you do not have an active
@@ -315,7 +353,7 @@ class Commands {
           'cols' => 'ixBug,sTitle,sStatus,sLatestTextSummary,sProject,sArea,'
                     . 'sPersonAssignedTo,sStatus,sPriority,sCategory,'
                     . 'dtOpened,dtResolved,dtClosed,dtLastUpdated,'
-                    . 'sFixFor'
+                    . 'sFixFor,ixBugParent'
       ));
     }
     catch (Exception $e) {
@@ -330,7 +368,7 @@ class Commands {
     
     // extract the case to local vars and then include the template
     $info = $bug->cases->case;
-    foreach(get_object_vars($info) as$property => $value) {
+    foreach(get_object_vars($info) as $property => $value) {
       $$property = (string) $value;
     }
     $host = $this->config['host'];
@@ -394,6 +432,7 @@ class Commands {
    * recent                        :: Get the five most recent cases you've worked on
    * current                       :: Get the number for your current case
    * view (#case#)                 :: Get info about the current or a particular case
+   * parent (#case#)               :: Get info about the parent of the current or a particular case
    * cases                         :: Get a list of cases in your current active filter
    * filters                       :: Get a list of available filters
    * search (keyword)              :: Get a list of cases matching keyword

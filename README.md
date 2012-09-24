@@ -11,6 +11,7 @@ account, working on status, read cases, and leave short notes.
      recent                        :: Get the five most recent cases you've worked on
      current                       :: Get the number for your current case
      view (#case#)                 :: Get info about the current or a particular case
+     parent (#case#)               :: Get info about the parent of the current or a particular case
      cases                         :: Get a list of cases in your current active filter
      filters                       :: Get a list of available filters
     
