@@ -14,6 +14,7 @@ echo tcecho($title, "grey", "on_white", "bold"), "\n";
 ————————————————————————————————————————————————————————————————————————————————
 <?php echo str_pad("$sPriority priority " . strtolower($sCategory) . " in " . $sFixFor, 80, " ", STR_PAD_BOTH), "\n"; ?>
 
+<?php echo str_pad("Parent   : " . $ixBugParent, 80, " ", STR_PAD_RIGHT), "\n"; ?>
 <?php echo str_pad("Status   : " . $sStatus, 40, " ", STR_PAD_RIGHT); ?>
 <?php echo str_pad("Area: " . $sProject, 40, " ", STR_PAD_LEFT), "\n"; ?>
 <?php echo str_pad("Assigned : " . $sPersonAssignedTo, 80, " ", STR_PAD_RIGHT), "\n"; ?>

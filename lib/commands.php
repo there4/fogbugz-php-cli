@@ -315,7 +315,7 @@ class Commands {
           'cols' => 'ixBug,sTitle,sStatus,sLatestTextSummary,sProject,sArea,'
                     . 'sPersonAssignedTo,sStatus,sPriority,sCategory,'
                     . 'dtOpened,dtResolved,dtClosed,dtLastUpdated,'
-                    . 'sFixFor'
+                    . 'sFixFor,ixBugParent'
       ));
     }
     catch (Exception $e) {
@@ -330,7 +330,7 @@ class Commands {
     
     // extract the case to local vars and then include the template
     $info = $bug->cases->case;
-    foreach(get_object_vars($info) as$property => $value) {
+    foreach(get_object_vars($info) as $property => $value) {
       $$property = (string) $value;
     }
     $host = $this->config['host'];
