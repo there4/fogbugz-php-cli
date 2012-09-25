@@ -1,0 +1,19 @@
+————————————————————————————————————————————————————————————————————————————————
+ <info>{{"[%d] %s"|format(ixBug, sTitle)|pad(80, 'center') }}</info>
+————————————————————————————————————————————————————————————————————————————————
+{{sPriority}} priority {{sCategory|lower}} in {{sFixFor}}
+
+{{"Status: <%2$s>%1$s</%2$s>"|format(sStatus, statusFormat)|pad(40, 'left')}}{{"Area: %s"|format(sProject)|pad(40, 'right')}}
+{{"Assigned: %s"|format(sPersonAssignedTo)|pad(80, 'left')}}
+
+Full title:
+{{sTitle|wrap(80)}}
+
+Latest summary:
+{{sLatestTextSummary|wrap(80)}}
+
+Last updated:
+{{dtLastUpdated|date}}
+
+{{"[%sdefault.asp?%d]"|format(host,ixBug)|pad(80, "center")}}
+

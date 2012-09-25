@@ -60,13 +60,19 @@ class ViewCommand extends AuthCommand
         
         // extract the case to local vars and then include the template
         $info = $bug->cases->case;
+        $data = array();
         foreach(get_object_vars($info) as $property => $value) {
-          $$property = (string) $value;
+          $data[$property] = (string) $value;
         }
-        $host = $this->app->fogbugz->url;
-        include realpath($this->app->baseDir . "/templates/info.php");
-        echo "\n";
-
+        $data['host'] = $this->app->fogbugz->url;
+        
+        $data['statusFormat'] = "info";
+        // TODO statusFormat select based on open/closed, template is ready.
+        
+        $template = $this->app->twig->loadTemplate("info.twig");
+        $view = $template->render($data);
+        //$output->write($view, false, $this->app->outputFormat);
+        $output->write($view, false, OutputInterface::OUTPUT_PLAIN);
     }
 }
 

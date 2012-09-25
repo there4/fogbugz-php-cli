@@ -6,6 +6,8 @@ use FogBugz\Command;
 use There4\FogBugz;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Yaml\Yaml;
 
@@ -41,8 +43,50 @@ class Working extends Application
       $this->add(new $classname);
     }
 
+    // https://github.com/symfony/Console/blob/master/Output/Output.php
+    $this->outputFormat
+        = $this->config['UseColor']
+        ? OutputInterface::OUTPUT_NORMAL
+        : OutputInterface::OUTPUT_PLAIN;
+
+    $loader = new \Twig_Loader_Filesystem($baseDir . '/templates');
+    $this->twig = new \Twig_Environment($loader, array(
+        "cache" => false,
+        "autoescape" => false,
+        "strict_variables" => false // SET TO TRUE WHILE DEBUGGING
+    ));
+
+    $this->twig->addFilter('pad', new \Twig_Filter_Function("FogBugz\Cli\TwigFormatters::strpad"));
+    $this->twig->addFilter('repeat', new \Twig_Filter_Function("str_repeat"));
+    $this->twig->addFilter('wrap', new \Twig_Filter_Function("wordwrap"));
+    
     // TODO: If the config file is empty, run the setup script here:
 
+  }
+  
+  public function registerStyles(&$output) {
+
+    // https://github.com/symfony/Console/blob/master/Formatter/OutputFormatterStyle.php
+    // http://symfony.com/doc/2.0/components/console/introduction.html#coloring-the-output
+    //
+    // * <info></info> green
+    // * <comment></comment> yellow
+    // * <question></question> black text on a cyan background
+    // * <alert></alert> yellow
+    // * <error></error> white text on a red background
+    // * <fire></fire> red text on a yellow background
+    // * <notice></notice> blue
+    
+    $style = new OutputFormatterStyle('red', 'yellow', array('bold'));
+    $output->getFormatter()->setStyle('fire', $style);
+    
+    $style = new OutputFormatterStyle('blue', 'black', array());
+    $output->getFormatter()->setStyle('notice', $style);
+    
+    $style = new OutputFormatterStyle('red', 'black', array());
+    $output->getFormatter()->setStyle('alert', $style);
+
+    return $output;
   }
 
   public function run(InputInterface $input = null, OutputInterface $output = null)
@@ -54,6 +98,8 @@ class Working extends Application
     if (null === $output) {
       $output = new ConsoleOutput();
     }
+    
+    $this->registerStyles($output);
 
     // Does the command require authentication?
     $name = $this->getCommandName($input);
