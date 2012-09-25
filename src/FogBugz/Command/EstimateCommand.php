@@ -62,7 +62,7 @@ class EstimateCommand extends AuthCommand
         // TODO: Pluralization here (hour|hours)
         $output->writeln(
             sprintf(
-                "Set estimate on <info>Case %s<info> to <info>%s hours</info>.",
+                "Set estimate on <info>Case %s</info> to <info>%s hours</info>.",
                 $case, $estimate
             ),
             $this->app->outputFormat

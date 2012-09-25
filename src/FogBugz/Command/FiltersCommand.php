@@ -24,6 +24,8 @@ class FiltersCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
+        
+        $output->writeln("display filter list");
     }
 }
 
