@@ -32,30 +32,28 @@ class StartCommand extends AuthCommand
         $recent_cases = $this->app->getRecent();
         
         if ($case == null) {
-            $output->writeln("What case are you working on?", $this->app->outputFormat);
             $strlen = 4;
             if (!empty($recent_cases)) {
+                $output->writeln("What case are you working on?", $this->app->outputFormat);
                 foreach ($recent_cases as $recent_case) {
-                  
-                  $output->writeln(
-                      sprintf(
-                          "  [%s] %s\n",
-                          $recent_case[0],
-                          substr($recent_case[1], 0, 75)
-                      ),
-                      $this->app->outputFormat
-                  );
-                  // this is just for display purposes below
-                  $strlen = strlen($recent_case[0]);
+                    $output->writeln(
+                        sprintf(
+                            "  [%s] %s\n",
+                            $recent_case[0],
+                            substr($recent_case[1], 0, 75)
+                        ),
+                        $this->app->outputFormat
+                    );
+                    // this is just for display purposes below
+                    $strlen = strlen($recent_case[0]);
                 }
+                $output->writeln(
+                    "  [" . str_repeat('#', $strlen) . "] Or type any other case number to start work",
+                    $this->app->outputFormat
+                );
             }
             while ($case == null) {
-              $output->writeln(
-                  "  [" . str_repeat('#', $strlen) . "] Or type any other case number to start work",
-                  $this->app->outputFormat
-              );
-                  
-              $case = $dialog->ask($output, "Case number: ");
+                $case = $dialog->ask($output, "Case number: ");
             }
         }
         
@@ -77,7 +75,10 @@ class StartCommand extends AuthCommand
           if ($e->getCode() == '7') {
               if ($e->getMessage() == 'Case ' . $case  . ' has no estimate') {
                   $output->writeln(
-                      sprintf("<alert>Case %s has no estimate.</alert>", $case),
+                      sprintf(
+                          "<alert>Case %s has no estimate.</alert>",
+                          $case
+                      ),
                       $this->app->outputFormat
                   );
                   
@@ -88,13 +89,20 @@ class StartCommand extends AuthCommand
                       'case' => $case
                   );
                   $input = new ArrayInput($arguments);
-                  $returnCode = $command->run($input, $output);
+                  $command->run($input, $output);
                   
-                  // TODO: confirm that this has set working and we don't need to do it again here
+                  // Now come back to start the case.
+                  $this->app->fogbugz->startWork(array('ixBug' => $case));
+                  
+                  return;
               }
               elseif ($e->getMessage() == 'Closed') {
                   $output->writeln(
-                      sprintf("<fire>Sorry, Case %s is closed and may not have a time interval added to it.</fire>", $case),
+                      sprintf(
+                          "<fire>Sorry, Case %s is closed and may not "
+                          . "have a time interval added to it.</fire>"
+                          , $case
+                      ),
                       $this->app->outputFormat
                   );
               }
