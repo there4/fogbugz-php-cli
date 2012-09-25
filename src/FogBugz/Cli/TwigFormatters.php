@@ -28,7 +28,7 @@ class TwigFormatters
   }
   
   public static function style($string, $format) {
-    return sprintf('<2$s>%1$s</%2$s>', $string, $format);
+    return sprintf('<%2$s>%1$s</%2$s>', $string, $format);
   }
 
 }

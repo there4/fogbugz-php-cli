@@ -25,7 +25,20 @@ class FiltersCommand extends AuthCommand
     {
         $this->app = $this->getApplication();
         
-        $output->writeln("display filter list");
+        $xml = $this->app->fogbugz->listFilters();
+        $data = array("filters" => array());
+        
+        foreach ($xml->filters->children() as $filter) {
+          $data["filters"][] = array(
+              "name" => (string) $filter,
+              "type" => (string) $filter['type'],
+              "id"   => (int)    $filter['sFilter']
+          );
+        }
+        
+        $template = $this->app->twig->loadTemplate("filters.twig");
+        $view = $template->render($data);
+        $output->write($view, false, $this->app->outputFormat);
     }
 }
 

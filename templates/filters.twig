@@ -1,0 +1,8 @@
+
+Fogbugz filter list for current user:
+————————————————————————————————————————————————————————————————————————————————
+<heading> ID       Type      Name                                                        </heading>
+————————————————————————————————————————————————————————————————————————————————
+{% for filter in filters %}
+ {{filter.id|style("info")|pad(9, "left")}}{{filter.type|style("notice")|pad(10, "left")}}{{filter.name|pad(60, "left")}}
+{% endfor %}

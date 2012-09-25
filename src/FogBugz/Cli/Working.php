@@ -95,6 +95,7 @@ class Working extends Application
       // * <error></error> white text on a red background
       // * <fire></fire> red text on a yellow background
       // * <notice></notice> blue
+      // * <heading></heading> black on white
       
       $style = new OutputFormatterStyle('red', 'yellow', array('bold'));
       $output->getFormatter()->setStyle('fire', $style);
@@ -104,6 +105,9 @@ class Working extends Application
       
       $style = new OutputFormatterStyle('red', 'black', array());
       $output->getFormatter()->setStyle('alert', $style);
+      
+      $style = new OutputFormatterStyle('black', 'white', array());
+      $output->getFormatter()->setStyle('heading', $style);
   
       return $output;
   }

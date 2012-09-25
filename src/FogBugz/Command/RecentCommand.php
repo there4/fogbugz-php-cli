@@ -17,7 +17,7 @@ class RecentCommand extends AuthCommand
     {
         $this
             ->setName('recent')
-            ->setDescription('Show cases you\ve recently worked on.')
+            ->setDescription("Show cases you've recently worked on.")
             ->requireAuth(true);
     }
     
