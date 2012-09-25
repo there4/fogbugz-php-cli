@@ -48,22 +48,32 @@ class ViewCommand extends AuthCommand
           ));
         }
         catch (Exception $e) {
-            printf("%s\n", $e->getMessage());
+            $output->writeln(
+                sprintf("<error>%s</error>", $e->getMessage()),
+                $this->app->outputFormat
+            );
             exit(1);
         }
         
         if (0 == $bug->cases['count']) {
-            printf("Unable to retrieve [%d]\n", $case);
-            exit(0);
+            $output->writeln(
+                sprintf("<error>Unable to retrieve [%d]</error>", $case),
+                $this->app->outputFormat
+            );
+            exit(1);
         }
         
         // extract the case to local vars and then include the template
         $info = $bug->cases->case;
         $data = array();
-        foreach(get_object_vars($info) as $property => $value) {
+        foreach (get_object_vars($info) as $property => $value) {
             $data[$property] = (string) $value;
         }
         $data['host'] = $this->app->fogbugz->url;
+        
+        if ($data['ixBugParent'] == 0) {
+          $data['ixBugParent'] = '—';
+        }
         
         $data['statusFormat'] = "info";
         // TODO statusFormat select based on open/closed, template is ready.
