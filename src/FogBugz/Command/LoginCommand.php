@@ -52,6 +52,11 @@ class LoginCommand extends AuthCommand
             getenv("GIT_AUTHOR_EMAIL")
         );
 
+        // TODO: HIDE THIS FROM USERS, see sample:
+        // http://www.sitepoint.com/interactive-cli-password-prompt-in-php/
+        // or
+        // $pwd = preg_replace('/\r?\n$/', '', `stty -echo; head -n1 ; stty echo`);
+        // on Win32, we'll have to continue to use this.
         $password = $dialog->ask(
             $output,
             " * Password: "

@@ -32,11 +32,11 @@ class ViewCommand extends AuthCommand
         $case = $input->getArgument('case');
         
         if (null == $case) {
-          // TODO: Get with current active case
-          //list($case, $title) = $this->getCurrent();
-          if ($case == null) {
-            $case = $dialog->ask($output, "Enter a case number: ");
-          }
+            // TODO: Get with current active case
+            //list($case, $title) = $this->getCurrent();
+            if ($case == null) {
+                $case = $dialog->ask($output, "Enter a case number: ");
+            }
         }
     
         try {
@@ -49,20 +49,20 @@ class ViewCommand extends AuthCommand
           ));
         }
         catch (Exception $e) {
-          printf("%s\n", $e->getMessage());
-          exit(1);
+            printf("%s\n", $e->getMessage());
+            exit(1);
         }
         
         if (0 == $bug->cases['count']) {
-          printf("Unable to retrieve [%d]\n", $case);
-          exit(0);
+            printf("Unable to retrieve [%d]\n", $case);
+            exit(0);
         }
         
         // extract the case to local vars and then include the template
         $info = $bug->cases->case;
         $data = array();
         foreach(get_object_vars($info) as $property => $value) {
-          $data[$property] = (string) $value;
+            $data[$property] = (string) $value;
         }
         $data['host'] = $this->app->fogbugz->url;
         
@@ -71,8 +71,7 @@ class ViewCommand extends AuthCommand
         
         $template = $this->app->twig->loadTemplate("info.twig");
         $view = $template->render($data);
-        //$output->write($view, false, $this->app->outputFormat);
-        $output->write($view, false, OutputInterface::OUTPUT_PLAIN);
+        $output->write($view, false, $this->app->outputFormat);
     }
 }
 

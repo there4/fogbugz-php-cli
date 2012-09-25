@@ -35,13 +35,13 @@ class CurrentCommand extends AuthCommand
         $bug_id = $xml->people->person->ixBugWorkingOn;
         
         if (!empty($bug_id) && (0 != $bug_id)) {
-          $bug = $this->app->fogbugz->search(array(
-              'q'    => (int) $bug_id,
-              'cols' => 'sTitle,sStatus'
-          ));
-          
-          $case  = (int) $bug_id;
-          $title = (string) $bug->cases->case->sTitle;
+            $bug = $this->app->fogbugz->search(array(
+                'q'    => (int) $bug_id,
+                'cols' => 'sTitle,sStatus'
+            ));
+            
+            $case  = (int) $bug_id;
+            $title = (string) $bug->cases->case->sTitle;
         }
 
         if ($format == NULL) {

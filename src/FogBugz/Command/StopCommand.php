@@ -23,6 +23,21 @@ class StopCommand extends AuthCommand
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->app = $this->getApplication();
+        try {
+            $this->app->fogbugz->stopWork();
+        }
+        catch (Exception $e) {
+            $output->writeln(
+                sprintf("<error>%s</error>", $e->getMessage()),
+                $this->app->outputFormat
+            );
+            exit(1);
+        }
+        $output->writeln(
+            "Work has stopped.",
+            $this->app->outputFormat
+        );
     }
 }
 

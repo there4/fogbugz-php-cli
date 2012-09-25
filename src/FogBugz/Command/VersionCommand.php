@@ -24,7 +24,7 @@ class VersionCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        $output->writeln($this->app->project->version);
+        $output->writeln($this->app->project->version, $this->app->outputFormat);
     }
 }
 

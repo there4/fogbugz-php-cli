@@ -57,6 +57,7 @@ class Working extends Application
     ));
 
     $this->twig->addFilter('pad', new \Twig_Filter_Function("FogBugz\Cli\TwigFormatters::strpad"));
+    $this->twig->addFilter('style', new \Twig_Filter_Function("FogBugz\Cli\TwigFormatters::style"));
     $this->twig->addFilter('repeat', new \Twig_Filter_Function("str_repeat"));
     $this->twig->addFilter('wrap', new \Twig_Filter_Function("wordwrap"));
     
