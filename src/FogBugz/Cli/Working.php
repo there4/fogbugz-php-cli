@@ -70,7 +70,7 @@ class Working extends Application
           $user = $this->fogbugz->user;
       } 
       $xml = $this->fogbugz->viewPerson(array('sEmail' => $user));
-      return $xml->people->person->ixBugWorkingOn;
+      return (int) $xml->people->person->ixBugWorkingOn;
   }
   
   public function getRecent() {
