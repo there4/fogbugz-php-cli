@@ -20,10 +20,15 @@ class RecentCommand extends AuthCommand
             ->setDescription("Show cases you've recently worked on.")
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app = $this->getApplication();
+        $this->app    = $this->getApplication();
+        $recentCases = $this->app->getRecent();
+
+        $template = $this->app->twig->loadTemplate("recent.twig");
+        $view = $template->render($recentCases);
+        $output->write($view, false, $this->app->outputFormat);
     }
 }
 

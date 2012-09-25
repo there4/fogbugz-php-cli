@@ -27,16 +27,16 @@ class StartCommand extends AuthCommand
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app    = $this->getApplication();
-        $dialog       = new DialogHelper();
-        $case         = $input->getArgument('case');
-        $recent_cases = $this->app->getRecent();
+        $this->app   = $this->getApplication();
+        $dialog      = new DialogHelper();
+        $case        = $input->getArgument('case');
+        $recentCases = $this->app->getRecent();
         
         if ($case == null) {
             $strlen = 4;
-            if (!empty($recent_cases)) {
+            if (!empty($recentCases)) {
                 $output->writeln("What case are you working on?", $this->app->outputFormat);
-                foreach ($recent_cases as $recent_case) {
+                foreach ($recentCases as $recent_case) {
                     $output->writeln(
                         sprintf(
                             "  [%s] %s\n",
@@ -65,8 +65,8 @@ class StartCommand extends AuthCommand
                 'cols' => 'sTitle,sStatus,sLatestTextSummary'
             ));
             $title          = (string) $bug->cases->case->sTitle;
-            $recent_cases[] = array($case, $title);
-            $this->app->setRecent($recent_cases);
+            $recentCases[] = array($case, $title);
+            $this->app->setRecent($recentCases);
             $output->writeln(
                 sprintf("Now working on [%d]\n  %s\n", $case, $title),
                 $this->app->outputFormat
