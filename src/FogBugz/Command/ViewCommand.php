@@ -32,9 +32,8 @@ class ViewCommand extends AuthCommand
         $case = $input->getArgument('case');
         
         if (null == $case) {
-            // TODO: Get with current active case
-            //list($case, $title) = $this->getCurrent();
-            if ($case == null) {
+            $case = $this->app->getCurrent();
+            if ($case == null || $case == 0) {
                 $case = $dialog->ask($output, "Enter a case number: ");
             }
         }

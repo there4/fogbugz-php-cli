@@ -24,10 +24,10 @@ class LogoffCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        
         $this->app->fogbugz->logoff();
-        
         unlink($this->app->config['tokenPath']);
+        
+        $output->writeln("You've logged out.", $this->app->outputFormat);
     }
 }
 

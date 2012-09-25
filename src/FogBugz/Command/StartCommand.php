@@ -3,6 +3,8 @@ namespace FogBugz\Command;
 
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Helper\DialogHelper;
+use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
@@ -18,12 +20,100 @@ class StartCommand extends AuthCommand
         $this
             ->setName('start')
             ->setDescription('Start working on a case')
+            ->addArgument('case', InputArgument::OPTIONAL, 'Case number, will prompt if omitted..')
             ->requireAuth(true);
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app = $this->getApplication();
+        $this->app    = $this->getApplication();
+        $dialog       = new DialogHelper();
+        $case         = $input->getArgument('case');
+        $recent_cases = $this->app->getRecent();
+        
+        if ($case == null) {
+            $output->writeln("What case are you working on?", $this->app->outputFormat);
+            $strlen = 4;
+            if (!empty($recent_cases)) {
+                foreach ($recent_cases as $recent_case) {
+                  
+                  $output->writeln(
+                      sprintf(
+                          "  [%s] %s\n",
+                          $recent_case[0],
+                          substr($recent_case[1], 0, 75)
+                      ),
+                      $this->app->outputFormat
+                  );
+                  // this is just for display purposes below
+                  $strlen = strlen($recent_case[0]);
+                }
+            }
+            while ($case == null) {
+              $output->writeln(
+                  "  [" . str_repeat('#', $strlen) . "] Or type any other case number to start work",
+                  $this->app->outputFormat
+              );
+                  
+              $case = $dialog->ask($output, "Case number: ");
+            }
+        }
+        
+        try {
+            $this->app->fogbugz->startWork(array('ixBug' => $case));
+            $bug = $this->app->fogbugz->search(array(
+                'q'    => (int) $case,
+                'cols' => 'sTitle,sStatus,sLatestTextSummary'
+            ));
+            $title          = (string) $bug->cases->case->sTitle;
+            $recent_cases[] = array($case, $title);
+            $this->app->setRecent($recent_cases);
+            $output->writeln(
+                sprintf("Now working on [%d]\n  %s\n", $case, $title),
+                $this->app->outputFormat
+            );
+        }
+        catch (Exception $e) {
+          if ($e->getCode() == '7') {
+              if ($e->getMessage() == 'Case ' . $case  . ' has no estimate') {
+                  $output->writeln(
+                      sprintf("<alert>Case %s has no estimate.</alert>", $case),
+                      $this->app->outputFormat
+                  );
+                  
+                  // Deletegate to the set estimate
+                  $command = $this->getApplication()->find('estimate');
+                  $arguments = array(
+                      'command' => 'estimate',
+                      'case' => $case
+                  );
+                  $input = new ArrayInput($arguments);
+                  $returnCode = $command->run($input, $output);
+                  
+                  // TODO: confirm that this has set working and we don't need to do it again here
+              }
+              elseif ($e->getMessage() == 'Closed') {
+                  $output->writeln(
+                      sprintf("<fire>Sorry, Case %s is closed and may not have a time interval added to it.</fire>", $case),
+                      $this->app->outputFormat
+                  );
+              }
+              else {
+                  $output->writeln(
+                      sprintf("<error>%s</error>", $e->getMessage()),
+                      $this->app->outputFormat
+                  );
+              }
+          }
+          else {
+              $output->writeln(
+                  sprintf("<error>%s</error>", $e->getMessage()),
+                  $this->app->outputFormat
+              );
+          }
+          exit(1);
+        }
+
     }
 }
 

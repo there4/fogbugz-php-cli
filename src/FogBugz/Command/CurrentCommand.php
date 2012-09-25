@@ -49,13 +49,16 @@ class CurrentCommand extends AuthCommand
         }
 
         if ($case) {
-            $output->writeln(sprintf(
-                $format,
-                $case, $title
-            ));
+            $output->writeln(
+                sprintf(
+                    $format,
+                    $case, $title
+                ),
+                $this->app->outputFormat
+            );
         }
         else {
-            $output->writeln("-");
+            $output->writeln("-", $this->app->outputFormat);
         }
     }
 }
