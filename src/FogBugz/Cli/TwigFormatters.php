@@ -4,7 +4,8 @@ namespace FogBugz\Cli;
 class TwigFormatters
 {
 
-  public static function strpad($string, $length, $position = "center") {
+  public static function strpad($string, $length, $position = "center")
+  {
     switch ($position) {
       case "left":
         $padding = STR_PAD_RIGHT;
@@ -26,8 +27,9 @@ class TwigFormatters
 
     return str_pad(substr($string, 0, $length), $length, " ", $padding);
   }
-  
-  public static function style($string, $format) {
+
+  public static function style($string, $format)
+  {
     return sprintf('<%2$s>%1$s</%2$s>', $string, $format);
   }
 
