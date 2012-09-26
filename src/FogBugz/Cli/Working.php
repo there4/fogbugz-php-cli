@@ -136,7 +136,7 @@ class Working extends Application
       // Does the command require authentication?
       $name = $this->getCommandName($input);
       if (!empty($name) && $command = $this->find($name)) {
-          if ($command->requireAuth) {
+          if (property_exists($command, "requireAuth") && $command->requireAuth) {
             $simple_input = new ArgvInput(array(
                 $_SERVER['argv'][0], $_SERVER['argv'][1]
             ));
