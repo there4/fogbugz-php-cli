@@ -18,7 +18,14 @@ class CasesCommand extends AuthCommand
         $this
             ->setName('cases')
             ->setDescription('Show the cases for the current filter')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(<<<EOF
+The <info>%command.name%</info> command lists all cases in the current filter:
+
+  <info>php %command.full_name%</info>
+
+EOF
+            );
     }
     
     protected function execute(InputInterface $input, OutputInterface $output)

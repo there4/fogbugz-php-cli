@@ -24,16 +24,14 @@ class ResolveCommand extends AuthCommand
             ->addArgument('note', InputArgument::OPTIONAL, 'Message to leave on the case.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         $dialog    = new DialogHelper();
         $case      = $input->getArgument('case');
         $note      = $input->getArgument('note');
-        
-        // TODO: Add resolve command
-        
+
         // fb note "string message" and so we swap case and note
         if (!is_numeric($case)) {
             $note = $case;
@@ -48,7 +46,7 @@ class ResolveCommand extends AuthCommand
                 );
             }
         }
-    
+
         $category = $this->app->fogbugz->search(array(
             'q'    => (int) $case,
             'cols' => 'ixCategory'
@@ -68,7 +66,7 @@ class ResolveCommand extends AuthCommand
                 $this->app->outputFormat
             );
         }
-    
+
         $status = "";
         while (!is_numeric($status)) {
             $status = $dialog->ask($output, 'Enter the status from the list above: ');
@@ -76,7 +74,7 @@ class ResolveCommand extends AuthCommand
 
         // TODO: Select this from a list as well.
         $assignedto = $dialog->ask($output, "Who should the case be assigned to: ");
-        
+
         if (empty($note)) {
             $note = $dialog->ask(
                 $output,

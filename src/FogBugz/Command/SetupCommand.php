@@ -25,6 +25,9 @@ class SetupCommand extends AuthCommand
     {
         $this->app = $this->getApplication();
         // TODO: Add setup command
+        
+        // Prompt the values in the config file
+        // Display the alias to use in bash config.
     }
 }
 

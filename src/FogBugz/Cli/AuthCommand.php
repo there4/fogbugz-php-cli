@@ -10,6 +10,7 @@ class AuthCommand extends Command
   public function requireAuth($bool)
   {
     $this->requireAuth = $bool;
+    return $this;
   }
 
 }
