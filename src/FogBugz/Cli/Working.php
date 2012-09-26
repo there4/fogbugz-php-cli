@@ -73,22 +73,23 @@ class Working extends Application
   }
   
   public function getRecent() {
-      // TODO getRecent
-      return array();
+      $recentCases = Yaml::parse($this->baseDir . '/.recent.yml');
+      return is_array($recentCases) ? $recentCases : array();
   }
   
   public function pushRecent($case, $title) {
       $recentCases = $this->getRecent();
       array_push(
           $recentCases,
-          (object) array(
-              "case" => $case,
+          array(
+              "id"    => $case,
               "title" => $title
           )
       );
       // Only keep the last x number of cases in the list
       $recentCases = array_slice($recentCases, -5);
-      
+      $yaml = Yaml::dump($recentCases, true);
+      file_put_contents($this->baseDir . '/.recent.yml', $yaml);
       return true;
   }
   

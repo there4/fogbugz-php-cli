@@ -1,3 +1,4 @@
 vendor
 .config.yml
 token.txt
+.recent.yml

@@ -23,9 +23,13 @@ class RecentCommand extends AuthCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app    = $this->getApplication();
-        $recentCases = $this->app->getRecent();
-
+        $this->app   = $this->getApplication();
+        $recentCases = array(
+            // give this a namespace rather than root to make the
+            // template more clear
+            'cases' => $this->app->getRecent()
+        );
+        
         $template = $this->app->twig->loadTemplate("recent.twig");
         $view = $template->render($recentCases);
         $output->write($view, false, $this->app->outputFormat);
