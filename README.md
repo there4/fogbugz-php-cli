@@ -4,8 +4,6 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
-* Resolve command
-* Search command
 * Setup command
 
 * http://empir.sourceforge.net/ build a phar for distribution
