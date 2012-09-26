@@ -59,14 +59,17 @@ class StartCommand extends AuthCommand
         }
         
         try {
-            $this->app->fogbugz->startWork(array('ixBug' => $case));
+            // We'll go ahead and look it up, and if we find it, we'll
+            // save it to recent. Then, we'll issue the command and catch
+            // any problems with it and deal with it then.
             $bug = $this->app->fogbugz->search(array(
                 'q'    => (int) $case,
                 'cols' => 'sTitle,sStatus,sLatestTextSummary'
             ));
-            $title          = (string) $bug->cases->case->sTitle;
-            $recentCases[] = array($case, $title);
-            $this->app->setRecent($recentCases);
+            $title = (string) $bug->cases->case->sTitle;
+            $this->app->pushRecent($case, $title);
+            
+            $this->app->fogbugz->startWork(array('ixBug' => $case));
             $output->writeln(
                 sprintf("Now working on [%d]\n  %s\n", $case, $title),
                 $this->app->outputFormat
@@ -93,8 +96,7 @@ class StartCommand extends AuthCommand
                   $command->run($input, $output);
                   
                   // Now come back to start the case.
-                  $this->app->fogbugz->startWork(array('ixBug' => $case));
-                  
+                  $title = (string) $bug->cases->case->sTitle;
                   return;
               }
               elseif ($e->getMessage() == 'Closed') {

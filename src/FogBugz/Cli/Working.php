@@ -19,7 +19,6 @@ class Working extends Application
 
   public function __construct($baseDir)
   {
-  
       $this->baseDir = $baseDir;
       
       $this->tokenPath = $baseDir . "/token.txt";
@@ -78,8 +77,18 @@ class Working extends Application
       return array();
   }
   
-  public function setRecent($recentCases) {
-      // TODO setRecent
+  public function pushRecent($case, $title) {
+      $recentCases = $this->getRecent();
+      array_push(
+          $recentCases,
+          (object) array(
+              "case" => $case,
+              "title" => $title
+          )
+      );
+      // Only keep the last x number of cases in the list
+      $recentCases = array_slice($recentCases, -5);
+      
       return true;
   }
   
