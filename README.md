@@ -4,10 +4,13 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
-* Cases command
 * Resolve command
 * Search command
 * Setup command
+
+* http://empir.sourceforge.net/ build a phar for distribution
+* Status color codes
+* relocate config and recent files
 
 
 # FogBugz Command Line Client
