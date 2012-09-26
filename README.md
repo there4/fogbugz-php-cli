@@ -8,7 +8,6 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 * Resolve command
 * Search command
 * Setup command
-* Password hidden prompt
 
 
 # FogBugz Command Line Client

@@ -1,0 +1,10 @@
+
+————————————————————————————————————————————————————————————————————————————————
+<heading>  ID    Status   Est  Assigned     Title                                          </heading>
+————————————————————————————————————————————————————————————————————————————————
+{% for case in cases %}
+ {{"[%d]"|format(case.id)|style("info")|pad(6, "left")}} {{case.status|pad(9, "left")}}{{case.estimate|pad(4, "left")}}{{case.assigned|pad(12, "left")}} {{case.title|pad(46, "left")}}
+{% endfor %}
+{% if cases|length == 0%}
+  <notice>No cases for this filter</notice>
+{% endif  %}
