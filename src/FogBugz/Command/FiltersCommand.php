@@ -20,22 +20,22 @@ class FiltersCommand extends AuthCommand
             ->setDescription('List filters for the current user')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        
+
         $xml = $this->app->fogbugz->listFilters();
         $data = array("filters" => array());
-        
+
         foreach ($xml->filters->children() as $filter) {
           $data["filters"][] = array(
               "name" => (string) $filter,
               "type" => (string) $filter['type'],
-              "id"   => (int)    $filter['sFilter']
+              "id"   => (int) $filter['sFilter']
           );
         }
-        
+
         $template = $this->app->twig->loadTemplate("filters.twig");
         $view = $template->render($data);
         $output->write($view, false, $this->app->outputFormat);

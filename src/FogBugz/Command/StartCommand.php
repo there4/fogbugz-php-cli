@@ -24,14 +24,14 @@ class StartCommand extends AuthCommand
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number, will prompt if omitted..')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app   = $this->getApplication();
         $dialog      = new DialogHelper();
         $case        = $input->getArgument('case');
         $recentCases = $this->app->getRecent();
-        
+
         if ($case == null) {
             $strlen = 4;
             if (!empty($recentCases)) {
@@ -57,7 +57,7 @@ class StartCommand extends AuthCommand
                 $case = $dialog->ask($output, "Case number: ");
             }
         }
-        
+
         try {
             // We'll go ahead and look it up, and if we find it, we'll
             // save it to recent. Then, we'll issue the command and catch
@@ -68,14 +68,13 @@ class StartCommand extends AuthCommand
             ));
             $title = (string) $bug->cases->case->sTitle;
             $this->app->pushRecent($case, $title);
-            
+
             $this->app->fogbugz->startWork(array('ixBug' => $case));
             $output->writeln(
                 sprintf("Now working on [%d]\n  %s\n", $case, $title),
                 $this->app->outputFormat
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
           if ($e->getCode() == '7') {
               if ($e->getMessage() == 'Case ' . $case  . ' has no estimate') {
                   $output->writeln(
@@ -85,7 +84,7 @@ class StartCommand extends AuthCommand
                       ),
                       $this->app->outputFormat
                   );
-                  
+
                   // Deletegate to the set estimate
                   $command = $this->getApplication()->find('estimate');
                   $arguments = array(
@@ -94,12 +93,12 @@ class StartCommand extends AuthCommand
                   );
                   $input = new ArrayInput($arguments);
                   $command->run($input, $output);
-                  
+
                   // Now come back to start the case.
                   $title = (string) $bug->cases->case->sTitle;
+
                   return;
-              }
-              elseif ($e->getMessage() == 'Closed') {
+              } elseif ($e->getMessage() == 'Closed') {
                   $output->writeln(
                       sprintf(
                           "<fire>Sorry, Case %s is closed and may not "
@@ -108,15 +107,13 @@ class StartCommand extends AuthCommand
                       ),
                       $this->app->outputFormat
                   );
-              }
-              else {
+              } else {
                   $output->writeln(
                       sprintf("<error>%s</error>", $e->getMessage()),
                       $this->app->outputFormat
                   );
               }
-          }
-          else {
+          } else {
               $output->writeln(
                   sprintf("<error>%s</error>", $e->getMessage()),
                   $this->app->outputFormat

@@ -29,7 +29,7 @@ class RecentCommand extends AuthCommand
             // template more clear
             'cases' => $this->app->getRecent()
         );
-        
+
         $template = $this->app->twig->loadTemplate("recent.twig");
         $view = $template->render($recentCases);
         $output->write($view, false, $this->app->outputFormat);

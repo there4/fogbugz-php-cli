@@ -24,14 +24,14 @@ class EstimateCommand extends AuthCommand
             ->addArgument('estimate', InputArgument::OPTIONAL, 'Estimate in hours')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         $dialog    = new DialogHelper();
         $case      = $input->getArgument('case');
         $estimate  = $input->getArgument('estimate');
-        
+
         if ($case == null) {
             $case = $dialog->ask(
                 $output,
@@ -44,14 +44,13 @@ class EstimateCommand extends AuthCommand
                 "Please enter an estimate for this case in hours:"
             );
         }
-    
+
         try {
             $this->app->fogbugz->edit(array(
                 'ixBug' => $case,
                 'hrsCurrEst' => $estimate
             ));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

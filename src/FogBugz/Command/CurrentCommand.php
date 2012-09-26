@@ -3,7 +3,6 @@ namespace FogBugz\Command;
 
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -23,7 +22,7 @@ class CurrentCommand extends AuthCommand
             ->addArgument('format', InputArgument::OPTIONAL, 'Output format, in sprintf format.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
@@ -33,13 +32,13 @@ class CurrentCommand extends AuthCommand
         $title  = null;
         $xml    = $this->app->fogbugz->viewPerson(array('sEmail' => $this->app->fogbugz->user));
         $bug_id = $xml->people->person->ixBugWorkingOn;
-        
+
         if (!empty($bug_id) && (0 != $bug_id)) {
             $bug = $this->app->fogbugz->search(array(
                 'q'    => (int) $bug_id,
                 'cols' => 'sTitle,sStatus'
             ));
-            
+
             $case  = (int) $bug_id;
             $title = (string) $bug->cases->case->sTitle;
         }
@@ -56,8 +55,7 @@ class CurrentCommand extends AuthCommand
                 ),
                 $this->app->outputFormat
             );
-        }
-        else {
+        } else {
             $output->writeln("-", $this->app->outputFormat);
         }
     }

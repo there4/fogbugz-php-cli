@@ -20,7 +20,7 @@ class VersionCommand extends AuthCommand
             ->setDescription('Show version information')
             ->requireAuth(false);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();

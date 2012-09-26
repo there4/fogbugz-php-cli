@@ -5,7 +5,6 @@ use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
-use Symfony\Component\Console\Helper\FormatterHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class ViewCommand extends AuthCommand
@@ -23,21 +22,21 @@ class ViewCommand extends AuthCommand
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number, defaults to current active case.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         $dialog = new DialogHelper();
-        
+
         $case = $input->getArgument('case');
-        
+
         if (null == $case) {
             $case = $this->app->getCurrent();
             if ($case == null || $case == 0) {
                 $case = $dialog->ask($output, "Enter a case number: ");
             }
         }
-    
+
         try {
           $bug = $this->app->fogbugz->search(array(
               'q'    => (int) $case,
@@ -46,15 +45,14 @@ class ViewCommand extends AuthCommand
                         . 'dtOpened,dtResolved,dtClosed,dtLastUpdated,'
                         . 'sFixFor,ixBugParent'
           ));
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat
             );
             exit(1);
         }
-        
+
         if (0 == $bug->cases['count']) {
             $output->writeln(
                 sprintf("<error>Unable to retrieve [%d]</error>", $case),
@@ -62,7 +60,7 @@ class ViewCommand extends AuthCommand
             );
             exit(1);
         }
-        
+
         // extract the case to local vars and then include the template
         $info = $bug->cases->case;
         $data = array();
@@ -70,14 +68,14 @@ class ViewCommand extends AuthCommand
             $data[$property] = (string) $value;
         }
         $data['host'] = $this->app->fogbugz->url;
-        
+
         if ($data['ixBugParent'] == 0) {
           $data['ixBugParent'] = '—';
         }
-        
+
         $data['statusFormat'] = "info";
         // TODO statusFormat select based on open/closed, template is ready.
-        
+
         $template = $this->app->twig->loadTemplate("info.twig");
         $view = $template->render($data);
         $output->write($view, false, $this->app->outputFormat);

@@ -24,7 +24,7 @@ class NoteCommand extends AuthCommand
             ->addArgument('note', InputArgument::OPTIONAL, 'Message to leave on the case.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
@@ -40,14 +40,14 @@ class NoteCommand extends AuthCommand
                 $case = $dialog->ask($output, "Enter a case number:");
             }
         }
-        
+
         if (empty($note)) {
             $note = $dialog->ask(
                 $output,
                 sprintf("Please supply a note for Case %d:\n", $case)
             );
         }
-        
+
         try {
             $this->app->fogbugz->edit(array(
                 'ixBug'  => $case,
@@ -57,8 +57,7 @@ class NoteCommand extends AuthCommand
                 sprintf("Left a note on case %s",$case),
                 $this->app->outputFormat
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

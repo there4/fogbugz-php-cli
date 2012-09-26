@@ -20,14 +20,13 @@ class StopCommand extends AuthCommand
             ->setDescription('Stop your current working case.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         try {
             $this->app->fogbugz->stopWork();
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

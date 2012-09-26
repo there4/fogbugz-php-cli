@@ -24,13 +24,13 @@ class SetFilterCommand extends AuthCommand
             ->addArgument('filter', InputArgument::OPTIONAL, 'Filter number, if omitted a list is displayed.')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         $dialog    = new DialogHelper();
         $filter    = $input->getArgument('filter');
-        
+
         if (null === $filter) {
             $command = $this->getApplication()->find('filters');
             $arguments = array(
@@ -40,8 +40,8 @@ class SetFilterCommand extends AuthCommand
             $command->run($input, $output);
 
             $filter = $dialog->ask($output, "Enter a filter number: ");
-        }    
-        
+        }
+
         $this->app->fogbugz->setCurrentFilter(array('sFilter' => $filter));
 
         $output->writeln(

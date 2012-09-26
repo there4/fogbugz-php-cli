@@ -20,7 +20,7 @@ class LogoutCommand extends AuthCommand
             ->setDescription('End the session with FogBugz')
             ->requireAuth(false);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
@@ -28,7 +28,7 @@ class LogoutCommand extends AuthCommand
           $this->app->fogbugz->logoff();
         }
         unlink($this->app->tokenPath);
-        
+
         $output->writeln("You've logged out.", $this->app->outputFormat);
     }
 }

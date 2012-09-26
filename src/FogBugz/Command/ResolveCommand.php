@@ -38,8 +38,7 @@ class ResolveCommand extends AuthCommand
             $case = $this->app->getCurrent();
             if (empty($case)) {
                 $case = $dialog->ask($output, "Enter a case number:");
-            }
-            else {
+            } else {
                 $output->writeln(
                     sprintf("<notice>Resolving current Case %d.</notice>", $case),
                     $this->app->outputFormat
@@ -95,8 +94,7 @@ class ResolveCommand extends AuthCommand
                 "Resolved case %s\n",
                 $case
             );
-        }
-        catch (Exception $e) {
+        } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

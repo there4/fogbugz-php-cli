@@ -20,12 +20,12 @@ class SetupCommand extends AuthCommand
             ->setDescription('Configure this FogBugz client')
             ->requireAuth(true);
     }
-    
+
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
         // TODO: Add setup command
-        
+
         // Prompt the values in the config file
         // Display the alias to use in bash config.
     }

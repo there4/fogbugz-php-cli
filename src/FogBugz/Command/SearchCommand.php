@@ -43,7 +43,7 @@ class SearchCommand extends AuthCommand
 
         foreach ($xml->cases->children() as $case) {
           $data["cases"][] = array(
-              "id"       => (int)    $case->ixBug,
+              "id"       => (int) $case->ixBug,
               "status"   => (string) $case->sStatus,
               "statusFormat" => "info", // TODO: Status color
               "title"    => (string) $case->sTitle,

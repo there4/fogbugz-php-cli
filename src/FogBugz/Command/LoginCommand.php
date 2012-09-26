@@ -33,7 +33,7 @@ class LoginCommand extends AuthCommand
           touch($this->app->tokenPath);
           $this->app->fogbugz = new FogBugz\Api($tokenInfo->user, '', $tokenInfo->host);
           $this->app->fogbugz->token = $tokenInfo->token;
-          
+
           // TODO: Test this token, and re-prompt if it fails
           return;
         }
@@ -62,8 +62,7 @@ class LoginCommand extends AuthCommand
                 $this->app->tokenPath,
                 $tokenFile
             );
-        }
-        catch(FogBugz\ApiLogonError $e) {
+        } catch (FogBugz\ApiLogonError $e) {
             $output->writeln("\n<error>" . $e->getMessage() . "</error>\n");
             exit(1);
         }
@@ -71,7 +70,7 @@ class LoginCommand extends AuthCommand
         // Write the config and the token out to the config file
 
     }
-    
+
     /**
      * Interactively prompts for input without echoing to the terminal.
      * Requires a bash shell or Windows and won't work with
@@ -79,7 +78,8 @@ class LoginCommand extends AuthCommand
      *
      * @see http://www.sitepoint.com/interactive-cli-password-prompt-in-php/
      */
-    function prompt_silent($prompt = "Enter Password:") {
+    public function prompt_silent($prompt = "Enter Password:")
+    {
       if (preg_match('/^win/i', PHP_OS)) {
         $vbscript = sys_get_temp_dir() . 'prompt_password.vbs';
         file_put_contents(
@@ -89,11 +89,13 @@ class LoginCommand extends AuthCommand
         $command = "cscript //nologo " . escapeshellarg($vbscript);
         $password = rtrim(shell_exec($command));
         unlink($vbscript);
+
         return $password;
       } else {
         $command = "/usr/bin/env bash -c 'echo OK'";
         if (rtrim(shell_exec($command)) !== 'OK') {
           trigger_error("Can't invoke bash");
+
           return;
         }
         $command = "/usr/bin/env bash -c 'read -s -p \""
@@ -101,6 +103,7 @@ class LoginCommand extends AuthCommand
           . "\" mypassword && echo \$mypassword'";
         $password = rtrim(shell_exec($command));
         echo "\n";
+
         return $password;
       }
     }
