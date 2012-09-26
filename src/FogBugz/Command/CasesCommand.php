@@ -24,6 +24,7 @@ class CasesCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
+        // TODO: Add cases command
     }
 }
 
