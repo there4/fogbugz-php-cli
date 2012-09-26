@@ -6,7 +6,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-class LogoffCommand extends AuthCommand
+class LogoutCommand extends AuthCommand
 {
     public function __construct()
     {
@@ -16,7 +16,7 @@ class LogoffCommand extends AuthCommand
     protected function configure()
     {
         $this
-            ->setName('logoff')
+            ->setName('logout')
             ->setDescription('End the session with FogBugz')
             ->requireAuth(false);
     }
@@ -24,11 +24,13 @@ class LogoffCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        $this->app->fogbugz->logoff();
-        unlink($this->app->config['tokenPath']);
+        if (property_exists($this->app, "fogbugz")) {
+          $this->app->fogbugz->logoff();
+        }
+        unlink($this->app->tokenPath);
         
         $output->writeln("You've logged out.", $this->app->outputFormat);
     }
 }
 
-/* End of file LogoffCommand.php */
+/* End of file LogoutCommand.php */

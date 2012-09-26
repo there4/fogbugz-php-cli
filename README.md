@@ -2,6 +2,15 @@
 
 This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
+## TODO
+
+* Cases command
+* Resolve command
+* Search command
+* Setup command
+* Password hidden prompt
+
+
 # FogBugz Command Line Client
 
 A simple command line client application that can be used to manage your FogBugz
