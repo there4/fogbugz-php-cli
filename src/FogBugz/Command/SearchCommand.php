@@ -55,7 +55,7 @@ class SearchCommand extends AuthCommand
             $data["cases"][] = array(
                 "id"           => (int) $case->ixBug,
                 "status"       => (string) $case->sStatus,
-                "statusFormat" => "info", // TODO: Status color
+                "statusFormat" => $this->app->statusStyle((string) $case->sStatus),
                 "title"        => $title,
                 "estimate"     => (string) $case->hrsCurrEst,
                 "assigned"     => (string) $case->sPersonAssignedTo

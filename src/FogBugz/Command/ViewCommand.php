@@ -79,8 +79,7 @@ class ViewCommand extends AuthCommand
             $data['ixBugParent'] = '—';
         }
 
-        // TODO statusFormat select based on open/closed, template is ready.
-        $data['statusFormat'] = "info";
+        $data['statusFormat'] = $this->app->statusStyle($data['sStatus']);
 
         $template = $this->app->twig->loadTemplate("info.twig");
         $view = $template->render($data);

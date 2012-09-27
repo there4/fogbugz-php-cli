@@ -47,19 +47,16 @@ class OpenCommand extends AuthCommand
             case 'Darwin':
                 exec("open $url");
                 break;
-                
             case 'WIN32':
             case 'WINNT':
                 exec("cmd /c \"start $url\"");
                 break;
-                
             case 'Linux':
             case 'Unix':
             case 'NetBSD':
             case 'OpenBSD':
                 exec("xdg-open $url");
                 break;
-
             default:
                 $output->writeln(
                     "<error>Your operating system (" . PHP_OS .") isn't supported for the open command.</error>",

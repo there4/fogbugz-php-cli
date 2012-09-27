@@ -166,6 +166,19 @@ class Working extends Application
         return $output;
     }
 
+    public function statusStyle($status)
+    {
+        switch (true) {
+            case (strpos(strtolower($status), 'closed') === 0):
+                return 'alert';
+            case (strpos(strtolower($status), 'open') === 0):
+            case (strpos(strtolower($status), 'active') === 0):
+                return 'logo';
+            // fallthrough to final return
+        }
+        return "info";
+    }
+
     public function run(InputInterface $input = null, OutputInterface $output = null)
     {
         if (null === $input) {

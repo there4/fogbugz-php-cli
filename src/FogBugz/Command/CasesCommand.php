@@ -41,12 +41,12 @@ EOF
 
         foreach ($xml->cases->children() as $case) {
             $data["cases"][] = array(
-                "id"       => (int) $case->ixBug,
-                "status"   => (string) $case->sStatus,
-                "statusFormat" => "info", // TODO: Status color
-                "title"    => (string) $case->sTitle,
-                "estimate" => (string) $case->hrsCurrEst,
-                "assigned" => (string) $case->sPersonAssignedTo
+                "id"           => (int) $case->ixBug,
+                "status"       => (string) $case->sStatus,
+                "statusFormat" => $this->app->statusStyle((string) $case->sStatus),
+                "title"        => (string) $case->sTitle,
+                "estimate"     => (string) $case->hrsCurrEst,
+                "assigned"     => (string) $case->sPersonAssignedTo
             );
         }
 
