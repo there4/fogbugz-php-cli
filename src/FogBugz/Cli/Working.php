@@ -180,7 +180,8 @@ class Working extends Application
                 $simple_input = new ArgvInput(
                     array(
                         $_SERVER['argv'][0],
-                        $_SERVER['argv'][1]
+                        $_SERVER['argv'][1],
+                        "--quiet"
                     )
                 );
                 $login = $this->find('login');

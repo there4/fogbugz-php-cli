@@ -6,6 +6,7 @@ use There4\FogBugz;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 class LoginCommand extends AuthCommand
@@ -33,6 +34,13 @@ class LoginCommand extends AuthCommand
             touch($this->app->tokenPath);
             $this->app->fogbugz = new FogBugz\Api($tokenInfo->user, '', $tokenInfo->host);
             $this->app->fogbugz->token = $tokenInfo->token;
+
+            if (!$input->getOption('quiet')) {
+                $output->writeln(
+                    "You're aleady in as <info>". $tokenInfo->user
+                    . "</info>.\nUse the logout command to terminate this session."
+                );
+            }
 
             // TODO: Test this token, and re-prompt if it fails
             return;
@@ -64,6 +72,8 @@ class LoginCommand extends AuthCommand
                 $this->app->tokenPath,
                 $tokenFile
             );
+
+            $output->writeln("<info>You're in. Use the logout command to terminate this session.</info>");
         } catch (FogBugz\ApiLogonError $e) {
             $output->writeln("\n<error>" . $e->getMessage() . "</error>\n");
             exit(1);
