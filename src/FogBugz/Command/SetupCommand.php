@@ -26,8 +26,25 @@ class SetupCommand extends AuthCommand
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app    = $this->getApplication();
-        $this->config = Yaml::parse($this->app->baseDir . '/.config.yml');
+        
+        // TODO: this should be config dir
+        if (file_exists($this->app->baseDir . '/.config.yml')) {
+            $this->config = Yaml::parse($this->app->baseDir . '/.config.yml');
+        }
+        else {
+            $this->config = Yaml::parse($this->app->baseDir . '/.config.defaults.yml');
+        }
+        
         $dialog       = new DialogHelper();
+
+        $output->writeln(
+                sprintf(
+                    "%s\n<logo>%s</logo>\n". '%1$s' . "\n",
+                    str_repeat("—", 80),
+                    str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH)
+                ),
+                $this->app->outputFormat
+            );
 
         // Prompt the values in the config file
         $question = "Config file path";
@@ -47,7 +64,6 @@ class SetupCommand extends AuthCommand
         $yaml = Yaml::dump($this->config, true);
         file_put_contents($this->app->baseDir . '/.config.yml', $yaml);
 
-        
         // Display the alias to use in bash config.
     }
 }

@@ -119,11 +119,17 @@ class Working extends Application
       $style = new OutputFormatterStyle('blue', 'black', array());
       $output->getFormatter()->setStyle('notice', $style);
 
-      $style = new OutputFormatterStyle('red', 'black', array());
+      $style = new OutputFormatterStyle('red', 'black', array('bold'));
       $output->getFormatter()->setStyle('alert', $style);
+
+      $style = new OutputFormatterStyle('white', 'black', array('bold'));
+      $output->getFormatter()->setStyle('bold', $style);
 
       $style = new OutputFormatterStyle('black', 'white', array());
       $output->getFormatter()->setStyle('heading', $style);
+
+      $style = new OutputFormatterStyle('blue', 'black', array('bold'));
+      $output->getFormatter()->setStyle('logo', $style);
 
       return $output;
   }

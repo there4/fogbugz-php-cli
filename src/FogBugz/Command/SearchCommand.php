@@ -42,19 +42,28 @@ class SearchCommand extends AuthCommand
         $data = array("cases" => array());
 
         foreach ($xml->cases->children() as $case) {
+          
+          // Colorize the search term in the title
+          $title = (string) $case->sTitle;
+          $title = str_ireplace(
+              $keyword,
+              sprintf("<fire>%s</fire>", strtoupper($keyword)),
+              $title
+          );
+          
           $data["cases"][] = array(
-              "id"       => (int) $case->ixBug,
-              "status"   => (string) $case->sStatus,
+              "id"           => (int) $case->ixBug,
+              "status"       => (string) $case->sStatus,
               "statusFormat" => "info", // TODO: Status color
-              "title"    => (string) $case->sTitle,
-              "estimate" => (string) $case->hrsCurrEst,
-              "assigned" => (string) $case->sPersonAssignedTo
+              "title"        => $title,
+              "estimate"     => (string) $case->hrsCurrEst,
+              "assigned"     => (string) $case->sPersonAssignedTo
           );
         }
 
         $template = $this->app->twig->loadTemplate("cases.twig");
         $view = $template->render($data);
-        $output->write($view, false, $this->app->outputFormat);
+        $output->write($view, true, $this->app->outputFormat);
     }
 }
 
