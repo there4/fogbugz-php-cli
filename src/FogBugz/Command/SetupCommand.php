@@ -4,7 +4,6 @@ namespace FogBugz\Command;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
-use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
@@ -25,26 +24,24 @@ class SetupCommand extends AuthCommand
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $this->app    = $this->getApplication();
-        
+        $this->app = $this->getApplication();
+        $dialog    = new DialogHelper();
+
         // TODO: this should be config dir
         if (file_exists($this->app->baseDir . '/.config.yml')) {
             $this->config = Yaml::parse($this->app->baseDir . '/.config.yml');
-        }
-        else {
+        } else {
             $this->config = Yaml::parse($this->app->baseDir . '/.config.defaults.yml');
         }
-        
-        $dialog       = new DialogHelper();
 
         $output->writeln(
-                sprintf(
-                    "%s\n<logo>%s</logo>\n". '%1$s' . "\n",
-                    str_repeat("—", 80),
-                    str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH)
-                ),
-                $this->app->outputFormat
-            );
+            sprintf(
+                "%s\n<logo>%s</logo>\n". '%1$s' . "\n",
+                str_repeat("—", 80),
+                str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH)
+            ),
+            $this->app->outputFormat
+        );
 
         // Prompt the values in the config file
         $question = "Config file path";
@@ -57,10 +54,10 @@ class SetupCommand extends AuthCommand
         $question .= "): ";
         $useColor = $dialog->ask($output, $question, $this->config['UseColor']);
         $this->config['UseColor'] = (strtolower($useColor[0]) == 'y');
-        
+
         // Put the version number into the config
         $this->config['ConfigVersion'] = $this->app->project->version;
-        
+
         $yaml = Yaml::dump($this->config, true);
         file_put_contents($this->app->baseDir . '/.config.yml', $yaml);
 

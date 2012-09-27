@@ -36,10 +36,12 @@ class ParentCommand extends AuthCommand
         }
 
         try {
-            $bug = $this->app->fogbugz->search(array(
-                'q'    => (int) $case,
-                'cols' => 'ixBugParent'
-            ));
+            $bug = $this->app->fogbugz->search(
+                array(
+                    'q'    => (int) $case,
+                    'cols' => 'ixBugParent'
+                )
+            );
         } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),

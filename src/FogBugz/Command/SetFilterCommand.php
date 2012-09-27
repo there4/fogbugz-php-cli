@@ -21,7 +21,11 @@ class SetFilterCommand extends AuthCommand
         $this
             ->setName('setfilter')
             ->setDescription('Set a FogBugz search filter')
-            ->addArgument('filter', InputArgument::OPTIONAL, 'Filter number, if omitted a list is displayed.')
+            ->addArgument(
+                'filter',
+                InputArgument::OPTIONAL,
+                'Filter number, if omitted a list is displayed.'
+            )
             ->requireAuth(true);
     }
 
@@ -46,9 +50,10 @@ class SetFilterCommand extends AuthCommand
 
         $output->writeln(
             sprintf(
-                  "Set the current active filter to: %s",
-                  $filter
-            ), $this->app->outputFormat
+                "Set the current active filter to: %s",
+                $filter
+            ),
+            $this->app->outputFormat
         );
     }
 }

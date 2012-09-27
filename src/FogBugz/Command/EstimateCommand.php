@@ -46,10 +46,12 @@ class EstimateCommand extends AuthCommand
         }
 
         try {
-            $this->app->fogbugz->edit(array(
-                'ixBug' => $case,
-                'hrsCurrEst' => $estimate
-            ));
+            $this->app->fogbugz->edit(
+                array(
+                    'ixBug' => $case,
+                    'hrsCurrEst' => $estimate
+                )
+            );
         } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
@@ -62,7 +64,8 @@ class EstimateCommand extends AuthCommand
         $output->writeln(
             sprintf(
                 "Set estimate on <info>Case %s</info> to <info>%s hours</info>.",
-                $case, $estimate
+                $case,
+                $estimate
             ),
             $this->app->outputFormat
         );

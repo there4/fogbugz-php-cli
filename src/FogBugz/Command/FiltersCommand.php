@@ -29,11 +29,11 @@ class FiltersCommand extends AuthCommand
         $data = array("filters" => array());
 
         foreach ($xml->filters->children() as $filter) {
-          $data["filters"][] = array(
-              "name" => (string) $filter,
-              "type" => (string) $filter['type'],
-              "id"   => (int) $filter['sFilter']
-          );
+            $data["filters"][] = array(
+                "name" => (string) $filter,
+                "type" => (string) $filter['type'],
+                "id"   => (int) $filter['sFilter']
+            );
         }
 
         $template = $this->app->twig->loadTemplate("filters.twig");

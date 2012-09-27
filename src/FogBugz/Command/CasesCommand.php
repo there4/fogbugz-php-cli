@@ -19,7 +19,8 @@ class CasesCommand extends AuthCommand
             ->setName('cases')
             ->setDescription('Show the cases for the current filter')
             ->requireAuth(true)
-            ->setHelp(<<<EOF
+            ->setHelp(
+<<<EOF
 The <info>%command.name%</info> command lists all cases in the current filter:
 
   <info>php %command.full_name%</info>
@@ -31,20 +32,22 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
-        $xml = $this->app->fogbugz->search(array(
-            'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
-        ));
+        $xml = $this->app->fogbugz->search(
+            array(
+                'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
+            )
+        );
         $data = array("cases" => array());
 
         foreach ($xml->cases->children() as $case) {
-          $data["cases"][] = array(
-              "id"       => (int) $case->ixBug,
-              "status"   => (string) $case->sStatus,
-              "statusFormat" => "info", // TODO: Status color
-              "title"    => (string) $case->sTitle,
-              "estimate" => (string) $case->hrsCurrEst,
-              "assigned" => (string) $case->sPersonAssignedTo
-          );
+            $data["cases"][] = array(
+                "id"       => (int) $case->ixBug,
+                "status"   => (string) $case->sStatus,
+                "statusFormat" => "info", // TODO: Status color
+                "title"    => (string) $case->sTitle,
+                "estimate" => (string) $case->hrsCurrEst,
+                "assigned" => (string) $case->sPersonAssignedTo
+            );
         }
 
         $template = $this->app->twig->loadTemplate("cases.twig");

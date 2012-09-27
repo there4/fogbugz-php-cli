@@ -19,7 +19,11 @@ class ViewCommand extends AuthCommand
         $this
             ->setName('view')
             ->setDescription('View a Case')
-            ->addArgument('case', InputArgument::OPTIONAL, 'Case number, defaults to current active case.')
+            ->addArgument(
+                'case',
+                InputArgument::OPTIONAL,
+                'Case number, defaults to current active case.'
+            )
             ->requireAuth(true);
     }
 
@@ -38,13 +42,15 @@ class ViewCommand extends AuthCommand
         }
 
         try {
-          $bug = $this->app->fogbugz->search(array(
-              'q'    => (int) $case,
-              'cols' => 'ixBug,sTitle,sStatus,sLatestTextSummary,sProject,sArea,'
-                        . 'sPersonAssignedTo,sStatus,sPriority,sCategory,'
-                        . 'dtOpened,dtResolved,dtClosed,dtLastUpdated,'
-                        . 'sFixFor,ixBugParent'
-          ));
+            $bug = $this->app->fogbugz->search(
+                array(
+                    'q'    => (int) $case,
+                    'cols' => 'ixBug,sTitle,sStatus,sLatestTextSummary,'
+                              . 'sProject,sArea,sPersonAssignedTo,sStatus,'
+                              . 'sPriority,sCategory,dtOpened,dtResolved,'
+                              . 'dtClosed,dtLastUpdated,sFixFor,ixBugParent'
+                    )
+            );
         } catch (Exception $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
@@ -70,11 +76,11 @@ class ViewCommand extends AuthCommand
         $data['host'] = $this->app->fogbugz->url;
 
         if ($data['ixBugParent'] == 0) {
-          $data['ixBugParent'] = '—';
+            $data['ixBugParent'] = '—';
         }
 
-        $data['statusFormat'] = "info";
         // TODO statusFormat select based on open/closed, template is ready.
+        $data['statusFormat'] = "info";
 
         $template = $this->app->twig->loadTemplate("info.twig");
         $view = $template->render($data);

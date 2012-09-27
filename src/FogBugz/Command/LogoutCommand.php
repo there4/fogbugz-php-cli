@@ -25,7 +25,7 @@ class LogoutCommand extends AuthCommand
     {
         $this->app = $this->getApplication();
         if (property_exists($this->app, "fogbugz")) {
-          $this->app->fogbugz->logoff();
+            $this->app->fogbugz->logoff();
         }
         unlink($this->app->tokenPath);
 

@@ -46,15 +46,19 @@ class ResolveCommand extends AuthCommand
             }
         }
 
-        $category = $this->app->fogbugz->search(array(
-            'q'    => (int) $case,
-            'cols' => 'ixCategory'
-        ));
+        $category = $this->app->fogbugz->search(
+            array(
+                'q'    => (int) $case,
+                'cols' => 'ixCategory'
+            )
+        );
         $category = (int) $category->cases->case->ixCategory;
-        $statuses = $this->app->fogbugz->listStatuses(array(
-            'fResolved'  => 1,
-            'ixCategory' => (int) $category
-        ));
+        $statuses = $this->app->fogbugz->listStatuses(
+            array(
+                'fResolved'  => 1,
+                'ixCategory' => (int) $category
+            )
+        );
         foreach ($statuses->statuses->status as $status) {
             $output->writeln(
                 sprintf(

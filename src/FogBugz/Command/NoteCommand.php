@@ -49,12 +49,14 @@ class NoteCommand extends AuthCommand
         }
 
         try {
-            $this->app->fogbugz->edit(array(
-                'ixBug'  => $case,
-                'sEvent' => $note
-            ));
+            $this->app->fogbugz->edit(
+                array(
+                    'ixBug'  => $case,
+                    'sEvent' => $note
+                )
+            );
             $output->writeln(
-                sprintf("Left a note on case %s",$case),
+                sprintf("Left a note on case %s", $case),
                 $this->app->outputFormat
             );
         } catch (Exception $e) {

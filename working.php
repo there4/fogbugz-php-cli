@@ -3,7 +3,7 @@
 
 // If the dependencies aren't installed, we have to bail and offer some help.
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
-  exit("\nPlease run `composer install` to install dependencies.\n\n");
+    exit("\nPlease run `composer install` to install dependencies.\n\n");
 }
 
 // Bootstrap our Silex application with the Composer autoloader

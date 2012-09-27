@@ -35,30 +35,31 @@ class SearchCommand extends AuthCommand
             $keyword = $dialog->ask($output, "Enter a search string: ");
         }
 
-        $xml = $this->app->fogbugz->search(array(
-            'q' => $keyword,
-            'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
-        ));
+        $xml = $this->app->fogbugz->search(
+            array(
+                'q' => $keyword,
+                'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
+            )
+        );
         $data = array("cases" => array());
 
         foreach ($xml->cases->children() as $case) {
-          
-          // Colorize the search term in the title
-          $title = (string) $case->sTitle;
-          $title = str_ireplace(
-              $keyword,
-              sprintf("<fire>%s</fire>", strtoupper($keyword)),
-              $title
-          );
-          
-          $data["cases"][] = array(
-              "id"           => (int) $case->ixBug,
-              "status"       => (string) $case->sStatus,
-              "statusFormat" => "info", // TODO: Status color
-              "title"        => $title,
-              "estimate"     => (string) $case->hrsCurrEst,
-              "assigned"     => (string) $case->sPersonAssignedTo
-          );
+            // Colorize the search term in the title
+            $title = (string) $case->sTitle;
+            $title = str_ireplace(
+                $keyword,
+                sprintf("<fire>%s</fire>", strtoupper($keyword)),
+                $title
+            );
+
+            $data["cases"][] = array(
+                "id"           => (int) $case->ixBug,
+                "status"       => (string) $case->sStatus,
+                "statusFormat" => "info", // TODO: Status color
+                "title"        => $title,
+                "estimate"     => (string) $case->hrsCurrEst,
+                "assigned"     => (string) $case->sPersonAssignedTo
+            );
         }
 
         $template = $this->app->twig->loadTemplate("cases.twig");
