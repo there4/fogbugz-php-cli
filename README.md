@@ -20,7 +20,7 @@ account, working on status, read cases, and leave short notes.
 
 ## Help
 
-    FogBugz Command Line Client version 1.0.0
+    FogBugz Command Line Client version 1.0.0 by Craig Davis
     
     Usage:
       [options] command [arguments]
@@ -44,6 +44,7 @@ account, working on status, read cases, and leave short notes.
       login       Establish a session with FogBugz
       logout      End the session with FogBugz
       note        Leave a note on a case
+      open        Open a case in your local browser
       parent      View a Parent Case
       recent      Show cases you've recently worked on.
       resolve     Resolve a case

@@ -81,7 +81,7 @@ class Working extends Application
             $command->run($input, new ConsoleOutput());
         }
     }
-    
+
     public function getLongVersion()
     {
         return parent::getLongVersion().' by <comment>Craig Davis</comment>';
