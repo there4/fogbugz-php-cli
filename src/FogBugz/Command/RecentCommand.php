@@ -25,9 +25,8 @@ class RecentCommand extends AuthCommand
     {
         $this->app   = $this->getApplication();
         $recentCases = array(
-            // give this a namespace rather than root to make the
-            // template more clear
-            'cases' => $this->app->getRecent()
+            'cases'   => $this->app->getRecent(),
+            'current' => $this->app->getCurrent()
         );
 
         $template = $this->app->twig->loadTemplate("recent.twig");

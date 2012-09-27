@@ -2,9 +2,8 @@
 <heading> ID       Title                                                                 </heading>
 ————————————————————————————————————————————————————————————————————————————————
 {% for case in cases %}
- {{"[%d]"|format(case.id)|style("info")|pad(10, "left")}}{{case.title|pad(60, "left")}}
+{% if case.id == current%}*{% else %} {% endif %}{{"[%d]"|format(case.id)|style("info")|pad(10, "left")}}{{case.title|pad(60, "left")}}
 {% endfor %}
 {% if cases|length == 0%}
   <notice>No recent cases from this application</notice>
-
 {% endif  %}

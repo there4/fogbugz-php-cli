@@ -9,6 +9,7 @@ use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArgvInput;
+use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Yaml\Yaml;
 
 class Working extends Application
@@ -19,18 +20,21 @@ class Working extends Application
 
     public function __construct($baseDir)
     {
-        $this->baseDir = $baseDir;
-
+        $this->baseDir   = $baseDir;
         $this->tokenPath = $baseDir . "/token.txt";
+        $runSetup        = false;
 
         // Add the composer information for use in version info and such.
         $this->project = json_decode(file_get_contents($baseDir . '/composer.json'));
 
         // Load our application config information
-        if (!file_exists($baseDir . '/.config.yml')) {
-            copy($baseDir . '/.config.dist.yml', $baseDir . '/.config.yml');
+        if (file_exists($baseDir . '/.config.yml')) {
+            $this->config = Yaml::parse($baseDir . '/.config.yml');
+        } else {
+            $runSetup = true;
+            $this->config = $this->getDefaultConfig();
         }
-        $this->config = Yaml::parse($baseDir . '/.config.yml');
+
 
         // We do this now because we've loaded the project info from the composer file
         parent::__construct($this->project->description, $this->project->version);
@@ -63,8 +67,28 @@ class Working extends Application
         $this->twig->addFilter('repeat', new \Twig_Filter_Function("str_repeat"));
         $this->twig->addFilter('wrap', new \Twig_Filter_Function("wordwrap"));
 
-        // TODO: If the config file is empty, run the setup script here
-        // TODO: If the config file version is a different major number, run the setup script here
+        // If the config file is empty, run the setup script here
+        // If the config file version is a different major number, run the setup script here
+        $currentVersion = explode('.', $this->project->version);
+        $configVersion  = explode('.', $this->config['ConfigVersion']);
+        $majorVersionChange = $currentVersion[0] != $configVersion[0];
+        if ($runSetup || $majorVersionChange ) {
+            $command = $this->find('setup');
+            $arguments = array(
+                'command' => 'setup'
+            );
+            $input = new ArrayInput($arguments);
+            $command->run($input, new ConsoleOutput());
+        }
+    }
+
+    public function getDefaultConfig()
+    {
+        return array(
+            'ConfigDir'     => '~/.fogbugz',
+            'ConfigVersion' => '0.0.1',
+            'UseColor'      => true
+        );
     }
 
     public function getCurrent($user = '')

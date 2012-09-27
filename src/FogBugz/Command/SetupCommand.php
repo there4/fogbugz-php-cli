@@ -31,7 +31,7 @@ class SetupCommand extends AuthCommand
         if (file_exists($this->app->baseDir . '/.config.yml')) {
             $this->config = Yaml::parse($this->app->baseDir . '/.config.yml');
         } else {
-            $this->config = Yaml::parse($this->app->baseDir . '/.config.defaults.yml');
+            $this->config = $this->app->getDefaultConfig();
         }
 
         $output->writeln(
@@ -60,6 +60,8 @@ class SetupCommand extends AuthCommand
 
         $yaml = Yaml::dump($this->config, true);
         file_put_contents($this->app->baseDir . '/.config.yml', $yaml);
+
+        $this->app->config = $this->config;
 
         // Display the alias to use in bash config.
     }

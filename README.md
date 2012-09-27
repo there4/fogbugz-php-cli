@@ -4,9 +4,9 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
+* Relocate config and recent files
 * In recent command, asterisks next to the current case
 * Status color codes
-* Relocate config and recent files
 * http://empir.sourceforge.net/ build a phar for distribution
   https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Util/Compiler.php
   https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Console/Command/SelfUpdateCommand.php
