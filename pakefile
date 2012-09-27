@@ -1,0 +1,17 @@
+<?php
+
+pake_desc('Check the code for psr2 standards');
+pake_task('sniff');
+function run_sniff()
+{
+    passthru("phpcs -p --standard=PSR2 ./src/ ./working.php");
+}
+
+pake_desc('Run php-cs-fixer on the src directory');
+pake_task('fixer');
+function run_fixer()
+{
+    passthru("php-cs-fixer fix ./working.php && php-cs-fixer fix ./src/FogBugz/Cli/ && php-cs-fixer fix ./src/FogBugz/Command/");
+}
+
+/* End of pakefile */
