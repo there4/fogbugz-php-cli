@@ -39,9 +39,9 @@ class EstimateCommand extends AuthCommand
             );
         }
         if ($estimate == null) {
-            $case = $dialog->ask(
+            $estimate = $dialog->ask(
                 $output,
-                "Please enter an estimate for this case in hours:"
+                "Please enter an estimate for this case in hours: "
             );
         }
 
