@@ -17,10 +17,11 @@ pake_alias('default', 'sniff');
 function run_build()
 {
     passthru(
-        'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
+        'rm -f fb && '
+        . 'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
         . '*.git/*|*test*|*Tests*|*.md|*/doc/*|*.lock|*token.txt|pakefile'
         . '|.*|build/*|*.markdown|*.phar|LICENSE|AUTHORS|CHANGELOG'
-        . '"'
+        . '" && chmod a+x fb.phar && mv fb.phar fb'
     );
 }
 

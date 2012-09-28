@@ -1,4 +1,3 @@
-#!/usr/bin/env php
 <?php
 
 // If the dependencies aren't installed, we have to bail and offer some help.
