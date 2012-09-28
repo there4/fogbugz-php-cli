@@ -235,7 +235,18 @@ class Empir extends CLI_Interface
       $p = new Phar($phar, Phar::CURRENT_AS_FILEINFO | Phar::KEY_AS_FILENAME, $phar_name);
 
       echo "Make $phar_name : \n===================\n";
-      $p->setStub("#!/usr/bin/env php \n<?php Phar::mapPhar(); include 'phar://".$phar_name."/".$stub_file."'; __HALT_COMPILER(); ?>");
+      $p->setStub(
+        "#!/usr/bin/env php \n"
+        . "<?php\n"
+        . '$configPath = getenv("FOGBUGZ") ? getenv("FOGBUGZ") : getenv("HOME") . "/.fogbugz"; ' . "\n"
+        . "Phar::mapPhar(); " . "\n"
+        . "include 'phar://".$phar_name."/".$stub_file."'; " . "\n"
+        . 'Phar::mount("phar://'.$phar_name.'/.config.yml", "'.$configPath.'/.config.yml"); ' . "\n"
+        . 'Phar::mount("phar://'.$phar_name.'/.recent.yml", "'.$configPath.'/.recent.yml"); ' . "\n"
+        . 'Phar::mount("phar://'.$phar_name.'/.token.txt", "'.$configPath.'/.token.txt"); ' . "\n"
+        . "__HALT_COMPILER(); " . "\n"
+        . "?>"
+      );
 
       $files = $this->_scandir($root_app);
 
@@ -274,68 +285,6 @@ class Empir extends CLI_Interface
     }
   }
 
-  public function extract()
-  {
-    $this->_is_phar_writable();
-    $phar_path = $this->makeAbsolut($this->reqopt(0, 'Phar path'));
-    $extract_path = $this->makeAbsolut($this->gopt(1, 'Extract path'));
-    if(!file_exists($phar_path)) return $this->error("Phar file $phar_path not found.");
-    if(!file_exists($extract_path)) return $this->error("Extract path $extract_path not found.");
-
-    try {
-      $p = new Phar($phar_path);
-
-      $c = $this->get_var($p->isCompressed());
-
-      if(!Phar::canCompress($c->int_value)) return $this->error("Unable to extract $c->name compressed phar, extension $c->extension not found.");
-      echo "Extraction $c->extension compressed phar...\n";
-
-      if(!$p->extractTo($extract_path, null, true)) return $this->error("Unable to extract $phar_path");
-      $this->success("Extraction DONE.");
-    } catch (Exception $e) {
-      return $this->error($e->getMessage());
-    }
-  }
-
-  public function convert()
-  {
-    $this->_is_phar_writable();
-    $phar_path = $this->makeAbsolut($this->reqopt(0, 'Phar path'));
-    $_format = $this->reqopt(1, 'Format');
-    $_compression = $this->gopt(2) ?: 'no';
-    if(!file_exists($phar_path)) return $this->error("Phar file $phar_path not found.");
-    if(!in_array($_format, $this->format_types)) return $this->error("Unrecognized format: $_format");
-    if(!empty($_compression) && !in_array($_compression, $this->compression_types)) return $this->error("Unrecognized compression: $_compression");
-
-    try {
-      $p = new Phar($phar_path);
-
-      # original compression
-      $co = $this->get_var($p->isCompressed());
-      if(!Phar::canCompress($co->int_value)) return $this->error("Unable to converting: original phar compression $co->name doesn't work, extension $co->extension not found.");
-
-      # target compression
-      $c = $this->get_var($_compression);
-      if(!Phar::canCompress($c->int_value)) return $this->error("Unable to converting: target phar compression $c->name doesn't work, extension $c->extension not found.");
-
-      $f = $this->get_var($_format);
-      if(!$f->compression) $c->int_value = Phar::NONE;
-      if($f->name == 'phar') $f->mime = '';
-
-      $phar_tab = explode('/',$phar_path);
-      $phar_name = explode('.', end($phar_tab));
-      $phar_name = $phar_name[0].'.phar'.$f->mime.$c->mime;
-      $phar_name = implode('/',array_slice($phar_tab, 0, -1)).'/'.$phar_name;
-      @unlink($phar_name);
-
-      echo "Convert $phar_path to $phar_name...\n";
-      $p->convertToExecutable($f->int_value, $c->int_value);
-      @unlink($phar_path);
-      $this->success("Converting DONE.");
-    } catch (Exception $e) {
-      return $this->error($e->getMessage());
-    }
-  }
 
   public function help()
   {
@@ -345,8 +294,6 @@ class Empir extends CLI_Interface
 
     switch ($command) {
       case 'make': $help->make(); break;
-      case 'extract': $help->extract(); break;
-      case 'convert': $help->convert(); break;
       default: return $this->error("Command: $command doesn't exist."); break;
     }
   }
@@ -513,8 +460,6 @@ it used directly in the executable file.
 
 ".Color::str('Commands', Empir::HELP_COLOR).":
   ".Color::str('make', Empir::PARAM_COLOR)."     Create a phar from an entire php application.
-  ".Color::str('extract', Empir::PARAM_COLOR)."  Extract all files from a phar file.
-  ".Color::str('convert', Empir::PARAM_COLOR)."  Converting and compressing phar.
 
 For more help on a command use 'empir help <command>'
 ";
@@ -539,36 +484,5 @@ For more help on a command use 'empir help <command>'
   ".Color::str('--compress=TYPE', Empir::PARAM_COLOR)."    Specify the phar compression type. TYPE can be gz or bz2.
 ";
     }
-
-    public function extract()
-    {
-        echo "This command allows to extract all files from a phar file (compressed or not) as a vulgar archive.
-
-".Color::str('Usage', Empir::HELP_COLOR).":
-  $ php empir extract <phar_file> [extract_path]
-
-".Color::str('Parameters', Empir::HELP_COLOR).":
-  ".Color::str('phar_file', Empir::PARAM_COLOR)."     Absolute or relative path to your phar file to extract.
-  ".Color::str('extract_path', Empir::PARAM_COLOR)."  Optional, absolute or relative path to extract, if not specified, extract into the current folder.
-";
-    }
-
-    public function convert()
-    {
-        echo "Convert allows to convert and/or compress a phar file.
-
-".Color::str('Usage', Empir::HELP_COLOR).":
-  $ php empir convert <phar_file> <format> [compression]
-
-".Color::str('Parameters', Empir::HELP_COLOR).":
-  ".Color::str('phar_file', Empir::PARAM_COLOR)."    Absolute or relative path to your phar file to convert.
-  ".Color::str('format', Empir::PARAM_COLOR)."       The format in which you want to convert your phar file. Use zip, tar or phar.
-  ".Color::str('compression', Empir::PARAM_COLOR)."  Optional, compression type for the convertion. Use gz or bz2.
-
-Example:
-  '$ php empir convert ./my.phar.tar.gz phar'
-  This example converts the compressed phar file into a normal phar.
-";
-    }
 }
-?>
+

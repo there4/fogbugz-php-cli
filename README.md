@@ -4,14 +4,7 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
-* Relocate config and recent files, with a env perhaps?
-* http://empir.sourceforge.net/ build a phar for distribution
-  https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Util/Compiler.php
-  https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Console/Command/SelfUpdateCommand.php
-  https://github.com/koto/phar-util
-
-
-"symfony/dependency-injection": "dev-master",
+* Relocate config and recent files, with an env perhaps?
 
 
 # FogBugz Command Line Client
@@ -62,6 +55,13 @@ account, working on status, read cases, and leave short notes.
 I use this with a bash alias:
 
     alias fb='php ~/Projects/fogbugz-php-cli/working.php'
+    
+## Phar Generation
+
+* http://empir.sourceforge.net/ build a phar for distribution
+* https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Util/Compiler.php
+* https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Console/Command/SelfUpdateCommand.php
+* https://github.com/koto/phar-util
     
     
 [sc]: http://symfony.com/doc/current/components/console.html
