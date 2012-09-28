@@ -1,26 +1,32 @@
 <?php
 
 pake_desc('Check the code for psr2 standards');
-pake_task('sniff');
+pake_task('sniff', 'fixer');
+
+pake_desc('Run php-cs-fixer on the src directory');
+pake_task('fixer');
+
+pake_desc('Update the README with the latest command output');
+pake_task('readme');
+
+pake_alias('default', 'sniff');
+
+
 function run_sniff()
 {
     passthru("phpcs -p --standard=PSR2 ./src/ ./working.php");
 }
 
-pake_desc('Run php-cs-fixer on the src directory');
-pake_task('fixer');
 function run_fixer()
 {
     passthru("php-cs-fixer fix ./working.php && php-cs-fixer fix ./src/FogBugz/Cli/ && php-cs-fixer fix ./src/FogBugz/Command/");
 }
 
-pake_desc('Update the README with the latest command output');
-pake_task('readme');
 function run_readme()
 {
     $readme = file("README.md");
     $help = explode("\n", shell_exec("php ./working.php list"));
-    
+
     $helpStart = $helpEnd = 0;
     foreach ($readme as $lineNumber => $line) {
       if (trim($line) == "## Help") {
@@ -28,13 +34,13 @@ function run_readme()
       }
       if ($helpStart && (substr(trim($line), 0, 2) == "##")) {
           $helpEnd = $lineNumber;
-      } 
+      }
     }
-    
-    $output = implode("", array_slice($readme, 0, $helpStart + 1));
+
+    $output = join(array_slice($readme, 0, $helpStart + 1));
     $output .= "\n    " . implode("\n    ", $help) . "\n";
-    $output .= implode("", array_slice($readme, $helpEnd));
-    
+    $output .= join(array_slice($readme, $helpEnd));
+
     file_put_contents("README.md", $output);
 }
 

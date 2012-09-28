@@ -35,7 +35,6 @@ class Working extends Application
             $this->config = $this->getDefaultConfig();
         }
 
-
         // We do this now because we've loaded the project info from the composer file
         parent::__construct($this->project->description, $this->project->version);
 
@@ -72,7 +71,7 @@ class Working extends Application
         $currentVersion = explode('.', $this->project->version);
         $configVersion  = explode('.', $this->config['ConfigVersion']);
         $majorVersionChange = $currentVersion[0] != $configVersion[0];
-        if ($runSetup || $majorVersionChange ) {
+        if ($runSetup || $majorVersionChange) {
             $command = $this->find('setup');
             $arguments = array(
                 'command' => 'setup'
@@ -176,6 +175,7 @@ class Working extends Application
                 return 'logo';
             // fallthrough to final return
         }
+
         return "info";
     }
 
