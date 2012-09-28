@@ -19,8 +19,8 @@ function run_phar()
     passthru(
         'rm -f fb && '
         . 'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
-        . '*.git/*|*test*|*Tests*|*.md|*/doc/*|*.lock|*token.txt|pakefile'
-        . '|.*|build/*|*.markdown|*.phar|LICENSE|AUTHORS|CHANGELOG'
+        . '*.git/*|*.gitignore|*test*|*Tests*|*.md|*/doc/*|*.lock|*token.txt|pakefile'
+        . '|.*|build/*|*.markdown|*.phar|*LICENSE|*AUTHORS|*CHANGELOG'
         . '" && chmod a+x fb.phar'
         . ' && mv fb.phar fb'
     );
