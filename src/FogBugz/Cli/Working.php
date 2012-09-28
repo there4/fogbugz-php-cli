@@ -11,24 +11,6 @@ use Symfony\Component\Yaml\Yaml;
 use There4\FogBugz;
 use FogBugz\Cli;
 use FogBugz\Command;
-use FogBugz\Command\CasesCommand;
-use FogBugz\Command\CurrentCommand;
-use FogBugz\Command\EstimateCommand;
-use FogBugz\Command\FiltersCommand;
-use FogBugz\Command\LoginCommand;
-use FogBugz\Command\LogoutCommand;
-use FogBugz\Command\NoteCommand;
-use FogBugz\Command\OpenCommand;
-use FogBugz\Command\ParentCommand;
-use FogBugz\Command\RecentCommand;
-use FogBugz\Command\ResolveCommand;
-use FogBugz\Command\SearchCommand;
-use FogBugz\Command\SetFilterCommand;
-use FogBugz\Command\SetupCommand;
-use FogBugz\Command\StartCommand;
-use FogBugz\Command\StopCommand;
-use FogBugz\Command\VersionCommand;
-use FogBugz\Command\ViewCommand;
 
 class Working extends Application
 {
@@ -53,34 +35,34 @@ class Working extends Application
             $this->config = $this->getDefaultConfig();
         }
 
-        // We do this now because we've loaded the project info from the composer file
-        parent::__construct($this->project->description, $this->project->version);
-
-        // Load our commands into the application
-        $this->add(new CasesCommand());
-        $this->add(new CurrentCommand());
-        $this->add(new EstimateCommand());
-        $this->add(new FiltersCommand());
-        $this->add(new LoginCommand());
-        $this->add(new LogoutCommand());
-        $this->add(new NoteCommand());
-        $this->add(new OpenCommand());
-        $this->add(new ParentCommand());
-        $this->add(new RecentCommand());
-        $this->add(new ResolveCommand());
-        $this->add(new SearchCommand());
-        $this->add(new SetFilterCommand());
-        $this->add(new SetupCommand());
-        $this->add(new StartCommand());
-        $this->add(new StopCommand());
-        $this->add(new VersionCommand());
-        $this->add(new ViewCommand());
-
         // https://github.com/symfony/Console/blob/master/Output/Output.php
         $this->outputFormat
             = $this->config['UseColor']
             ? OutputInterface::OUTPUT_NORMAL
             : OutputInterface::OUTPUT_PLAIN;
+
+        // We do this now because we've loaded the project info from the composer file
+        parent::__construct($this->project->description, $this->project->version);
+
+        // Load our commands into the application
+        $this->add(new Command\CasesCommand());
+        $this->add(new Command\CurrentCommand());
+        $this->add(new Command\EstimateCommand());
+        $this->add(new Command\FiltersCommand());
+        $this->add(new Command\LoginCommand());
+        $this->add(new Command\LogoutCommand());
+        $this->add(new Command\NoteCommand());
+        $this->add(new Command\OpenCommand());
+        $this->add(new Command\ParentCommand());
+        $this->add(new Command\RecentCommand());
+        $this->add(new Command\ResolveCommand());
+        $this->add(new Command\SearchCommand());
+        $this->add(new Command\SetFilterCommand());
+        $this->add(new Command\SetupCommand());
+        $this->add(new Command\StartCommand());
+        $this->add(new Command\StopCommand());
+        $this->add(new Command\VersionCommand());
+        $this->add(new Command\ViewCommand());
 
         $loader = new \Twig_Loader_Filesystem($baseDir . '/templates');
         $this->twig = new \Twig_Environment(

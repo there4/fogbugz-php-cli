@@ -36,7 +36,7 @@ class SetupCommand extends AuthCommand
 
         $output->writeln(
             sprintf(
-                "%s\n<logo>%s</logo>\n". '%1$s' . "\n",
+                "%s\n<info>%s</info>\n". '%1$s' . "\n",
                 str_repeat("—", 80),
                 str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH)
             ),
