@@ -39,15 +39,15 @@ class Working extends Application
     public function __construct($baseDir)
     {
         $this->baseDir   = $baseDir;
-        $this->tokenPath = $baseDir . "/token.txt";
+        $this->tokenPath = "token.txt";
         $runSetup        = false;
 
         // Add the composer information for use in version info and such.
-        $this->project = json_decode(file_get_contents($baseDir . '/composer.json'));
+        $this->project = json_decode(file_get_contents('composer.json'));
 
         // Load our application config information
-        if (file_exists($baseDir . '/.config.yml')) {
-            $this->config = Yaml::parse($baseDir . '/.config.yml');
+        if (file_exists('.config.yml')) {
+            $this->config = Yaml::parse('.config.yml');
         } else {
             $runSetup = true;
             $this->config = $this->getDefaultConfig();
@@ -138,7 +138,7 @@ class Working extends Application
 
     public function getRecent()
     {
-        $recentCases = Yaml::parse($this->baseDir . '/.recent.yml');
+        $recentCases = Yaml::parse('.recent.yml');
 
         return is_array($recentCases) ? $recentCases : array();
     }
