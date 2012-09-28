@@ -1,22 +1,6 @@
 {
-    "hash": "69305dd62a520495d0784133e4b964ad",
+    "hash": "1d7fc0bc813c7d96331fae6e021f87ef",
     "packages": [
-        {
-            "package": "pimple/pimple",
-            "version": "1.0.0"
-        },
-        {
-            "package": "silex/silex",
-            "version": "dev-master",
-            "alias-pretty-version": "1.0.x-dev",
-            "alias-version": "1.0.9999999.9999999-dev"
-        },
-        {
-            "package": "silex/silex",
-            "version": "dev-master",
-            "source-reference": "9b63007bbdf6a5f68ab402c76fbaf9df56c67342",
-            "commit-date": "1348229548"
-        },
         {
             "package": "symfony/config",
             "version": "dev-master",
@@ -42,34 +26,6 @@
             "commit-date": "1348209299"
         },
         {
-            "package": "symfony/dependency-injection",
-            "version": "dev-master",
-            "alias-pretty-version": "2.2.x-dev",
-            "alias-version": "2.2.9999999.9999999-dev"
-        },
-        {
-            "package": "symfony/dependency-injection",
-            "version": "dev-master",
-            "source-reference": "8894a17b9d199ef2962d82f74d51f8e20a145e4c",
-            "commit-date": "1347989125"
-        },
-        {
-            "package": "symfony/event-dispatcher",
-            "version": "v2.1.2"
-        },
-        {
-            "package": "symfony/http-foundation",
-            "version": "v2.1.2"
-        },
-        {
-            "package": "symfony/http-kernel",
-            "version": "v2.1.2"
-        },
-        {
-            "package": "symfony/routing",
-            "version": "v2.1.2"
-        },
-        {
             "package": "symfony/yaml",
             "version": "dev-master",
             "alias-pretty-version": "2.2.x-dev",
@@ -84,8 +40,8 @@
         {
             "package": "there4/fogbugz-api",
             "version": "dev-master",
-            "source-reference": "6d48fbffbda972272aa55956f494549fc3e30e0d",
-            "commit-date": "1348523638"
+            "source-reference": "4915572b7ff8884c15ed1405cc40a743f26354f5",
+            "commit-date": "1348530201"
         },
         {
             "package": "twig/twig",
@@ -99,10 +55,8 @@
     "minimum-stability": "beta",
     "stability-flags": {
         "there4/fogbugz-api": 20,
-        "silex/silex": 20,
         "symfony/console": 20,
         "symfony/config": 20,
-        "symfony/dependency-injection": 20,
         "symfony/yaml": 20
     }
 }

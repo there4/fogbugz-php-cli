@@ -13,10 +13,8 @@
     ],
     "require": {
         "there4/fogbugz-api": "dev-master",
-        "silex/silex": "dev-master",
         "symfony/console": "dev-master",
         "symfony/config": "dev-master",
-        "symfony/dependency-injection": "dev-master",
         "symfony/yaml": "dev-master",
         "twig/twig": "1.*"
     }

@@ -9,8 +9,20 @@ pake_task('fixer');
 pake_desc('Update the README with the latest command output');
 pake_task('readme');
 
+pake_desc('Build phar file');
+pake_task('build');
+
 pake_alias('default', 'sniff');
 
+function run_build()
+{
+    passthru(
+        'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
+        . '*.git/*|*test*|*Tests*|*.md|*/doc/*|*.lock|*token.txt|pakefile'
+        . '|.*|build/*|*.markdown|*.phar|LICENSE|AUTHORS|CHANGELOG'
+        . '"'
+    );
+}
 
 function run_sniff()
 {
@@ -19,7 +31,11 @@ function run_sniff()
 
 function run_fixer()
 {
-    passthru("php-cs-fixer fix ./working.php && php-cs-fixer fix ./src/FogBugz/Cli/ && php-cs-fixer fix ./src/FogBugz/Command/");
+    passthru(
+        "php-cs-fixer fix ./working.php"
+        . " && php-cs-fixer fix ./src/FogBugz/Cli/"
+        . " && php-cs-fixer fix ./src/FogBugz/Command/"
+    );
 }
 
 function run_readme()
@@ -34,6 +50,7 @@ function run_readme()
       }
       if ($helpStart && (substr(trim($line), 0, 2) == "##")) {
           $helpEnd = $lineNumber;
+          break;
       }
     }
 
@@ -43,6 +60,5 @@ function run_readme()
 
     file_put_contents("README.md", $output);
 }
-
 
 /* End of pakefile */

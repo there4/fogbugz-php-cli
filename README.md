@@ -4,12 +4,14 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
-* Relocate config and recent files
+* Relocate config and recent files, with a env perhaps?
 * http://empir.sourceforge.net/ build a phar for distribution
   https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Util/Compiler.php
   https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Console/Command/SelfUpdateCommand.php
   https://github.com/koto/phar-util
 
+
+"symfony/dependency-injection": "dev-master",
 
 
 # FogBugz Command Line Client

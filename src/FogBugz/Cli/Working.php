@@ -1,9 +1,6 @@
 <?php
 namespace FogBugz\Cli;
 
-use FogBugz\Cli;
-use FogBugz\Command;
-use There4\FogBugz;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -11,6 +8,27 @@ use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Yaml\Yaml;
+use There4\FogBugz;
+use FogBugz\Cli;
+use FogBugz\Command;
+use FogBugz\Command\CasesCommand;
+use FogBugz\Command\CurrentCommand;
+use FogBugz\Command\EstimateCommand;
+use FogBugz\Command\FiltersCommand;
+use FogBugz\Command\LoginCommand;
+use FogBugz\Command\LogoutCommand;
+use FogBugz\Command\NoteCommand;
+use FogBugz\Command\OpenCommand;
+use FogBugz\Command\ParentCommand;
+use FogBugz\Command\RecentCommand;
+use FogBugz\Command\ResolveCommand;
+use FogBugz\Command\SearchCommand;
+use FogBugz\Command\SetFilterCommand;
+use FogBugz\Command\SetupCommand;
+use FogBugz\Command\StartCommand;
+use FogBugz\Command\StopCommand;
+use FogBugz\Command\VersionCommand;
+use FogBugz\Command\ViewCommand;
 
 class Working extends Application
 {
@@ -39,11 +57,24 @@ class Working extends Application
         parent::__construct($this->project->description, $this->project->version);
 
         // Load our commands into the application
-        foreach (glob($baseDir ."/src/FogBugz/Command/*.php") as $filename) {
-            $classname = "Fogbugz\Command\\" . basename($filename, ".php");
-            require $filename;
-            $this->add(new $classname);
-        }
+        $this->add(new CasesCommand());
+        $this->add(new CurrentCommand());
+        $this->add(new EstimateCommand());
+        $this->add(new FiltersCommand());
+        $this->add(new LoginCommand());
+        $this->add(new LogoutCommand());
+        $this->add(new NoteCommand());
+        $this->add(new OpenCommand());
+        $this->add(new ParentCommand());
+        $this->add(new RecentCommand());
+        $this->add(new ResolveCommand());
+        $this->add(new SearchCommand());
+        $this->add(new SetFilterCommand());
+        $this->add(new SetupCommand());
+        $this->add(new StartCommand());
+        $this->add(new StopCommand());
+        $this->add(new VersionCommand());
+        $this->add(new ViewCommand());
 
         // https://github.com/symfony/Console/blob/master/Output/Output.php
         $this->outputFormat
