@@ -18,13 +18,13 @@ class Working extends Application
     public $baseDir;
     public $tokenPath;
 
-    public function __construct($baseDir)
+    public function __construct($baseDir, $project)
     {
         $this->baseDir   = $baseDir;
         $runSetup        = false;
 
         // Add the composer information for use in version info and such.
-        $this->project = json_decode(file_get_contents('composer.json'));
+        $this->project = $project;
 
         // Load our application config information
         if (file_exists('.fogbugz.yml')) {

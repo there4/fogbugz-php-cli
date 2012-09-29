@@ -235,9 +235,15 @@ class Empir extends CLI_Interface
       $p = new Phar($phar, Phar::CURRENT_AS_FILEINFO | Phar::KEY_AS_FILENAME, $phar_name);
 
       echo "Make $phar_name : \n===================\n";
+      $project = json_decode(file_get_contents('composer.json'));
       $p->setStub(
         "#!/usr/bin/env php \n"
         . "<?php\n"
+        . 'define("IN_PHAR", true);'
+        . '$project = (object) array('
+        . "'description' => '$project->description', "
+        . "'version' => '$project->version'"
+        . ");"
         . '$configFile = getenv("FOGBUGZ_CONFIG") ? getenv("FOGBUGZ_CONFIG") : getenv("HOME") . "/.fogbugz.yml"; ' . "\n"
         . "Phar::mapPhar(); " . "\n"
         . "include 'phar://".$phar_name."/".$stub_file."'; " . "\n"
