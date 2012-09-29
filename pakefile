@@ -44,7 +44,7 @@ function run_phar()
         'rm -f fb && '
         . 'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
         . '*.git/*|*.gitignore|*test*|*Tests*|*.md|*/doc/*|*.lock|*token.txt|pakefile'
-        . '|.*|build/*|*.markdown|*.phar|*LICENSE|*AUTHORS|*CHANGELOG'
+        . '|.*|build/*|*.markdown|*.phar|*LICENSE|*AUTHORS|*CHANGELOG|*.dist|*.tpl'
         . '" && chmod a+x fb.phar'
         . ' && mv fb.phar fb'
     );

@@ -39,8 +39,8 @@ class LoginCommand extends AuthCommand
 
             if (!$input->getOption('quiet')) {
                 $output->writeln(
-                    "You're aleady in as <info>". $tokenInfo->user
-                    . "</info>.\nUse the logout command to terminate this session."
+                    "\nYou're already in as <info>". $this->app->config['User']
+                    . "</info>.\nUse the logout command to terminate this session.\n"
                 );
             }
 
@@ -69,7 +69,7 @@ class LoginCommand extends AuthCommand
             );
             $this->app->saveConfig();
 
-            $output->writeln("<info>You're in. Use the logout command to terminate this session.</info>");
+            $output->writeln("   <info>You're in. Use the logout command to terminate this session.</info>");
         } catch (FogBugz\ApiLogonError $e) {
             $output->writeln("\n<error>" . $e->getMessage() . "</error>\n");
             exit(1);
