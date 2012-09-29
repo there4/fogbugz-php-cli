@@ -1,6 +1,7 @@
 <?php
 namespace FogBugz\Command;
 
+use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -72,11 +73,12 @@ class StartCommand extends AuthCommand
             $this->app->pushRecent($case, $title);
 
             $this->app->fogbugz->startWork(array('ixBug' => $case));
+
             $output->writeln(
                 sprintf("Now working on [%d]\n  %s\n", $case, $title),
                 $this->app->outputFormat
             );
-        } catch (Exception $e) {
+        } catch (ApiError $e) {
             if ($e->getCode() == '7') {
                 if ($e->getMessage() == 'Case ' . $case  . ' has no estimate') {
                     $output->writeln(
@@ -87,7 +89,7 @@ class StartCommand extends AuthCommand
                         $this->app->outputFormat
                     );
 
-                    // Deletegate to the set estimate
+                    // Delegate to the set estimate
                     $command = $this->getApplication()->find('estimate');
                     $arguments = array(
                         'command' => 'estimate',

@@ -1,6 +1,7 @@
 <?php
 namespace FogBugz\Command;
 
+use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -26,7 +27,7 @@ class StopCommand extends AuthCommand
         $this->app = $this->getApplication();
         try {
             $this->app->fogbugz->stopWork();
-        } catch (Exception $e) {
+        } catch (ApiError $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

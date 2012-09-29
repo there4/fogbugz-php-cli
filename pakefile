@@ -1,7 +1,7 @@
 <?php
 
 pake_desc('Check the code for psr2 standards');
-pake_task('sniff', 'fixer');
+pake_task('sniff');
 
 pake_desc('Run php-cs-fixer on the src directory');
 pake_task('fixer');
@@ -10,19 +10,36 @@ pake_desc('Update the README with the latest command output');
 pake_task('readme');
 
 pake_desc('Build phar file');
-pake_task('phar', 'sniff');
+pake_task('phar');
 
 pake_desc('PHP Lint the src folder');
 pake_task('lint');
 
-pake_alias('default', 'phar');
+pake_desc('Display the version');
+pake_task('version');
+
+pake_desc('Build the app for deployment');
+pake_task('build', 'version', 'readme', 'lint', 'fixer', 'sniff', 'phar');
+
+pake_alias('default', 'build');
+
+function run_build() {}
+
+
+function run_version() {
+    $composer = json_decode(file_get_contents('composer.json'));
+    echo "\n Building FogBugz Command Line Client version " . $composer->version . "\n";
+    echo str_repeat("=", 80) . "\n";
+}
 
 function run_lint() {
+    echo "\n * Linting files\n";
     passthru("./build/lint -R ./src");
 }
 
 function run_phar()
 {
+    echo " * Construction phar and moving to fb\n";
     passthru(
         'rm -f fb && '
         . 'php -dphar.readonly=0 build/empir make fb.phar working.php . --exclude="'
@@ -35,11 +52,13 @@ function run_phar()
 
 function run_sniff()
 {
+    echo " * Checking files for PSR2\n";
     passthru("phpcs -p --standard=PSR2 ./src/ ./working.php");
 }
 
 function run_fixer()
 {
+    echo "\n * Running php-cs-fixer\n";
     passthru(
         "php-cs-fixer fix ./working.php"
         . " && php-cs-fixer fix ./src/FogBugz/Cli/"
@@ -49,6 +68,7 @@ function run_fixer()
 
 function run_readme()
 {
+    echo " * Updating README documentation\n";
     $readme = file("README.md");
     $help = explode("\n", shell_exec("php ./working.php list"));
 
@@ -56,6 +76,7 @@ function run_readme()
     foreach ($readme as $lineNumber => $line) {
       if (trim($line) == "## Help") {
           $helpStart = $lineNumber;
+          continue;
       }
       if ($helpStart && (substr(trim($line), 0, 2) == "##")) {
           $helpEnd = $lineNumber;

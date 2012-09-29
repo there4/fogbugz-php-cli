@@ -28,11 +28,14 @@ class LoginCommand extends AuthCommand
         $this->app = $this->getApplication();
         $dialog = new DialogHelper();
 
-        if (file_exists($this->app->tokenPath)) {
-            $tokenInfo = json_decode(file_get_contents($this->app->tokenPath));
-            touch($this->app->tokenPath);
-            $this->app->fogbugz = new FogBugz\Api($tokenInfo->user, '', $tokenInfo->host);
-            $this->app->fogbugz->token = $tokenInfo->token;
+        if (!empty($this->app->config['AuthToken'])) {
+            $this->app->fogbugz = new FogBugz\Api(
+                $this->app->config['User'],
+                '' /* No password here */,
+                $this->app->config['Host']
+            );
+            // The api used to login on instantiation, now we keep this token
+            $this->app->fogbugz->token = $this->app->config['AuthToken'];
 
             if (!$input->getOption('quiet')) {
                 $output->writeln(
@@ -46,31 +49,25 @@ class LoginCommand extends AuthCommand
         }
 
         $output->writeln("\n<comment>Please Login to FogBugz</comment>");
-
-        $host     = $dialog->ask($output, " * Url: ", "https://");
         $user     = $dialog->ask($output, " * Email address: ", getenv("GIT_AUTHOR_EMAIL"));
         $password = $this->promptSilent(" * Password: ");
 
         $this->app->fogbugz = new FogBugz\Api(
             $user,
             $password,
-            $host
+            $this->app->config['Host']
         );
 
         try {
             $this->app->fogbugz->logon();
-            // TODO: convert this to YAML to match the other config
-            $tokenFile = json_encode(
+            $this->app->config = array_merge(
+                $this->app->config,
                 array(
-                    'user'  => $user,
-                    'host'  => $host,
-                    'token' => $this->app->fogbugz->token
+                    'User'      => $user,
+                    'AuthToken' => $this->app->fogbugz->token
                 )
             );
-            file_put_contents(
-                $this->app->tokenPath,
-                $tokenFile
-            );
+            $this->app->saveConfig();
 
             $output->writeln("<info>You're in. Use the logout command to terminate this session.</info>");
         } catch (FogBugz\ApiLogonError $e) {

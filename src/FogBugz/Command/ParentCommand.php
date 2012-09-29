@@ -1,6 +1,7 @@
 <?php
 namespace FogBugz\Command;
 
+use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
@@ -42,7 +43,7 @@ class ParentCommand extends AuthCommand
                     'cols' => 'ixBugParent'
                 )
             );
-        } catch (Exception $e) {
+        } catch (ApiError $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

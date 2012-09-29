@@ -4,7 +4,6 @@ This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
 ## TODO
 
-* Relocate config and recent files, with an env perhaps?
 
 
 # FogBugz Command Line Client

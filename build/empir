@@ -238,12 +238,10 @@ class Empir extends CLI_Interface
       $p->setStub(
         "#!/usr/bin/env php \n"
         . "<?php\n"
-        . '$configPath = getenv("FOGBUGZ") ? getenv("FOGBUGZ") : getenv("HOME") . "/.fogbugz"; ' . "\n"
+        . '$configFile = getenv("FOGBUGZ_CONFIG") ? getenv("FOGBUGZ_CONFIG") : getenv("HOME") . "/.fogbugz.yml"; ' . "\n"
         . "Phar::mapPhar(); " . "\n"
         . "include 'phar://".$phar_name."/".$stub_file."'; " . "\n"
-        . 'Phar::mount("phar://'.$phar_name.'/.config.yml", "'.$configPath.'/.config.yml"); ' . "\n"
-        . 'Phar::mount("phar://'.$phar_name.'/.recent.yml", "'.$configPath.'/.recent.yml"); ' . "\n"
-        . 'Phar::mount("phar://'.$phar_name.'/.token.txt", "'.$configPath.'/.token.txt"); ' . "\n"
+        . 'Phar::mount("phar://'.$phar_name.'/.fogbugz.yml", $configPath); ' . "\n"
         . "__HALT_COMPILER(); " . "\n"
         . "?>"
       );

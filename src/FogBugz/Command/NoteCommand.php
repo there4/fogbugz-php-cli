@@ -1,6 +1,7 @@
 <?php
 namespace FogBugz\Command;
 
+use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -59,7 +60,7 @@ class NoteCommand extends AuthCommand
                 sprintf("Left a note on case %s", $case),
                 $this->app->outputFormat
             );
-        } catch (Exception $e) {
+        } catch (ApiError $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

@@ -1,6 +1,7 @@
 <?php
 namespace FogBugz\Command;
 
+use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
@@ -51,7 +52,7 @@ class ViewCommand extends AuthCommand
                               . 'dtClosed,dtLastUpdated,sFixFor,ixBugParent'
                     )
             );
-        } catch (Exception $e) {
+        } catch (ApiError $e) {
             $output->writeln(
                 sprintf("<error>%s</error>", $e->getMessage()),
                 $this->app->outputFormat

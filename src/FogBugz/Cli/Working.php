@@ -21,15 +21,14 @@ class Working extends Application
     public function __construct($baseDir)
     {
         $this->baseDir   = $baseDir;
-        $this->tokenPath = "token.txt";
         $runSetup        = false;
 
         // Add the composer information for use in version info and such.
         $this->project = json_decode(file_get_contents('composer.json'));
 
         // Load our application config information
-        if (file_exists('.config.yml')) {
-            $this->config = Yaml::parse('.config.yml');
+        if (file_exists('.fogbugz.yml')) {
+            $this->config = Yaml::parse('.fogbugz.yml');
         } else {
             $runSetup = true;
             $this->config = $this->getDefaultConfig();
@@ -102,9 +101,12 @@ class Working extends Application
     public function getDefaultConfig()
     {
         return array(
-            'ConfigDir'     => '~/.fogbugz',
             'ConfigVersion' => '0.0.1',
-            'UseColor'      => true
+            'UseColor'      => true,
+            'Host'          => '',
+            'User'          => '',
+            'AuthToken'     => '',
+            'RecentCases'   => array()
         );
     }
 
@@ -120,9 +122,10 @@ class Working extends Application
 
     public function getRecent()
     {
-        $recentCases = Yaml::parse('.recent.yml');
-
-        return is_array($recentCases) ? $recentCases : array();
+        return
+            is_array($this->config['RecentCases'])
+            ? $this->config['RecentCases']
+            : array();
     }
 
     public function pushRecent($case, $title)
@@ -136,11 +139,18 @@ class Working extends Application
             )
         );
         // Only keep the last x number of cases in the list
-        $recentCases = array_slice($recentCases, -5);
-        $yaml = Yaml::dump($recentCases, true);
-        file_put_contents($this->baseDir . '/.recent.yml', $yaml);
+        $this->config['RecentCases'] = array_slice($recentCases, -5);
+        $this->saveConfig();
 
         return true;
+    }
+
+    public function saveConfig()
+    {
+        // the second param is the depth for starting yaml inline formatting
+        $yaml = Yaml::dump($this->config, 2);
+
+        return file_put_contents('.fogbugz.yml', $yaml);
     }
 
     public function registerStyles(&$output)
