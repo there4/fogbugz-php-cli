@@ -2,7 +2,7 @@ ConfigVersion: 1.0.0
 UseColor: false
 Host: 'http://learningstation.fogbugz.com'
 User: craig.davis@learningstation.com
-AuthToken: nrb3udm83sm6pivvp25ucolqbcq416
+AuthToken: 43eigeti3s138k8ms5i2m1coafg629
 RecentCases:
     - { id: '8725', title: 'Recover insight test list' }
     - { id: '9071', title: 'Insight: Force a release build before dev nomination' }
