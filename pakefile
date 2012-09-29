@@ -12,7 +12,14 @@ pake_task('readme');
 pake_desc('Build phar file');
 pake_task('phar', 'sniff');
 
+pake_desc('PHP Lint the src folder');
+pake_task('lint');
+
 pake_alias('default', 'phar');
+
+function run_lint() {
+    passthru("./build/lint -R ./src");
+}
 
 function run_phar()
 {
