@@ -2,14 +2,15 @@
 
 This branch is a complete rewrite of the script using the [Symfony Console][sc].
 
-## TODO
-
-
-
 # FogBugz Command Line Client
 
 A simple command line client application that can be used to manage your FogBugz
 account, working on status, read cases, and leave short notes.
+
+## Quick Start
+
+Run the `fb` phar file from the command line. It will prompt you for host, user,
+and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
@@ -51,16 +52,36 @@ account, working on status, read cases, and leave short notes.
     
 ## Setup
 
-I use this with a bash alias:
+This app stores a config file with host, user, an api token and other
+settings. If you'd like to change this path, set a env var for
+`FOGBUGZ_CONFIG`. You can either locate the `fb` phar file in a bin
+path, add an alias to your bash config for the file
 
-    alias fb='php ~/Projects/fogbugz-php-cli/working.php'
-    
-## Phar Generation
+    alias fb='~/Projects/fogbugz-php-cli/fb'
 
-* http://empir.sourceforge.net/ build a phar for distribution
-* https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Util/Compiler.php
-* https://github.com/fabpot/PHP-CS-Fixer/blob/master/Symfony/CS/Console/Command/SelfUpdateCommand.php
-* https://github.com/koto/phar-util
-    
-    
+## Development TODO
+
+* Resolve: select the destination user from a list
+* Login: Test auth token and re-auth on failure
+* Setup: Validate the host url with an api touch
+
+## Developing New Commands
+
+The project depends on [Composer][composer] to load dependencies. Once you've
+got that, run `composer install` to load the the required libraries. From this
+point, you should be able to develop by running `php working.php`.
+
+If you'd like to add new commands to the repo, see the `src/FogBugz/Command`
+directory. After creating a new command file, add it to the 
+`src/FogBugz/Cli/Working.php` file around line 50 where we init the commands.
+
+## Building the Phar
+
+If you'd like to rebuild the phar file, you'll need [Pake][pake]. Once you've
+got that, you'll need to run `pake build`. It will clean the files, run some
+linters, and then finally build the phar file.
+
 [sc]: http://symfony.com/doc/current/components/console.html
+[composer]: http://getcomposer.org/
+[pake]: https://github.com/indeyets/pake/wiki
+
