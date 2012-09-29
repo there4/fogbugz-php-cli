@@ -14,7 +14,7 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
-    FogBugz Command Line Client version 1.0.0 by Craig Davis
+    FogBugz Command Line Client version 1.0.1 by Craig Davis
     
     Usage:
       [options] command [arguments]

@@ -7,7 +7,7 @@ if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
 
 // If we're running from phar, we get these values from the stub
 if (!defined("IN_PHAR")) {
-    $project = json_decode(file_get_contents('composer.json'));
+    $project = json_decode(file_get_contents(__DIR__ . '/composer.json'));
 }
 
 // Bootstrap our Silex application with the Composer autoloader
