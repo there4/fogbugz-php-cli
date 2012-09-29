@@ -69,6 +69,7 @@ path, add an alias to your bash config for the file
 * Resolve: select the destination user from a list
 * Login: Test auth token and re-auth on failure
 * Setup: Validate the host url with an api touch
+* New [Self Update][update] command.
 
 ## Developing New Commands
 
@@ -90,3 +91,4 @@ linters, and then finally build the phar file.
 [composer]: http://getcomposer.org/
 [pake]: https://github.com/indeyets/pake/wiki
 
+[update]: https://github.com/composer/composer/blob/master/src/Composer/Command/SelfUpdateCommand.php

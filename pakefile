@@ -18,13 +18,15 @@ pake_task('lint');
 pake_desc('Display the version');
 pake_task('version');
 
+pake_desc('Copy to ~/bin');
+pake_task('mv');
+
 pake_desc('Build the app for deployment');
 pake_task('build', 'version', 'readme', 'lint', 'fixer', 'sniff', 'phar');
 
 pake_alias('default', 'build');
 
 function run_build() {}
-
 
 function run_version() {
     $composer = json_decode(file_get_contents('composer.json'));
@@ -89,6 +91,10 @@ function run_readme()
     $output .= join(array_slice($readme, $helpEnd));
 
     file_put_contents("README.md", $output);
+}
+
+function run_mv() {
+  exec('cp ./fb ~/bin/fb');
 }
 
 /* End of pakefile */
