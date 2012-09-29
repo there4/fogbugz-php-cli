@@ -54,7 +54,12 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 This app stores a config file with host, user, an api token and other
 settings. If you'd like to change this path, set a env var for
-`FOGBUGZ_CONFIG`. You can either locate the `fb` phar file in a bin
+`FOGBUGZ_CONFIG` for a value such as `~/.fogbugz.yml` to store the
+config file in you home directory. 
+
+    env FOGBUGZ_CONFIG='~/.fogbugz.yml'
+
+You can either locate the `fb` phar file in a bin
 path, add an alias to your bash config for the file
 
     alias fb='~/Projects/fogbugz-php-cli/fb'
