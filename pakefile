@@ -72,7 +72,7 @@ function run_readme()
 {
     echo " * Updating README documentation\n";
     $readme = file("README.md");
-    $help = explode("\n", shell_exec("php ./working.php list"));
+    $help = explode("\n", shell_exec("php ./working.php list --no-interaction"));
 
     $helpStart = $helpEnd = 0;
     foreach ($readme as $lineNumber => $line) {
