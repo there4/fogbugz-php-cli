@@ -20,7 +20,18 @@ class CurrentCommand extends AuthCommand
             ->setName('current')
             ->setDescription('Display the current working case')
             ->addArgument('format', InputArgument::OPTIONAL, 'Output format, in sprintf format.')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command the case you are currently working on. This
+command accepts an optional argument, a formatting string. Use the format of sprintf,
+and the case and then title is handed in as a int and then a string. To get just the
+raw case number:
+
+    %command.full_name% '%d'
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

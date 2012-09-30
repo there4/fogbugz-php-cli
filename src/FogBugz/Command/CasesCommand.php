@@ -21,9 +21,8 @@ class CasesCommand extends AuthCommand
             ->requireAuth(true)
             ->setHelp(
 <<<EOF
-The <info>%command.name%</info> command lists all cases in the current filter:
-
-  <info>php %command.full_name%</info>
+The <info>%command.name%</info> command lists all cases in the current filter.
+You should use the setfilter command to change your filter.
 
 EOF
             );
