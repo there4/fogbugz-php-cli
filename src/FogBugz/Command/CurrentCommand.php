@@ -23,10 +23,10 @@ class CurrentCommand extends AuthCommand
             ->requireAuth(true)
             ->setHelp(
 <<<EOF
-The <info>%command.name%</info> command the case you are currently working on. This
-command accepts an optional argument, a formatting string. Use the format of sprintf,
-and the case and then title is handed in as a int and then a string. To get just the
-raw case number:
+The <info>%command.name%</info> command displays the case you are currently
+working on. This command accepts an optional argument, a formatting string.
+Use the format of sprintf(), and the case and title is handed in as a int and
+a string, respectively. To get just the raw case number:
 
     %command.full_name% '%d'
 

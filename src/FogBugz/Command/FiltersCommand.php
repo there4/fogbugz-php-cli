@@ -18,7 +18,19 @@ class FiltersCommand extends AuthCommand
         $this
             ->setName('filters')
             ->setDescription('List filters for the current user')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command displays the filters available for the
+current user. This is saved at FogBugz, and any subsequent 'cases' command will
+return the list of cases within the filter. 
+
+This filter command only lists the available filters. If you'd like to see a
+list of filters and then select one, use `setfilter` without a parameter. It
+will display a list and allow you to select one.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

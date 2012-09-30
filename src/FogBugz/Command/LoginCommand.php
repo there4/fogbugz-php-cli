@@ -20,7 +20,16 @@ class LoginCommand extends AuthCommand
         $this
             ->setName('login')
             ->setDescription('Establish a session with FogBugz')
-            ->requireAuth(false);
+            ->requireAuth(false)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command will establish an authenticated session
+with FogBugz. This will fetch an authentication token from their server. The
+token will be stored locally in a config file, and will remain valid for any
+future commands until `logout` is explicitly run.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

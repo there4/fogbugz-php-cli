@@ -23,7 +23,18 @@ class EstimateCommand extends AuthCommand
             ->setDescription('Set a the working estimate for a case')
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number')
             ->addArgument('estimate', InputArgument::OPTIONAL, 'Estimate in hours')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command allows you to set an estimate on a case.
+This can be called with two optional arguments, the case and the estimate. If
+you don't provide one of these values, you will be prompted for them.
+
+This command is also automatically used when you `start` on a case when the case
+hasn't had an estimate set on it.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

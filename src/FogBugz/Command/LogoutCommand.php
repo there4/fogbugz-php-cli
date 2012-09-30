@@ -18,7 +18,14 @@ class LogoutCommand extends AuthCommand
         $this
             ->setName('logout')
             ->setDescription('End the session with FogBugz')
-            ->requireAuth(false);
+            ->requireAuth(false)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command ends a session at FogBugz and removes
+the authentication token from the local config file.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
