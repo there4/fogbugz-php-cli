@@ -18,7 +18,15 @@ class RecentCommand extends AuthCommand
         $this
             ->setName('recent')
             ->setDescription("Show cases you've recently worked on.")
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> will display the 5 most recent cases that
+you've worked on with the 'start' command. The data is stored locally in the
+config file, and so if you've used the web, those cases won't show up here.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

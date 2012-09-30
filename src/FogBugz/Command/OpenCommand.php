@@ -24,7 +24,14 @@ class OpenCommand extends AuthCommand
                 InputArgument::OPTIONAL,
                 'Case number, defaults to current active case.'
             )
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> will open the case in your current web browser.
+This uses 'open' on OSX, 'xdg-open' on Linux, and 'start' on Windows.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

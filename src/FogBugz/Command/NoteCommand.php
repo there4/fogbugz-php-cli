@@ -23,7 +23,21 @@ class NoteCommand extends AuthCommand
             ->setDescription('Leave a note on a case')
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number, will use current active if omitted.')
             ->addArgument('note', InputArgument::OPTIONAL, 'Message to leave on the case.')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> command leaves a note on the current case. If
+you omit the case number argument and supply a note, you'll leave a note on
+your active working case.
+
+Leave a note on a particular case:
+    <info>fb case 4519 "Beginning work with api interface"
+
+Leave a note on the current active case:
+    <info>fb case "Beginning work with api interface"
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

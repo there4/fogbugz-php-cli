@@ -21,7 +21,15 @@ class ParentCommand extends AuthCommand
             ->setName('parent')
             ->setDescription('View a Parent Case')
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number, defaults to current active case.')
-            ->requireAuth(true);
+            ->requireAuth(true)
+            ->setHelp(
+<<<EOF
+The <info>%command.name%</info> will display the 'view' of the parent of the
+case number supplied. If you omit the case number, it will use the current
+active case.
+
+EOF
+            );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
