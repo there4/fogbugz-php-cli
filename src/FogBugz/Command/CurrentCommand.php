@@ -18,6 +18,7 @@ class CurrentCommand extends AuthCommand
     {
         $this
             ->setName('current')
+            ->setAliases(array('ps1'))
             ->setDescription('Display the current working case')
             ->addArgument('format', InputArgument::OPTIONAL, 'Output format, in sprintf format.')
             ->requireAuth(true)
@@ -30,12 +31,16 @@ a string, respectively. To get just the raw case number:
 
     %command.full_name% '%d'
 
+If this is called as 'ps1', then the format is forced to be '%d', numeric case
+number only.
+
 EOF
             );
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+
         $this->app = $this->getApplication();
 
         $format = $input->getArgument('format');
@@ -56,7 +61,10 @@ EOF
             $title = (string) $bug->cases->case->sTitle;
         }
 
-        if ($format == null) {
+        // The ps1 format is a shortcut to use as part an prompt
+        if ($input->getArgument('command') === 'ps1') {
+            $format = "%d";
+        } elseif ($format == null) {
             $format = "[%d] %s";
         }
 

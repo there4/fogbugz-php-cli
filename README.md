@@ -40,6 +40,7 @@ and password. It will store an API token in a .fogbugz.yml file.
       note        Leave a note on a case
       open        Open a case in your local browser
       parent      View a Parent Case
+      ps1         Display the current working case
       recent      Show cases you've recently worked on.
       resolve     Resolve a case
       search      Search by keyword
