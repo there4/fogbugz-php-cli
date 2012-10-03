@@ -72,6 +72,7 @@ path, add an alias to your bash config for the file
 * Setup: Validate the host url with an api touch
 * New [Self Update][update] command.
 * Cases: Display the name of the current filter as a heading
+* Consider Kiln [branch commands][kiln]
 
 ## Developing New Commands
 
@@ -92,5 +93,6 @@ linters, and then finally build the phar file.
 [sc]: http://symfony.com/doc/current/components/console.html
 [composer]: http://getcomposer.org/
 [pake]: https://github.com/indeyets/pake/wiki
+[kiln]: https://developers.fogbugz.com/default.asp?W166
 
 [update]: https://github.com/composer/composer/blob/master/src/Composer/Command/SelfUpdateCommand.php

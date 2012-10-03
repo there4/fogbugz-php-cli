@@ -40,17 +40,17 @@ class StartCommand extends AuthCommand
                 foreach ($recentCases as $recent_case) {
                     $output->writeln(
                         sprintf(
-                            "  [%s] %s\n",
-                            $recent_case[0],
-                            substr($recent_case[1], 0, 75)
+                            "  <info>[%s]</info> %s",
+                            $recent_case['id'],
+                            substr($recent_case['title'], 0, 75)
                         ),
                         $this->app->outputFormat
                     );
                     // this is just for display purposes below
-                    $strlen = strlen($recent_case[0]);
+                    $strlen = strlen($recent_case['id']);
                 }
                 $output->writeln(
-                    "  [" . str_repeat('#', $strlen) . "] Or type any other case number to start work",
+                    "  <info>[" . str_repeat('#', $strlen) . "]</info> Or type any other case number to start work",
                     $this->app->outputFormat
                 );
             }
