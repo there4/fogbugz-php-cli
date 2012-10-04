@@ -247,7 +247,7 @@ class Empir extends CLI_Interface
         . '$configFile = getenv("FOGBUGZ_CONFIG") ? getenv("FOGBUGZ_CONFIG") : getenv("HOME") . "/.fogbugz.yml"; ' . "\n"
         . "Phar::mapPhar(); " . "\n"
         . "include 'phar://".$phar_name."/".$stub_file."'; " . "\n"
-        . 'Phar::mount("phar://'.$phar_name.'/.fogbugz.yml", $configPath); ' . "\n"
+        . 'Phar::mount("phar://'.$phar_name.'/.fogbugz.yml", $configFile); ' . "\n"
         . "__HALT_COMPILER(); " . "\n"
         . "?>"
       );

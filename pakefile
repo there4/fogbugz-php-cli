@@ -1,5 +1,8 @@
 <?php
 
+pake_desc('Run the unit tests');
+pake_task('test');
+
 pake_desc('Check the code for psr2 standards');
 pake_task('sniff');
 
@@ -27,6 +30,10 @@ pake_task('build', 'version', 'readme', 'lint', 'fixer', 'sniff', 'phar');
 pake_alias('default', 'build');
 
 function run_build() {}
+
+function run_test() {
+    passthru("phpunit ./tests");
+}
 
 function run_version() {
     $composer = json_decode(file_get_contents('composer.json'));
