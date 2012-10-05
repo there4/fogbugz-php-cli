@@ -1,3 +1,5 @@
+[![Build Status](https://secure.travis-ci.org/there4/fogbugz-php-cli.png)](http://travis-ci.org/there4/fogbugz-php-cli)
+
 # EXPERIMENTAL SYMFONY BRANCH
 
 This branch is a complete rewrite of the script using the [Symfony Console][sc].
