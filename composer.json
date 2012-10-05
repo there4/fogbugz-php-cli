@@ -4,7 +4,7 @@
     "keywords": ["fogbugz"],
     "homepage": "http://there4.github.com/fogbugz-php-cli/",
     "minimum-stability": "beta",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "authors": [
         {
             "name": "Craig Davis",

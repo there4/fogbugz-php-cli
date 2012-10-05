@@ -2,11 +2,12 @@
 namespace FogBugz\Cli;
 
 use Symfony\Component\Console\Application;
-use Symfony\Component\Console\Output\ConsoleOutput;
-use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\ArgvInput;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\Yaml\Yaml;
 use There4\FogBugz;
 use FogBugz\Cli;
@@ -18,7 +19,7 @@ class Working extends Application
     public $baseDir;
     public $tokenPath;
 
-    public function __construct($baseDir, $project)
+    public function initialize($baseDir, $project)
     {
         $this->baseDir   = $baseDir;
         $runSetup        = false;
@@ -41,7 +42,8 @@ class Working extends Application
             : OutputInterface::OUTPUT_PLAIN;
 
         // We do this now because we've loaded the project info from the composer file
-        parent::__construct($this->project->description, $this->project->version);
+        $this->name = $this->project->description;
+        $this->version = $this->project->version;
 
         // Load our commands into the application
         $this->add(new Command\CasesCommand());

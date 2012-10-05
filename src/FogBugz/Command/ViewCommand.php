@@ -3,6 +3,7 @@ namespace FogBugz\Command;
 
 use There4\FogBugz\ApiError;
 use FogBugz\Cli\AuthCommand;
+use FogBugz\Cli\FogBugzHelpers;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Helper\DialogHelper;
 use Symfony\Component\Console\Input\InputArgument;
@@ -69,11 +70,7 @@ class ViewCommand extends AuthCommand
         }
 
         // extract the case to local vars and then include the template
-        $info = $bug->cases->case;
-        $data = array();
-        foreach (get_object_vars($info) as $property => $value) {
-            $data[$property] = (string) $value;
-        }
+        $data = FogBugzHelpers::responseToArray($bug->cases->case);
         $data['host'] = $this->app->fogbugz->url;
 
         if ($data['ixBugParent'] == 0) {

@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL | E_STRICT);
 
 // If the dependencies aren't installed, we have to bail and offer some help.
 if (!file_exists(__DIR__ . '/vendor/autoload.php')) {
@@ -17,7 +18,9 @@ $app = require __DIR__ . '/vendor/autoload.php';
 $app->add('FogBugz', __DIR__ . '/src');
 
 // Instantiate our Console application
-$console = new FogBugz\Cli\Working(__DIR__, $project);
+$console = new FogBugz\Cli\Working();
+
+$console->initialize(__DIR__, $project);
 
 // Execute the console app.
 $console->run();
