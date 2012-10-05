@@ -13,9 +13,11 @@ class WorkingTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $root = realpath(__DIR__ . '/../');
-        $project = json_decode(file_get_contents(__DIR__ . '/../composer.json'));
-        $this->console = new Working($root, $project);
+        $templatePath = realpath(__DIR__ . '/../templates/');
+        $configPath   = realpath(__DIR__ . '/.testingConfig.yml');
+        $project      = json_decode(file_get_contents(__DIR__ . '/../composer.json'));
+        $this->console = new Working();
+        $this->console->initialize($configPath, $templatePath, $project);
         
         $this->console->fogbugz = $this->getMock('Api');
         $this->console->fogbugz->token = 'foo';

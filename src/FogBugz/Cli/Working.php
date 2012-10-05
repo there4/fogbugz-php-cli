@@ -16,20 +16,19 @@ use FogBugz\Command;
 class Working extends Application
 {
 
-    public $baseDir;
-    public $tokenPath;
+    public $configFile;
 
-    public function initialize($baseDir, $project)
+    public function initialize($configFile, $templatePath, $project)
     {
-        $this->baseDir   = $baseDir;
-        $runSetup        = false;
+        $runSetup = false;
+        $this->configFile = $configFile;
 
         // Add the composer information for use in version info and such.
         $this->project = $project;
 
         // Load our application config information
-        if (file_exists('.fogbugz.yml')) {
-            $this->config = Yaml::parse('.fogbugz.yml');
+        if (file_exists($configFile)) {
+            $this->config = Yaml::parse($configFile);
         } else {
             $runSetup = true;
             $this->config = $this->getDefaultConfig();
@@ -65,7 +64,7 @@ class Working extends Application
         $this->add(new Command\VersionCommand());
         $this->add(new Command\ViewCommand());
 
-        $loader = new \Twig_Loader_Filesystem($baseDir . '/templates');
+        $loader = new \Twig_Loader_Filesystem($templatePath);
         $this->twig = new \Twig_Environment(
             $loader,
             array(
@@ -85,7 +84,13 @@ class Working extends Application
         $currentVersion = explode('.', $this->project->version);
         $configVersion  = explode('.', $this->config['ConfigVersion']);
         $majorVersionChange = $currentVersion[0] != $configVersion[0];
-        if ($runSetup || $majorVersionChange) {
+        // We need to be able to skip setup for the list and help
+        $helpRequested = (
+            empty($_SERVER['argv'][1]) ||
+            ($_SERVER['argv'][1] == 'list') ||
+            ($_SERVER['argv'][1] == 'help')
+        );
+        if (($runSetup || $majorVersionChange) && !$helpRequested) {
             $command = $this->find('setup');
             $arguments = array(
                 'command' => 'setup'
@@ -152,7 +157,7 @@ class Working extends Application
         // the second param is the depth for starting yaml inline formatting
         $yaml = Yaml::dump($this->config, 2);
 
-        return file_put_contents('.fogbugz.yml', $yaml);
+        return file_put_contents($this->configFile, $yaml);
     }
 
     public function registerStyles(&$output)

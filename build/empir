@@ -230,7 +230,10 @@ class Empir extends CLI_Interface
     $c = $this->get_var($_compression);
     $f = $this->get_var($_format);
 
-    @unlink($phar);
+    if (file_exists($phar)) {
+      unlink($phar);
+    }
+
     try {
       $p = new Phar($phar, Phar::CURRENT_AS_FILEINFO | Phar::KEY_AS_FILENAME, $phar_name);
 
@@ -239,17 +242,15 @@ class Empir extends CLI_Interface
       $p->setStub(
         "#!/usr/bin/env php \n"
         . "<?php\n"
-        . 'define("IN_PHAR", true);'
-        . '$project = (object) array('
-        . "'description' => '$project->description', "
-        . "'version' => '$project->version'"
-        . ");"
-        . '$configFile = getenv("FOGBUGZ_CONFIG") ? getenv("FOGBUGZ_CONFIG") : getenv("HOME") . "/.fogbugz.yml"; ' . "\n"
+        . 'define("IN_PHAR", true);' . "\n"
+        . '$project = (object) array(' . "\n"
+        . "    'description' => '$project->description', " . "\n"
+        . "    'version' => '$project->version'" . "\n"
+        . ");" . "\n"
         . "Phar::mapPhar(); " . "\n"
         . "include 'phar://".$phar_name."/".$stub_file."'; " . "\n"
-        . 'Phar::mount("phar://'.$phar_name.'/.fogbugz.yml", $configFile); ' . "\n"
         . "__HALT_COMPILER(); " . "\n"
-        . "?>"
+        . "?>" . "\n"
       );
 
       $files = $this->_scandir($root_app);
@@ -261,8 +262,9 @@ class Empir extends CLI_Interface
         $file = str_replace($root_app.'/', '', $file);
 
         if (!$this->_exclude($file, $shell_masks) && !$this->_exclude($file, array('*/'.$phar_name, $phar_name))) {
-          $p[$file] = php_strip_whitespace($file_buff);
           echo "add $file\n";
+          //$p[$file] = php_strip_whitespace($file_buff);
+          $p[$file] = file_get_contents($file_buff);
           $i++;
         }
       }

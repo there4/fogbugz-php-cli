@@ -28,17 +28,18 @@ class SetupCommand extends AuthCommand
         $dialog    = new DialogHelper();
 
         // TODO: this should be config dir
-        if (file_exists('.fogbugz.yml')) {
-            $this->config = Yaml::parse('.fogbugz.yml');
+        if (file_exists($this->app->configFile)) {
+            $this->config = Yaml::parse($this->app->configFile);
         } else {
             $this->config = $this->app->getDefaultConfig();
         }
-
         $output->writeln(
             sprintf(
-                "%s\n<info>%s</info>\n". '%1$s' . "\n",
+                "%s\n<info>%s</info>\n%s\n Config Path: %s\n",
                 str_repeat("—", 80),
-                str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH)
+                str_pad("FogBugz Client Setup", 80, " ", STR_PAD_BOTH),
+                str_repeat("—", 80),
+                $this->app->configFile
             ),
             $this->app->outputFormat
         );
