@@ -99,7 +99,13 @@ class StartCommand extends AuthCommand
                     $command->run($input, $output);
 
                     // Now come back to start the case.
+                    // TODO: move this to call, so we aren't working the catch.
                     $title = (string) $bug->cases->case->sTitle;
+                    $this->app->fogbugz->startWork(array('ixBug' => $case));
+                    $output->writeln(
+                        sprintf("Now working on [%d]\n  %s\n", $case, $title),
+                        $this->app->outputFormat
+                    );
 
                     return;
                 } elseif ($e->getMessage() == 'Closed') {
