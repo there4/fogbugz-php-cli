@@ -41,8 +41,8 @@ class Working extends Application
             : OutputInterface::OUTPUT_PLAIN;
 
         // We do this now because we've loaded the project info from the composer file
-        $this->name = $this->project->description;
-        $this->version = $this->project->version;
+        $this->setName($this->project->description);
+        $this->setVersion($this->project->version);
 
         // Load our commands into the application
         $this->add(new Command\CasesCommand());
@@ -64,6 +64,7 @@ class Working extends Application
         $this->add(new Command\VersionCommand());
         $this->add(new Command\ViewCommand());
 
+        // We'll use [Twig](http://twig.sensiolabs.org/) for template output
         $loader = new \Twig_Loader_Filesystem($templatePath);
         $this->twig = new \Twig_Environment(
             $loader,
@@ -74,6 +75,7 @@ class Working extends Application
             )
         );
 
+        // These are helpers that we use to format output on the cli: styling and padding and such
         $this->twig->addFilter('pad', new \Twig_Filter_Function("FogBugz\Cli\TwigFormatters::strpad"));
         $this->twig->addFilter('style', new \Twig_Filter_Function("FogBugz\Cli\TwigFormatters::style"));
         $this->twig->addFilter('repeat', new \Twig_Filter_Function("str_repeat"));

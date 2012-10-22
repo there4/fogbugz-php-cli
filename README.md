@@ -1,13 +1,10 @@
 [![Build Status](https://secure.travis-ci.org/there4/fogbugz-php-cli.png)](http://travis-ci.org/there4/fogbugz-php-cli)
 
-# EXPERIMENTAL SYMFONY BRANCH
-
-This branch is a complete rewrite of the script using the [Symfony Console][sc].
-
 # FogBugz Command Line Client
 
 A simple command line client application that can be used to manage your FogBugz
-account, working on status, read cases, and leave short notes.
+account, working on status, read cases, and leave short notes. This is built
+using the [Symfony Console][sc].
 
 ## Quick Start
 
@@ -16,7 +13,7 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
-    Console Tool by Craig Davis
+    FogBugz Command Line Client version 1.0.4 by Craig Davis
     
     Usage:
       [options] command [arguments]
