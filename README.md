@@ -64,6 +64,12 @@ path, add an alias to your bash config for the file
 
     alias fb='~/Projects/fogbugz-php-cli/fb'
 
+## Dependencies
+
+This app requires PHP 5.3. If you need to run on PHP 5.2, you can use the [older
+cli branch](https://github.com/there4/fogbugz-php-cli/tree/php-5.2) that has 
+fewer depencies, but similar basic functionality.
+
 ## Development TODO
 
 * Resolve: select the destination user from a list
