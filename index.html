@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <title>Fogbugz CLI by there4</title>
+    <title>Fogbugz Command Line Client by there4</title>
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
@@ -15,7 +15,7 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1>Fogbugz CLI</h1>
+        <h1>Fogbugz Command Line Client</h1>
         <p>Command line interface for FogBugz</p>
 
         <p class="view"><a href="https://github.com/there4/fogbugz-php-cli">View the Project on GitHub <small>there4/fogbugz-php-cli</small></a></p>
@@ -28,24 +28,23 @@
         </ul>
       </header>
       <section>
-      
+        <p><a href="http://travis-ci.org/there4/fogbugz-php-cli"><img src="https://secure.travis-ci.org/there4/fogbugz-php-cli.png" alt="Build Status"></a></p>
 
-
-<h1>
-<a name="fogbugz-command-line-client" class="anchor" href="#fogbugz-command-line-client"><span class="mini-icon mini-icon-link"></span></a>FogBugz Command Line Client</h1>
+<h1>FogBugz Command Line Client</h1>
 
 <p>A simple command line client application that can be used to manage your FogBugz
 account, working on status, read cases, and leave short notes. This is built
 using the <a href="http://symfony.com/doc/current/components/console.html">Symfony Console</a>.</p>
 
-<h2>
-<a name="quick-start" class="anchor" href="#quick-start"><span class="mini-icon mini-icon-link"></span></a>Quick Start</h2>
+<h2>Quick Start</h2>
+
+<p><a href="https://github.com/there4/fogbugz-php-cli/blob/master/fb?raw=true">Download the .phar file</a>
+and save it locally. Add the path to your bin.</p>
 
 <p>Run the <code>fb</code> phar file from the command line. It will prompt you for host, user,
 and password. It will store an API token in a .fogbugz.yml file.</p>
 
-<h2>
-<a name="help" class="anchor" href="#help"><span class="mini-icon mini-icon-link"></span></a>Help</h2>
+<h2>Help</h2>
 
 <pre><code>FogBugz Command Line Client version 1.0.4 by Craig Davis
 
@@ -85,8 +84,7 @@ Available commands:
   view        View a Case
 </code></pre>
 
-<h2>
-<a name="setup" class="anchor" href="#setup"><span class="mini-icon mini-icon-link"></span></a>Setup</h2>
+<h2>Setup</h2>
 
 <p>This app stores a config file with host, user, an api token and other
 settings. If you'd like to change this path, set a env var for
@@ -102,15 +100,13 @@ path, add an alias to your bash config for the file</p>
 <pre><code>alias fb='~/Projects/fogbugz-php-cli/fb'
 </code></pre>
 
-<h2>
-<a name="dependencies" class="anchor" href="#dependencies"><span class="mini-icon mini-icon-link"></span></a>Dependencies</h2>
+<h2>Dependencies</h2>
 
 <p>This app requires PHP 5.3. If you need to run on PHP 5.2, you can use the <a href="https://github.com/there4/fogbugz-php-cli/tree/php-5.2">older
 cli branch</a> that has 
 fewer depencies, but similar basic functionality.</p>
 
-<h2>
-<a name="development-todo" class="anchor" href="#development-todo"><span class="mini-icon mini-icon-link"></span></a>Development TODO</h2>
+<h2>Development TODO</h2>
 
 <ul>
 <li>Resolve: select the destination user from a list</li>
@@ -120,8 +116,7 @@ fewer depencies, but similar basic functionality.</p>
 <li>Cases: Display the name of the current filter as a heading</li>
 <li>Consider Kiln <a href="https://developers.fogbugz.com/default.asp?W166">branch commands</a>
 </li>
-</ul><h2>
-<a name="developing-new-commands" class="anchor" href="#developing-new-commands"><span class="mini-icon mini-icon-link"></span></a>Developing New Commands</h2>
+</ul><h2>Developing New Commands</h2>
 
 <p>The project depends on <a href="http://getcomposer.org/">Composer</a> to load dependencies. Once you've
 got that, run <code>composer install</code> to load the the required libraries. From this
@@ -131,18 +126,15 @@ point, you should be able to develop by running <code>php working.php</code>.</p
 directory. After creating a new command file, add it to the 
 <code>src/FogBugz/Cli/Working.php</code> file around line 50 where we init the commands.</p>
 
-<h2>
-<a name="building-the-phar" class="anchor" href="#building-the-phar"><span class="mini-icon mini-icon-link"></span></a>Building the Phar</h2>
+<h2>Building the Phar</h2>
 
 <p>If you'd like to rebuild the phar file, you'll need <a href="https://github.com/indeyets/pake/wiki">Pake</a>. Once you've
 got that, you'll need to run <code>pake build</code>. It will clean the files, run some
 linters, and then finally build the phar file.</p>
-
-
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/there4">there4</a></p>
-        <p><small>Hosted on GitHub Pages.</small></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
     <script src="javascripts/scale.fix.js"></script>
