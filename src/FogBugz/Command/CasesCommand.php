@@ -31,12 +31,25 @@ EOF
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $this->app = $this->getApplication();
+
+        $filterTitle = 'No filter selected';
+        $xml = $this->app->fogbugz->listFilters();
+        foreach ($xml->filters->children() as $filter) {
+            if ((string) $filter['status'] === 'current') {
+                $filterTitle = (string) $filter;
+                break;
+            }
+        }
+
         $xml = $this->app->fogbugz->search(
             array(
                 'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
             )
         );
-        $data = array("cases" => array());
+        $data = array(
+            "filterTitle" => $filterTitle,
+            "cases"       => array()
+        );
 
         foreach ($xml->cases->children() as $case) {
             $data["cases"][] = array(
