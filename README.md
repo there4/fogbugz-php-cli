@@ -73,7 +73,6 @@ path, add an alias to your bash config for the file
 * Login: Test auth token and re-auth on failure
 * Setup: Validate the host url with an api touch
 * New [Self Update][update] command.
-* Cases: Display the name of the current filter as a heading
 * Consider Kiln [branch commands][kiln]
 
 ## Developing New Commands
