@@ -21,7 +21,7 @@ and password. It will store an API token in a .fogbugz.yml file.
     Options:
       --help           -h Display this help message.
       --quiet          -q Do not output any message.
-      --verbose        -v Increase verbosity of messages.
+      --verbose        -v|vv|vvv Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
       --version        -V Display this application version.
       --ansi              Force ANSI output.
       --no-ansi           Disable ANSI output.
@@ -76,7 +76,6 @@ fewer depencies, but similar basic functionality.
 * Login: Test auth token and re-auth on failure
 * Setup: Validate the host url with an api touch
 * New [Self Update][update] command.
-* Cases: Display the name of the current filter as a heading
 * Consider Kiln [branch commands][kiln]
 
 ## Developing New Commands

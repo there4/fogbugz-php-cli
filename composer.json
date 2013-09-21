@@ -13,9 +13,9 @@
     ],
     "require": {
         "there4/fogbugz-api": "dev-master",
-        "symfony/console": "dev-master",
-        "symfony/config": "dev-master",
-        "symfony/yaml": "dev-master",
-        "twig/twig": "1.*"
+        "symfony/console": "v2.3.4",
+        "symfony/config": "v2.3.4",
+        "symfony/yaml": "v2.3.4",
+        "twig/twig": "v1.13.2"
     }
 }
