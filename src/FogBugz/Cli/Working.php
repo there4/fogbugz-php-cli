@@ -57,6 +57,7 @@ class Working extends Application
         $this->add(new Command\RecentCommand());
         $this->add(new Command\ResolveCommand());
         $this->add(new Command\SearchCommand());
+        $this->add(new Command\SelfUpdateCommand());
         $this->add(new Command\SetFilterCommand());
         $this->add(new Command\SetupCommand());
         $this->add(new Command\StartCommand());
