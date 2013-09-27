@@ -13,7 +13,7 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
-    FogBugz Command Line Client version 1.1.2 by Craig Davis
+    FogBugz Command Line Client version 1.1.4 by Craig Davis
     
     Usage:
       [options] command [arguments]
@@ -28,29 +28,28 @@ and password. It will store an API token in a .fogbugz.yml file.
       --no-interaction -n Do not ask any interactive question.
     
     Available commands:
-      cases         Show the cases for the current filter
-      current       Display the current working case
-      estimate      Set a the working estimate for a case
-      filters       List filters for the current user
-      help          Displays help for a command
-      list          Lists commands
-      login         Establish a session with FogBugz
-      logout        End the session with FogBugz
-      note          Leave a note on a case
-      open          Open a case in your local browser
-      parent        View a Parent Case
-      ps1           Display the current working case
-      recent        Show cases you've recently worked on.
-      resolve       Resolve a case
-      search        Search by keyword
-      self-update   Updates fb.phar to the latest version.
-      selfupdate    Updates fb.phar to the latest version.
-      setfilter     Set a FogBugz search filter
-      setup         Configure this FogBugz client
-      start         Start working on a case
-      stop          Stop your current working case.
-      version       Show version information
-      view          View a Case
+      cases        Show the cases for the current filter
+      current      Display the current working case
+      estimate     Set a the working estimate for a case
+      filters      List filters for the current user
+      help         Displays help for a command
+      list         Lists commands
+      login        Establish a session with FogBugz
+      logout       End the session with FogBugz
+      note         Leave a note on a case
+      open         Open a case in your local browser
+      parent       View a Parent Case
+      ps1          Display the current working case
+      recent       Show cases you've recently worked on.
+      resolve      Resolve a case
+      search       Search by keyword
+      selfupdate   Updates fb.phar to the latest version.
+      setfilter    Set a FogBugz search filter
+      setup        Configure this FogBugz client
+      start        Start working on a case
+      stop         Stop your current working case.
+      version      Show version information
+      view         View a Case
     
 ## Setup
 
