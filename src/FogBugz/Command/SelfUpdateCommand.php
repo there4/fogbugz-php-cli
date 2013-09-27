@@ -2,9 +2,6 @@
 
 namespace FogBugz\Command;
 
-use Composer\Composer;
-use Composer\Util\RemoteFilesystem;
-use Composer\Downloader\FilesystemException;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -34,25 +31,29 @@ EOT
         $localFilename = realpath($_SERVER['argv'][0]) ?: $_SERVER['argv'][0];
         $tempFilename = dirname($localFilename) . '/' . basename($localFilename, '.phar').'-temp.phar';
 
+        if (substr($localFilename, -4) === '.php') {
+            throw new \Exception('You must run this from the compiled phar file.');
+        }
+
         // check for permissions in local filesystem before start connection process
         if (!is_writable($tempDirectory = dirname($tempFilename))) {
-            throw new FilesystemException('Self update failed: the "' . $tempDirectory . '" directory used to download the temp file could not be written');
+            throw new \Exception('Self update failed: the "' . $tempDirectory . '" directory used to download the temp file could not be written');
         }
 
         if (!is_writable($localFilename)) {
-            throw new FilesystemException('Self update failed: the "' . $localFilename . '" file could not be written');
+            throw new \Exception('Self update failed: the "' . $localFilename . '" file could not be written');
         }
 
         $protocol = extension_loaded('openssl') ? 'https' : 'http';
-        $rfs = new RemoteFilesystem($this->getIO());
-        $latest = trim($rfs->getContents($this->app->project->extra->selfupdateorigin, $protocol . $this->app->project->extra->selfupdateversion, false));
+        $latest = trim(file_get_contents($protocol . $this->app->project->extra->selfupdateversion, false));
 
-        if (Composer::VERSION !== $latest) {
+        if ($this->app->project->version !== $latest) {
             $output->writeln(sprintf("Updating to version <info>%s</info>.", $latest));
 
             $remoteFilename = $protocol . $this->app->project->extra->selfupdatepath;
 
-            $rfs->copy('getcomposer.org', $remoteFilename, $tempFilename);
+            $phar = file_get_contents($remoteFilename);
+            file_put_contents($tempFilename, $phar);
 
             if (!file_exists($tempFilename)) {
                 $output->writeln('<error>The download of the new version failed for an unexpected reason</error>');
@@ -76,7 +77,7 @@ EOT
                 $output->writeln('<error>Please re-run the self-update command to try again.</error>');
             }
         } else {
-            $output->writeln("<info>You are using the latest composer version.</info>");
+            $output->writeln("<info>You are using the latest FogBugz Command Line version.</info>");
         }
     }
 }
