@@ -53,6 +53,9 @@ and password. It will store an API token in a .fogbugz.yml file.
     
 ## Setup
 
+You don't have to clone this repo. You can [download the phar file][dlfb] and save it
+to your computer as `fb`.
+
 This app stores a config file with host, user, an api token and other
 settings. If you'd like to change this path, set a env var for
 `FOGBUGZ_CONFIG` for a value such as `~/.fogbugz.yml` to store the
@@ -61,7 +64,7 @@ config file in you home directory.
     env FOGBUGZ_CONFIG='~/.fogbugz.yml'
 
 You can either locate the `fb` phar file in a bin
-path, add an alias to your bash config for the file
+path, or add an alias to your bash config for the file
 
     alias fb='~/Projects/fogbugz-php-cli/fb'
 
@@ -94,6 +97,7 @@ If you'd like to rebuild the phar file, you'll need [Pake][pake]. Once you've
 got that, you'll need to run `pake build`. It will clean the files, run some
 linters, and then finally build the phar file.
 
+[dlfb]: https://github.com/there4/fogbugz-php-cli/raw/master/fb
 [sc]: http://symfony.com/doc/current/components/console.html
 [composer]: http://getcomposer.org/
 [pake]: https://github.com/indeyets/pake/wiki
