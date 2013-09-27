@@ -3,6 +3,7 @@
     "description": "FogBugz Command Line Client",
     "keywords": ["fogbugz"],
     "homepage": "http://there4.github.com/fogbugz-php-cli/",
+    "license": "MIT",
     "minimum-stability": "beta",
     "version": "1.1.0",
     "authors": [
@@ -11,6 +12,11 @@
             "email": "craig@there4development.com",
             "homepage": "http://there4development.com",
             "role": "Developer"
+        }, {
+            "name": "Rasmus Frey",
+            "email": "rasmus@artz.dk",
+            "homepage": "http://mindbridge.dk",
+            "role": "Contributor"
         }
     ],
     "require": {
