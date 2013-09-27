@@ -45,12 +45,12 @@ EOT
         }
 
         $protocol = extension_loaded('openssl') ? 'https' : 'http';
-        $latest = trim(file_get_contents($protocol . $this->app->project->extra->selfupdateversion, false));
+        $latest = trim(file_get_contents($protocol . $this->app->project->selfupdateversion, false));
 
         if ($this->app->project->version !== $latest) {
             $output->writeln(sprintf("Updating to version <info>%s</info>.", $latest));
 
-            $remoteFilename = $protocol . $this->app->project->extra->selfupdatepath;
+            $remoteFilename = $protocol . $this->app->project->selfupdatepath;
 
             $phar = file_get_contents($remoteFilename);
             file_put_contents($tempFilename, $phar);
