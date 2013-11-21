@@ -30,23 +30,23 @@
       <section>
         <p><a href="http://travis-ci.org/there4/fogbugz-php-cli"><img src="https://secure.travis-ci.org/there4/fogbugz-php-cli.png" alt="Build Status"></a></p>
 
-<h1>FogBugz Command Line Client</h1>
+<h1>
+<a name="fogbugz-command-line-client" class="anchor" href="#fogbugz-command-line-client"><span class="octicon octicon-link"></span></a>FogBugz Command Line Client</h1>
 
 <p>A simple command line client application that can be used to manage your FogBugz
 account, working on status, read cases, and leave short notes. This is built
 using the <a href="http://symfony.com/doc/current/components/console.html">Symfony Console</a>.</p>
 
-<h2>Quick Start</h2>
-
-<p><a href="https://github.com/there4/fogbugz-php-cli/blob/master/fb?raw=true">Download the .phar file</a>
-and save it locally. Add the path to your bin.</p>
+<h2>
+<a name="quick-start" class="anchor" href="#quick-start"><span class="octicon octicon-link"></span></a>Quick Start</h2>
 
 <p>Run the <code>fb</code> phar file from the command line. It will prompt you for host, user,
 and password. It will store an API token in a .fogbugz.yml file.</p>
 
-<h2>Help</h2>
+<h2>
+<a name="help" class="anchor" href="#help"><span class="octicon octicon-link"></span></a>Help</h2>
 
-<pre><code>FogBugz Command Line Client version 1.0.4 by Craig Davis
+<pre><code>FogBugz Command Line Client version 1.1.4 by Craig Davis
 
 Usage:
   [options] command [arguments]
@@ -54,37 +54,42 @@ Usage:
 Options:
   --help           -h Display this help message.
   --quiet          -q Do not output any message.
-  --verbose        -v Increase verbosity of messages.
+  --verbose        -v|vv|vvv Increase the verbosity of messages: 1 for normal output, 2 for more verbose output and 3 for debug
   --version        -V Display this application version.
   --ansi              Force ANSI output.
   --no-ansi           Disable ANSI output.
   --no-interaction -n Do not ask any interactive question.
 
 Available commands:
-  cases       Show the cases for the current filter
-  current     Display the current working case
-  estimate    Set a the working estimate for a case
-  filters     List filters for the current user
-  help        Displays help for a command
-  list        Lists commands
-  login       Establish a session with FogBugz
-  logout      End the session with FogBugz
-  note        Leave a note on a case
-  open        Open a case in your local browser
-  parent      View a Parent Case
-  ps1         Display the current working case
-  recent      Show cases you've recently worked on.
-  resolve     Resolve a case
-  search      Search by keyword
-  setfilter   Set a FogBugz search filter
-  setup       Configure this FogBugz client
-  start       Start working on a case
-  stop        Stop your current working case.
-  version     Show version information
-  view        View a Case
+  cases        Show the cases for the current filter
+  current      Display the current working case
+  estimate     Set a the working estimate for a case
+  filters      List filters for the current user
+  help         Displays help for a command
+  list         Lists commands
+  login        Establish a session with FogBugz
+  logout       End the session with FogBugz
+  note         Leave a note on a case
+  open         Open a case in your local browser
+  parent       View a Parent Case
+  ps1          Display the current working case
+  recent       Show cases you've recently worked on.
+  resolve      Resolve a case
+  search       Search by keyword
+  selfupdate   Updates fb.phar to the latest version.
+  setfilter    Set a FogBugz search filter
+  setup        Configure this FogBugz client
+  start        Start working on a case
+  stop         Stop your current working case.
+  version      Show version information
+  view         View a Case
 </code></pre>
 
-<h2>Setup</h2>
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>You don't have to clone this repo. You can <a href="https://github.com/there4/fogbugz-php-cli/raw/master/fb">download the phar file</a> and save it
+to your computer as <code>fb</code>.</p>
 
 <p>This app stores a config file with host, user, an api token and other
 settings. If you'd like to change this path, set a env var for
@@ -95,28 +100,29 @@ config file in you home directory. </p>
 </code></pre>
 
 <p>You can either locate the <code>fb</code> phar file in a bin
-path, add an alias to your bash config for the file</p>
+path, or add an alias to your bash config for the file</p>
 
 <pre><code>alias fb='~/Projects/fogbugz-php-cli/fb'
 </code></pre>
 
-<h2>Dependencies</h2>
+<h2>
+<a name="dependencies" class="anchor" href="#dependencies"><span class="octicon octicon-link"></span></a>Dependencies</h2>
 
 <p>This app requires PHP 5.3. If you need to run on PHP 5.2, you can use the <a href="https://github.com/there4/fogbugz-php-cli/tree/php-5.2">older
 cli branch</a> that has 
 fewer depencies, but similar basic functionality.</p>
 
-<h2>Development TODO</h2>
+<h2>
+<a name="development-todo" class="anchor" href="#development-todo"><span class="octicon octicon-link"></span></a>Development TODO</h2>
 
 <ul>
 <li>Resolve: select the destination user from a list</li>
 <li>Login: Test auth token and re-auth on failure</li>
 <li>Setup: Validate the host url with an api touch</li>
-<li>New <a href="https://github.com/composer/composer/blob/master/src/Composer/Command/SelfUpdateCommand.php">Self Update</a> command.</li>
-<li>Cases: Display the name of the current filter as a heading</li>
 <li>Consider Kiln <a href="https://developers.fogbugz.com/default.asp?W166">branch commands</a>
 </li>
-</ul><h2>Developing New Commands</h2>
+</ul><h2>
+<a name="developing-new-commands" class="anchor" href="#developing-new-commands"><span class="octicon octicon-link"></span></a>Developing New Commands</h2>
 
 <p>The project depends on <a href="http://getcomposer.org/">Composer</a> to load dependencies. Once you've
 got that, run <code>composer install</code> to load the the required libraries. From this
@@ -126,11 +132,22 @@ point, you should be able to develop by running <code>php working.php</code>.</p
 directory. After creating a new command file, add it to the 
 <code>src/FogBugz/Cli/Working.php</code> file around line 50 where we init the commands.</p>
 
-<h2>Building the Phar</h2>
+<h2>
+<a name="building-the-phar" class="anchor" href="#building-the-phar"><span class="octicon octicon-link"></span></a>Building the Phar</h2>
 
 <p>If you'd like to rebuild the phar file, you'll need <a href="https://github.com/indeyets/pake/wiki">Pake</a>. Once you've
 got that, you'll need to run <code>pake build</code>. It will clean the files, run some
 linters, and then finally build the phar file.</p>
+
+<h2>
+<a name="troubleshooting" class="anchor" href="#troubleshooting"><span class="octicon octicon-link"></span></a>Troubleshooting</h2>
+
+<ul>
+<li>
+<code>date_default_timezone_get())</code> : Some users are getting messages about system
+timezones. This is a problem with your php config. Please see the 
+<a href="http://us3.php.net/date_default_timezone_get">PHP Docs</a> for information about fixing this message.</li>
+</ul>
       </section>
       <footer>
         <p>This project is maintained by <a href="https://github.com/there4">there4</a></p>
