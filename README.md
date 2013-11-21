@@ -97,6 +97,14 @@ If you'd like to rebuild the phar file, you'll need [Pake][pake]. Once you've
 got that, you'll need to run `pake build`. It will clean the files, run some
 linters, and then finally build the phar file.
 
+## Troubleshooting
+
+* `date_default_timezone_get())` : Some users are getting messages about system
+  timezones. This is a problem with your php config. Please see the 
+  [PHP Docs][date] for information about fixing this message.
+
+
+[date]: http://us3.php.net/date_default_timezone_get
 [dlfb]: https://github.com/there4/fogbugz-php-cli/raw/master/fb
 [sc]: http://symfony.com/doc/current/components/console.html
 [composer]: http://getcomposer.org/
