@@ -76,7 +76,36 @@ class ResolveCommand extends AuthCommand
             $status = $dialog->ask($output, 'Enter the status from the list above: ');
         }
 
-        // TODO: Select this from a list as well.
+        $activePeople = $this->app->fogbugz->listPeople(
+            array(
+                'fIncludeActive' => 1
+            )
+        );
+        $virtualPeople = $this->app->fogbugz->listPeople(
+            array(
+                'fIncludeVirtual' => 1
+            )
+        );
+
+        $output->writeln('<alert>Active Users</alert>');
+        $i = 1;
+        foreach (array($activePeople, $virtualPeople) as $people) {
+            foreach ($people->people->person as $person) {
+                $output->writeln(
+                    sprintf(
+                        "  <info>[%s%d]</info> %s",
+                        strlen($person->ixPerson) - 1 ? '' : ' ',
+                        $person->ixPerson,
+                        $person->sFullName
+                    ),
+                    $this->app->outputFormat
+                );
+            }
+            $i && $output->writeln('<alert>Virtual Users</alert>');
+            $i--;
+        }
+
+        // TODO: validate the `assignedto` var.
         $assignedto = $dialog->ask($output, "Who should the case be assigned to: ");
 
         if (empty($note)) {
@@ -87,10 +116,10 @@ class ResolveCommand extends AuthCommand
         }
 
         $request = array(
-            'ixStatus'          => $status,
-            'ixBug'             => $case,
-            'sPersonAssignedTo' => $assignedto,
-            'sEvent'            => empty($note) ? '' : $note
+            'ixStatus'           => $status,
+            'ixBug'              => $case,
+            'ixPersonAssignedTo' => $assignedto,
+            'sEvent'             => empty($note) ? '' : $note
         );
 
         try {
