@@ -227,9 +227,17 @@ class Working extends Application
 
         $this->registerStyles($output);
 
-        // Does the command require authentication?
+        // Did they supply a command name?
         $name = $this->getCommandName($input);
-        if (!empty($name) && $command = $this->find($name)) {
+        if ($name) {
+            // Does the command exist and is not ambiguous?
+            try {
+                $command = $this->find($name);
+            } catch (\Exception $e) {
+                exit($e->getMessage() . "\n");
+            }
+
+            // Does the command require authentication?
             if (property_exists($command, "requireAuth") && $command->requireAuth) {
                 $simple_input = new ArgvInput(
                     array(
