@@ -61,7 +61,9 @@ class Working extends Application
         $this->add(new Command\SetFilterCommand());
         $this->add(new Command\SetupCommand());
         $this->add(new Command\StartCommand());
+        $this->add(new Command\StarCommand());
         $this->add(new Command\StopCommand());
+        $this->add(new Command\UnstarCommand());
         $this->add(new Command\VersionCommand());
         $this->add(new Command\ViewCommand());
 

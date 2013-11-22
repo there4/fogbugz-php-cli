@@ -39,7 +39,7 @@ class ViewCommand extends AuthCommand
         if (null == $case) {
             $case = $this->app->getCurrent();
             if ($case == null || $case == 0) {
-                $case = $dialog->ask($output, "Enter a case number: ");
+                $case = $dialog->ask($output, 'Enter a case number: ');
             }
         }
 
@@ -63,7 +63,7 @@ class ViewCommand extends AuthCommand
 
         if (0 == $bug->cases['count']) {
             $output->writeln(
-                sprintf("<error>Unable to retrieve [%d]</error>", $case),
+                sprintf('<error>Unable to retrieve [%d]</error>', $case),
                 $this->app->outputFormat
             );
             exit(1);
@@ -79,7 +79,7 @@ class ViewCommand extends AuthCommand
 
         $data['statusFormat'] = $this->app->statusStyle($data['sStatus']);
 
-        $template = $this->app->twig->loadTemplate("info.twig");
+        $template = $this->app->twig->loadTemplate('info.twig');
         $view = $template->render($data);
         $output->write($view, false, $this->app->outputFormat);
     }

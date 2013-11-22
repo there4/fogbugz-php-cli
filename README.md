@@ -46,8 +46,10 @@ and password. It will store an API token in a .fogbugz.yml file.
       selfupdate   Updates fb.phar to the latest version.
       setfilter    Set a FogBugz search filter
       setup        Configure this FogBugz client
+      star         Star a case
       start        Start working on a case
       stop         Stop your current working case.
+      unstar       Remove the star from a case
       version      Show version information
       view         View a Case
     
@@ -73,13 +75,6 @@ path, or add an alias to your bash config for the file
 This app requires PHP 5.3. If you need to run on PHP 5.2, you can use the [older
 cli branch](https://github.com/there4/fogbugz-php-cli/tree/php-5.2) that has 
 fewer depencies, but similar basic functionality.
-
-## Development TODO
-
-* Resolve: select the destination user from a list
-* Login: Test auth token and re-auth on failure
-* Setup: Validate the host url with an api touch
-* Consider Kiln [branch commands][kiln]
 
 ## Developing New Commands
 
@@ -109,6 +104,3 @@ linters, and then finally build the phar file.
 [sc]: http://symfony.com/doc/current/components/console.html
 [composer]: http://getcomposer.org/
 [pake]: https://github.com/indeyets/pake/wiki
-[kiln]: https://developers.fogbugz.com/default.asp?W166
-
-[update]: https://github.com/composer/composer/blob/master/src/Composer/Command/SelfUpdateCommand.php
