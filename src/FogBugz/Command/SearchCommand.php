@@ -32,38 +32,42 @@ class SearchCommand extends AuthCommand
         $keyword = $input->getArgument('term');
 
         if (null === $keyword) {
-            $keyword = $dialog->ask($output, "Enter a search string: ");
+            $keyword = $dialog->ask($output, 'Enter a search string: ');
         }
 
         $xml = $this->app->fogbugz->search(
             array(
-                'q' => $keyword,
+                'q'    => $keyword,
                 'cols' => 'ixBug,sStatus,sTitle,hrsCurrEst,sPersonAssignedTo'
             )
         );
-        $data = array("cases" => array());
+
+        $tplData = array(
+            'filterTitle' => "Search resultes for '$keyword'",
+            'cases'       => array()
+        );
 
         foreach ($xml->cases->children() as $case) {
-            // Colorize the search term in the title
+            // Colorize the search term in the title of the case
             $title = (string) $case->sTitle;
             $title = str_ireplace(
                 $keyword,
-                sprintf("<fire>%s</fire>", strtoupper($keyword)),
+                sprintf('<fire>%s</fire>', strtoupper($keyword)),
                 $title
             );
 
-            $data["cases"][] = array(
-                "id"           => (int) $case->ixBug,
-                "status"       => (string) $case->sStatus,
-                "statusFormat" => $this->app->statusStyle((string) $case->sStatus),
-                "title"        => $title,
-                "estimate"     => (string) $case->hrsCurrEst,
-                "assigned"     => (string) $case->sPersonAssignedTo
+            $tplData['cases'][] = array(
+                'id'           => (int) $case->ixBug,
+                'status'       => (string) $case->sStatus,
+                'statusFormat' => $this->app->statusStyle((string) $case->sStatus),
+                'title'        => $title,
+                'estimate'     => (string) $case->hrsCurrEst,
+                'assigned'     => (string) $case->sPersonAssignedTo
             );
         }
 
-        $template = $this->app->twig->loadTemplate("cases.twig");
-        $view = $template->render($data);
+        $template = $this->app->twig->loadTemplate('cases.twig');
+        $view = $template->render($tplData);
         $output->write($view, true, $this->app->outputFormat);
     }
 }
