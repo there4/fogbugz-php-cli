@@ -46,7 +46,7 @@ and password. It will store an API token in a .fogbugz.yml file.</p>
 <h2>
 <a name="help" class="anchor" href="#help"><span class="octicon octicon-link"></span></a>Help</h2>
 
-<pre><code>FogBugz Command Line Client version 1.1.4 by Craig Davis
+<pre><code>FogBugz Command Line Client version 1.2.0 by Craig Davis
 
 Usage:
   [options] command [arguments]
@@ -62,6 +62,7 @@ Options:
 
 Available commands:
   cases        Show the cases for the current filter
+  close        Close a Case
   current      Display the current working case
   estimate     Set a the working estimate for a case
   filters      List filters for the current user
@@ -79,8 +80,10 @@ Available commands:
   selfupdate   Updates fb.phar to the latest version.
   setfilter    Set a FogBugz search filter
   setup        Configure this FogBugz client
+  star         Star a case
   start        Start working on a case
   stop         Stop your current working case.
+  unstar       Remove the star from a case
   version      Show version information
   view         View a Case
 </code></pre>
@@ -113,15 +116,6 @@ cli branch</a> that has
 fewer depencies, but similar basic functionality.</p>
 
 <h2>
-<a name="development-todo" class="anchor" href="#development-todo"><span class="octicon octicon-link"></span></a>Development TODO</h2>
-
-<ul>
-<li>Resolve: select the destination user from a list</li>
-<li>Login: Test auth token and re-auth on failure</li>
-<li>Setup: Validate the host url with an api touch</li>
-<li>Consider Kiln <a href="https://developers.fogbugz.com/default.asp?W166">branch commands</a>
-</li>
-</ul><h2>
 <a name="developing-new-commands" class="anchor" href="#developing-new-commands"><span class="octicon octicon-link"></span></a>Developing New Commands</h2>
 
 <p>The project depends on <a href="http://getcomposer.org/">Composer</a> to load dependencies. Once you've
