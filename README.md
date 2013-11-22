@@ -13,7 +13,7 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
-    FogBugz Command Line Client version 1.1.4 by Craig Davis
+    FogBugz Command Line Client version 1.2.0 by Craig Davis
     
     Usage:
       [options] command [arguments]
@@ -29,6 +29,7 @@ and password. It will store an API token in a .fogbugz.yml file.
     
     Available commands:
       cases        Show the cases for the current filter
+      close        Close a Case
       current      Display the current working case
       estimate     Set a the working estimate for a case
       filters      List filters for the current user

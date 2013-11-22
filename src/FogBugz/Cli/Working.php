@@ -46,6 +46,7 @@ class Working extends Application
 
         // Load our commands into the application
         $this->add(new Command\CasesCommand());
+        $this->add(new Command\CloseCommand());
         $this->add(new Command\CurrentCommand());
         $this->add(new Command\EstimateCommand());
         $this->add(new Command\FiltersCommand());
