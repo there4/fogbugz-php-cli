@@ -47,6 +47,7 @@ class Working extends Application
         $this->setVersion($this->project->version);
 
         // Load our commands into the application
+        $this->add(new Command\AssignCommand());
         $this->add(new Command\CasesCommand());
         $this->add(new Command\CloseCommand());
         $this->add(new Command\CurrentCommand());
