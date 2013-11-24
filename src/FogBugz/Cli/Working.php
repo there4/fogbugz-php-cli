@@ -16,6 +16,8 @@ use FogBugz\Command;
 class Working extends Application
 {
 
+    public $recentCaseLimit = 10;
+
     public $configFile;
 
     public function initialize($configFile, $templatePath, $project)
@@ -56,6 +58,7 @@ class Working extends Application
         $this->add(new Command\OpenCommand());
         $this->add(new Command\ParentCommand());
         $this->add(new Command\RecentCommand());
+        $this->add(new Command\ReopenCommand());
         $this->add(new Command\ResolveCommand());
         $this->add(new Command\SearchCommand());
         $this->add(new Command\SelfUpdateCommand());
@@ -152,7 +155,7 @@ class Working extends Application
             )
         );
         // Only keep the last x number of cases in the list
-        $this->config['RecentCases'] = array_slice($recentCases, -5);
+        $this->config['RecentCases'] = array_slice($recentCases, -1 * $this->recentCaseLimit);
         $this->saveConfig();
 
         return true;
