@@ -13,7 +13,7 @@ and password. It will store an API token in a .fogbugz.yml file.
 
 ## Help
 
-    FogBugz Command Line Client version 1.2.4 by Craig Davis
+    FogBugz Command Line Client version 1.2.5 by Craig Davis
     
     Usage:
       [options] command [arguments]
@@ -42,6 +42,7 @@ and password. It will store an API token in a .fogbugz.yml file.
       open         Open a case in your local browser
       parent       View the parent of a case
       ps1          Display the current working case
+      reactivate   Reactivate a case. (The opposite of resolving a case)
       recent       Show cases you have recently worked on.
       reopen       Reopen a Case
       resolve      Resolve a case

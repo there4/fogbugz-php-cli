@@ -7,7 +7,7 @@
     "selfupdateversion": "://github.com/there4/fogbugz-php-cli/raw/master/version",
     "license": "MIT",
     "minimum-stability": "beta",
-    "version": "1.2.4",
+    "version": "1.2.5",
     "authors": [
         {
             "name": "Craig Davis",

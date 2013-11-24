@@ -58,6 +58,7 @@ class Working extends Application
         $this->add(new Command\NoteCommand());
         $this->add(new Command\OpenCommand());
         $this->add(new Command\ParentCommand());
+        $this->add(new Command\ReactivateCommand());
         $this->add(new Command\RecentCommand());
         $this->add(new Command\ReopenCommand());
         $this->add(new Command\ResolveCommand());
