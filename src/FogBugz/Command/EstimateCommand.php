@@ -20,7 +20,7 @@ class EstimateCommand extends AuthCommand
     {
         $this
             ->setName('estimate')
-            ->setDescription('Set a the working estimate for a case')
+            ->setDescription('Set the working time estimate for a case')
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number')
             ->addArgument('estimate', InputArgument::OPTIONAL, 'Estimate in hours')
             ->requireAuth(true)

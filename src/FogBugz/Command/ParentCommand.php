@@ -19,7 +19,7 @@ class ParentCommand extends AuthCommand
     {
         $this
             ->setName('parent')
-            ->setDescription('View a Parent Case')
+            ->setDescription('View the parent of a case')
             ->addArgument('case', InputArgument::OPTIONAL, 'Case number, defaults to current active case.')
             ->requireAuth(true)
             ->setHelp(

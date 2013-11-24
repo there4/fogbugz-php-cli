@@ -17,7 +17,7 @@ class CasesCommand extends AuthCommand
     {
         $this
             ->setName('cases')
-            ->setDescription('Show the cases for the current filter')
+            ->setDescription('Show cases for the current filter')
             ->requireAuth(true)
             ->setHelp(
 <<<EOF

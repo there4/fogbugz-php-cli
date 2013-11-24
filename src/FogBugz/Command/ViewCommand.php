@@ -20,7 +20,7 @@ class ViewCommand extends AuthCommand
     {
         $this
             ->setName('view')
-            ->setDescription('View a Case')
+            ->setDescription('View a case by case number')
             ->addArgument(
                 'case',
                 InputArgument::OPTIONAL,

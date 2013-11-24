@@ -15,7 +15,7 @@ class CloseCommand extends AuthCommand
     {
         $this
             ->setName('close')
-            ->setDescription('Close a Case')
+            ->setDescription('Close a case')
             ->addArgument(
                 'case',
                 InputArgument::OPTIONAL,

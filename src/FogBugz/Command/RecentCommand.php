@@ -17,13 +17,13 @@ class RecentCommand extends AuthCommand
     {
         $this
             ->setName('recent')
-            ->setDescription("Show cases you've recently worked on.")
+            ->setDescription('Show cases you have recently worked on.')
             ->requireAuth(true)
             ->setHelp(
 <<<EOF
-The <info>%command.name%</info> will display the 5 most recent cases that
-you've worked on with the 'start' command. The data is stored locally in the
-config file, and so if you've used the web, those cases won't show up here.
+The <info>%command.name%</info> will display the most recent cases that you've worked on with
+the 'start' command. The data is stored locally in the config file, and so
+if you've used the web, those cases won't show up here.
 
 EOF
             );
@@ -37,7 +37,7 @@ EOF
             'current' => $this->app->getCurrent()
         );
 
-        $template = $this->app->twig->loadTemplate("recent.twig");
+        $template = $this->app->twig->loadTemplate('recent.twig');
         $view = $template->render($recentCases);
         $output->write($view, false, $this->app->outputFormat);
     }
