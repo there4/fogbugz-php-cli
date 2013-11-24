@@ -31,10 +31,10 @@ you omit the case number argument and supply a note, you'll leave a note on
 your active working case.
 
 Leave a note on a particular case:
-    <info>fb case 4519 "Beginning work with api interface"
+    <info>fb case 4519 "Beginning work with api interface"</info>
 
 Leave a note on the current active case:
-    <info>fb case "Beginning work with api interface"
+    <info>fb case "Beginning work with api interface"</info>
 
 EOF
             );
@@ -52,7 +52,7 @@ EOF
             $note = $case;
             $case = $this->app->getCurrent();
             if (empty($case)) {
-                $case = $dialog->ask($output, "Enter a case number:");
+                $case = $dialog->ask($output, 'Enter a case number:');
             }
         }
 
@@ -71,12 +71,12 @@ EOF
                 )
             );
             $output->writeln(
-                sprintf("Left a note on case %s", $case),
+                sprintf('Left a note on case %s', $case),
                 $this->app->outputFormat
             );
         } catch (ApiError $e) {
             $output->writeln(
-                sprintf("<error>%s</error>", $e->getMessage()),
+                sprintf('<error>%s</error>', $e->getMessage()),
                 $this->app->outputFormat
             );
             exit(1);

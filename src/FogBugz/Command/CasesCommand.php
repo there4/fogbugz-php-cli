@@ -48,22 +48,22 @@ EOF
         );
 
         $data = array(
-            "filterTitle" => $filterTitle,
-            "cases" => array()
+            'filterTitle' => $filterTitle,
+            'cases'       => array()
         );
 
         foreach ($xml->cases->children() as $case) {
-            $data["cases"][] = array(
-                "id"           => (int) $case->ixBug,
-                "status"       => (string) $case->sStatus,
-                "statusFormat" => $this->app->statusStyle((string) $case->sStatus),
-                "title"        => (string) $case->sTitle,
-                "estimate"     => (string) $case->hrsCurrEst,
-                "assigned"     => (string) $case->sPersonAssignedTo
+            $data['cases'][] = array(
+                'id'           => (int) $case->ixBug,
+                'status'       => (string) $case->sStatus,
+                'statusFormat' => $this->app->statusStyle((string) $case->sStatus),
+                'title'        => (string) $case->sTitle,
+                'estimate'     => (string) $case->hrsCurrEst,
+                'assigned'     => (string) $case->sPersonAssignedTo
             );
         }
 
-        $template = $this->app->twig->loadTemplate("cases.twig");
+        $template = $this->app->twig->loadTemplate('cases.twig');
         $view = $template->render($data);
         $output->write($view, false, $this->app->outputFormat);
     }
