@@ -4,9 +4,12 @@
 ————————————————————————————————————————————————————————————————————————————————
 <heading>  ID    Status   Est  Assigned     Title                                        </heading>
 ————————————————————————————————————————————————————————————————————————————————
+{% macro output_cases(cases) %}
 {% for case in cases %}
- {{"[%d]"|format(case.id)|pad(6, "left")|style("info")}} {{case.status|pad(8, "left")|style(case.statusFormat)}} {{case.estimate|pad(4, "left")}}{{case.assigned|pad(12, "left")}} {{case.title|pad(46, "left")}}</fire>
-{% endfor %}
+ {{"[%d]"|format(case.id)|pad(6, "left")|style("info")}} {{case.status|pad(8, "left")|style(case.statusFormat)}} {{case.estimate|pad(4, "left")}}{{case.assigned|pad(12, "left")}} {{case.spaces}}{{case.title|pad(46, "left")}}</fire>
+{{ _self.output_cases(case.children) }}{% endfor %}
+{% endmacro %}
+{{ _self.output_cases(cases) }}
 {% if cases|length == 0%}
   <notice>No cases for this filter</notice>
 {% endif  %}
