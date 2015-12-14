@@ -64,7 +64,7 @@ EOF
                 'title'        => (string) $case->sTitle,
                 'estimate'     => (string) $case->hrsCurrEst,
                 'assigned'     => (string) $case->sPersonAssignedTo,
-                'spaces'       => ""
+                'children'     => array()
             );
         }
 
@@ -77,18 +77,27 @@ EOF
         $output->write($view, false, $this->app->outputFormat);
     }
 
-    // http://stackoverflow.com/a/2915920/14651
-    protected function parseTree($tree, $root = null, $level = 0) {
-        $return = array();
-        foreach($tree as $item) {
-            if($item['parent'] == $root) {
-                unset($tree[$item['id']]);
-                $item['children'] = $this->parseTree($tree, $item['id'], $level + 1);
-                $item['spaces']   = str_repeat("   ", $level);
-                $return[] = $item;
+    // http://stackoverflow.com/a/2916150/14651
+    protected function parseTree($array) { // Faster - but no spacing info
+        $temp = array();
+        $tree = array();
+
+        foreach ($array as $item) {
+            $temp[$item['id']] = $item;
+        }
+
+        foreach ($array as $item) {
+            $id     = $item['id'];
+            $parent = $item['parent'];
+
+            if ($parent == 0) {
+                $tree[$id] = &$temp[$id];
+            } else {
+                $temp[$parent]['children'][$id] = &$temp[$id];
             }
         }
-        return empty($return) ? null : $return;
+
+        return $tree;
     }
 }
 
